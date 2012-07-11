@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>FALT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="http://cloudedbox.com/bootstrap/ui/css/blitzer/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+    <link href="http://cloudedbox.com/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="http://cloudedbox.com/bootstrap/css/bootstrap.simplex.css" rel="stylesheet">
+    <link href="http://cloudedbox.com/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        /*padding-top: 60px;*/
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+      th.centered, td.centered { 
+      	text-align:center; }
+      table#classes th {
+      	font-size:32px;
+      	padding:10px 5px 25px 5px;
+      }
+      #presets td {
+        text-align:center;
+      }
+	   .modal-backdrop, .modal-backdrop.fade.in {
+		    opacity: 0.4;
+		    filter: alpha(opacity=40);
+	    }
+    </style>
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="http://cloudedbox.com/bootstrap/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-57-precomposed.png">
+    <!-- Dajaxice -->
+    {% load dajaxice_templatetags %}
+    {% dajaxice_js_import %}
+  </head>
+  <body>
+    <div class="navbar navbar-top" style="top:0px;">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="."><strong>FALT : </strong>Fresno Audiovisual Lexicon Tool</a>
+          <div class="btn-group pull-right">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+              <i class="icon-question-sign"></i> Info
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="javascript:toggleHelp();">About</a></li>
+              <li class="divider"></li>
+              <li><a href="javascript:toggleSettings();">Settings</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav" style="text-align:center">
+            <ul class="nav nav-list">
+              <li class="nav-header">Enter Words Here</li>
+          <form id="newWord" action="">
+              <li><input type="text" class="input-small search-query" id="wordSubmit"/></li>
+              <li><button class="btn btn-mini" id="wordAdd"/>Add</button></li>
+          </form>
+              <li class="nav-header"><a href="#file_modal" data-toggle="modal">Or Upload a File</a></li>
+              <li class="divider"></li>
+			        <li class="nav-header">Status</li>
+			     </br>
+			       <div id="status" style="min-height:100px; max-height:200px; overflow:auto;">
+             </div>
+    <li class="nav-header">Word Bank</li>
+        <div id="newWords" style="max-height:350px; overflow:auto;">
+        </div>
+        <li class="divider"></li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <div class="well" style="min-width:25%; overflow:show;">
+            <div class="row-fluid">
+          	<div class="span4" style="min-width:25%;">
+          		<h1 id="mainWord">Speechreading</h1>
+          	</br>
+          	<table class="table">
+          	<thead><th>Attribute</th><th class="centered">Value</th></thead>
+          	<tr><td>Familiarity</td><td class="centered"><b id="wordFam">0</b></td></tr>
+          	<tr><td>LEC Size</td><td class="centered"><b id="wordLEC1">0</b></td></tr>
+          	<tr><td>Syllables</td><td class="centered"><b id="wordSyllables">0</b></td></tr>
+          	<tr id="hoverNeighborhood"><td>Neighborhood</td><td class="centered"><b id="wordSimilar"><i class="icon-exclamation-sign"></i></b></td></tr>
+          	<tr id="hoverMore"><td>More</td><td class="centered"><b id="wordMore"><i class="icon-exclamation-sign"></i></b></td></tr>
+            </table>
+          	</div>
+          	<div id="chart" class="span8" style="padding:20px 20px 20px 20px;">
+          		<div id="graph" style="z-index:5; width:100%; height:250px; border:1px solid #ccc;"></div>
+          	</div>
+          </div>
+      	  </div>
+          <div class="row-fluid" style="text-align:center">
+            <div class="span6">
+              <h2 id="transcription">Transcription</h2>
+              	<h2 id="loading"><img src="http://cloudedbox.com/bootstrap/loading.gif" style="width:20px; padding:10px 0px 5px 0px;" /><p>Loading</p></h2>
+              <p>
+		<div class="pagination" style="text-align:center">
+		<ul><h4>
+			<li id="phonetic"><a href="#phoneticIPA" data-toggle="tab">IPA</a></li>
+			<li id="phonetic" class="active"><a href="#phoneticARPA" data-toggle="tab">ARPA</a></li>
+			<li id="phonetic"><a href="#phoneticALPHA" data-toggle="tab">ALPHA</a></li>
+		</h4></ul>
+		</div>
+			<div id="transcription" class="tab-content">
+			<div class="tab-pane fade in" id="phoneticIPA">
+				<p class="ipa">
+			<button id="phon" class="btn" value="ipa">ʌ</button>
+			<button id="phon" class="btn" value="ipa">ɑ</button>
+			<button id="phon" class="btn" value="ipa">æ</button>
+			<button id="phon" class="btn" value="ipa">ɛ</button>
+			<button id="phon" class="btn" value="ipa">ə</button>
+			<button id="phon" class="btn" value="ipa">ɜ</button>
+			<button id="phon" class="btn" value="ipa">ɪ</button>
+			<button id="phon" class="btn" value="ipa">i</button>
+			<button id="phon" class="btn" value="ipa">ɒ</button>
+			<button id="phon" class="btn" value="ipa">ɔ</button>
+			<button id="phon" class="btn" value="ipa">ʊ</button>
+			<button id="phon" class="btn" value="ipa">u</button>
+			<button id="phon" class="btn" value="ipa">aɪ</button>
+			<button id="phon" class="btn" value="ipa">aʊ</button>
+			<button id="phon" class="btn" value="ipa">eɪ</button>
+			<button id="phon" class="btn" value="ipa">oʊ</button>
+			<button id="phon" class="btn" value="ipa">ɔɪ</button>
+			<button id="phon" class="btn" value="ipa">eə</button>
+			<button id="phon" class="btn" value="ipa">ɪə</button>
+			<button id="phon" class="btn" value="ipa">ʊə</button>
+
+			<button id="phon" class="btn" value="ipa">p</button>
+			<button id="phon" class="btn" value="ipa">b</button>
+			<button id="phon" class="btn" value="ipa">t</button>
+			<button id="phon" class="btn" value="ipa">d</button>
+			<button id="phon" class="btn" value="ipa">t͡ʃ</button>
+			<button id="phon" class="btn" value="ipa">d͡ʒ</button>
+			<button id="phon" class="btn" value="ipa">k</button>
+			<button id="phon" class="btn" value="ipa">ɡ</button>
+			<button id="phon" class="btn" value="ipa">f</button>
+			<button id="phon" class="btn" value="ipa">v</button>
+			<button id="phon" class="btn" value="ipa">θ</button>
+			<button id="phon" class="btn" value="ipa">ð</button>
+			<button id="phon" class="btn" value="ipa">s</button>
+			<button id="phon" class="btn" value="ipa">z</button>
+			<button id="phon" class="btn" value="ipa">ʃ</button>
+			<button id="phon" class="btn" value="ipa">ʒ</button>
+			<button id="phon" class="btn" value="ipa">x</button>
+			<button id="phon" class="btn" value="ipa">h</button>
+			<button id="phon" class="btn" value="ipa">m</button>
+			<button id="phon" class="btn" value="ipa">n</button>
+			<button id="phon" class="btn" value="ipa">ŋ</button>
+			<button id="phon" class="btn" value="ipa">l</button>
+			<button id="phon" class="btn" value="ipa">r</button>
+			<button id="phon" class="btn" value="ipa">w</button>
+			<button id="phon" class="btn" value="ipa">j</button>
+			<button id="phon" class="btn" value="ipa">hw</button>
+    			</p>
+    		</div>
+			<div class="tab-pane fade active in" id="phoneticARPA">
+    			<p class="arpa">
+			<button id="phon" class="btn" value="arpa">AA</button>
+			<button id="phon" class="btn" value="arpa">AE</button>
+			<button id="phon" class="btn" value="arpa">AH</button>
+			<button id="phon" class="btn" value="arpa">AO</button>
+			<button id="phon" class="btn" value="arpa">AW</button>
+			<button id="phon" class="btn" value="arpa">AY</button>
+			<button id="phon" class="btn" value="arpa">B</button>
+			<button id="phon" class="btn" value="arpa">CH</button>
+			<button id="phon" class="btn" value="arpa">D</button>
+			<button id="phon" class="btn" value="arpa">DH</button>
+			<button id="phon" class="btn" value="arpa">EH</button>
+			<button id="phon" class="btn" value="arpa">ER</button>
+			<button id="phon" class="btn" value="arpa">EY</button>
+			<button id="phon" class="btn" value="arpa">F</button>
+			<button id="phon" class="btn" value="arpa">G</button>
+			<button id="phon" class="btn" value="arpa">HH</button>
+			<button id="phon" class="btn" value="arpa">IH</button>
+			<button id="phon" class="btn" value="arpa">IY</button>
+			<button id="phon" class="btn" value="arpa">JH</button>
+			<button id="phon" class="btn" value="arpa">K</button>
+			<button id="phon" class="btn" value="arpa">L</button>
+			<button id="phon" class="btn" value="arpa">M</button>
+			<button id="phon" class="btn" value="arpa">N</button>
+			<button id="phon" class="btn" value="arpa">NG</button>
+			<button id="phon" class="btn" value="arpa">OW</button>
+			<button id="phon" class="btn" value="arpa">OY</button>
+			<button id="phon" class="btn" value="arpa">P</button>
+			<button id="phon" class="btn" value="arpa">R</button>
+			<button id="phon" class="btn" value="arpa">S</button>
+			<button id="phon" class="btn" value="arpa">SH</button>
+			<button id="phon" class="btn" value="arpa">T</button>
+			<button id="phon" class="btn" value="arpa">TH</button>
+			<button id="phon" class="btn" value="arpa">UH</button>
+			<button id="phon" class="btn" value="arpa">UW</button>
+			<button id="phon" class="btn" value="arpa">V</button>
+			<button id="phon" class="btn" value="arpa">W</button>
+			<button id="phon" class="btn" value="arpa">Y</button>
+			<button id="phon" class="btn" value="arpa">Z</button>
+			<button id="phon" class="btn" value="arpa">ZH</button>
+    			</p>
+    		</div>
+			<div class="tab-pane fade in" id="phoneticALPHA">
+    			<p class="alpha">
+			<button id="phon" class="btn" value="alpha">A</button>
+			<button id="phon" class="btn" value="alpha">B</button>
+			<button id="phon" class="btn" value="alpha">C</button>
+			<button id="phon" class="btn" value="alpha">D</button>
+			<button id="phon" class="btn" value="alpha">E</button>
+			<button id="phon" class="btn" value="alpha">F</button>
+			<button id="phon" class="btn" value="alpha">G</button>
+			<button id="phon" class="btn" value="alpha">H</button>
+			<button id="phon" class="btn" value="alpha">I</button>
+			<button id="phon" class="btn" value="alpha">J</button>
+			<button id="phon" class="btn" value="alpha">K</button>
+			<button id="phon" class="btn" value="alpha">L</button>
+			<button id="phon" class="btn" value="alpha">M</button>
+			<button id="phon" class="btn" value="alpha">N</button>
+			<button id="phon" class="btn" value="alpha">O</button>
+			<button id="phon" class="btn" value="alpha">P</button>
+			<button id="phon" class="btn" value="alpha">Q</button>
+			<button id="phon" class="btn" value="alpha">R</button>
+			<button id="phon" class="btn" value="alpha">S</button>
+			<button id="phon" class="btn" value="alpha">T</button>
+			<button id="phon" class="btn" value="alpha">U</button>
+			<button id="phon" class="btn" value="alpha">V</button>
+			<button id="phon" class="btn" value="alpha">W</button>
+			<button id="phon" class="btn" value="alpha">X</button>
+			<button id="phon" class="btn" value="alpha">Y</button>
+			<button id="phon" class="btn" value="alpha">Z</button>
+				</p>
+			</div>
+		</div>
+              </p>
+            </div>
+            <div class="span6">
+              <h2>Equivalence</h2>
+              <p>
+				<div class="btn-toolbar">
+					<div class="btn-group" style="margin:0px -10px 0px -10px">
+						<button class="btn" id="leftArrow">&lt;</button>
+						<button class="btn" id="equivClass" name="equivClass">1</button>
+						<button class="btn" id="equivClass" name="equivClass">2</button>
+						<button class="btn" id="equivClass" name="equivClass">3</button>
+						<button class="btn" id="equivClass" name="equivClass">4</button>
+						<button class="btn" id="equivClass" name="equivClass">5</button>
+						<button class="btn" id="equivClass" name="equivClass">6</button>
+						<button class="btn" id="rightArrow">&gt;</button>
+
+					</div>
+				</div>
+				<table class="table" id="classes">
+					<thead><th class="centered" id="classNum" style="width:50%; position:relative;">1</th><th class="centered" id="classSym" style="width:50%; position:relative;">&#9641;</th></thead>
+					<tr><td colspan="2" class="centered">
+						<span id="grouped">
+						</span>
+					</td></tr>
+				</table>
+            <h3>Preset Slider</h3>
+          </hr>
+              	<div style="padding:10px">
+              	<div id="slider"></div><label for="amount">Classes: </label>
+              	<span id="amount" style="font-weight:bold;"></span>
+                <p>
+                  <table class="table table-bordered table-condensed" id="presets"><tr>
+                    <td id="preset" style="cursor:pointer" value="0"><h6>0</h6></td><td id="preset" style="cursor:pointer" value="1"><h6>1</h6></td><td id="preset" style="cursor:pointer" value="2"><h6>2</h6></td><td id="preset" style="cursor:pointer" value="10"><h6>10</h6></td><td id="preset" style="cursor:pointer" value="12"><h6>12</h6></td><td id="preset" style="cursor:pointer" value="19"><h6>19</h6></td><td id="preset" style="cursor:pointer" value="28"><h6>28</h6></td>
+                  </tr><tr>
+                  <td id="betType" colspan="4" value="IPA" style="cursor:pointer; padding:10px 0px 10px 0px;"><h6>IPA</h6></td><td id="betType" value="ARPA" colspan="4" style="cursor:pointer; padding:10px 0px 10px 0px;"><h6>ARPA</h6></td>
+                  </tr></table>
+                </p>
+              </div>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <footer>
+        <p><img src="http://cloudedbox.com/psycho1/seal.png" style="width:150px" /> <small>Keyboard : [ k ]</small></p>
+      </footer>
+    </div>
+
+    <script src="http://cloudedbox.com/bootstrap/js/jquery.js"></script>
+    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-transition.js"></script>
+    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-alert.js"></script>
+    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-modal.js"></script>
+    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-dropdown.js"></script>
+    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-tab.js"></script>
+    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-popover.js"></script>
+    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-button.js"></script>
+    <script src="http://cloudedbox.com/bootstrap/ui/js/jquery-ui-1.8.21.custom.min.js" ></script>
+
+    <script src="http://cloudedbox.com/bootstrap/js/highcharts.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.2/mootools-yui-compressed.js" type="text/javascript"></script>
+	<script src="http://cloudedbox.com/bootstrap/js/adapters/mootools-adapter.js" type="text/javascript"></script>
+
+<!-- Modals -->
+
+  <div id="keyboard_modal" class="modal hide">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal" >&times;</a>
+              <h3>Keyboard Commands</h3>
+            </div>
+            <div class="modal-body">
+              <table class="table" style="width:100%">
+                <thead>
+                  <th>Key</th><th>Name</th><th>Function</th>
+                </thead>
+                <tbody>
+                  <tr><td>p</td><td>P-KEY</td><td>MORE INFORMATION</td></tr>
+                  <tr><td>m</td><td>M-KEY</td><td>SETTINGS</td></tr>
+                  <tr><td><i class="icon-arrow-left"></i></td><td>LEFT ARROW</td><td>PREVIOUS CLASS</td></tr>
+                  <tr><td><i class="icon-arrow-right"></i></td><td>RIGHT ARROW</td><td>NEXT CLASS</td></tr>
+                </tbody>
+              </table>
+              <hr>
+
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn" data-dismiss="modal" >Close</a>
+
+            </div>
+          </div>
+
+	<div id="help_modal" class="modal hide">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal" >&times;</a>
+              <h3>Help</h3>
+            </div>
+            <div class="modal-body">
+              <hr>
+
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn" data-dismiss="modal" >Close</a>
+
+            </div>
+          </div>
+
+	<div id="settings_modal" class="modal hide">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal" >&times;</a>
+              <h3>Settings</h3>
+            </div>
+            <div class="modal-body">
+              <hr>
+
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn" data-dismiss="modal" >Close</a>
+
+            </div>
+          </div>
+
+  <div id="file_modal" class="modal hide">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal" >&times;</a>
+              <h3>Upload a List of Words</h3>
+            </div>
+            <div class="modal-body">
+              <p>
+                <h4>File type must be .txt</h4>
+              </br>
+              <form>
+                  <div class="control-group">
+                <div class="controls">
+                <input type="file" id="fileInput" type="file" name="fileInput">
+              </div>
+            </div>
+        </br>
+        <h4>The words contained in the file should be delimited/separated by one of the following:</h4>
+      </br>
+        <h6>space, comma, newline</br></br>or</br></br>enter your own </br><input type="text" class="input-mini" placeholder="" name="delim"></h6>
+        </br>
+      </form>
+            </p>
+              <hr>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-large" data-dismiss="modal" >Close</button>
+              <button class="btn btn-large btn-primary" type="submit">Upload File</button>
+
+
+            </div>
+          </div>
+
+<!-- New idea: treat the HTML doc like XML and store the data to be referenced. -->
+    <div style="display:none">
+<ul class='classStorage' id='eclass1'></ul>
+<ul class='classStorage' id='eclass2'></ul>
+<ul class='classStorage' id='eclass3'></ul>
+<ul class='classStorage' id='eclass4'></ul>
+<ul class='classStorage' id='eclass5'></ul>
+<ul class='classStorage' id='eclass6'></ul>
+<ul class='classStorage' id='eclass7'></ul>
+<ul class='classStorage' id='eclass8'></ul>
+<ul class='classStorage' id='eclass9'></ul>
+<ul class='classStorage' id='eclass10'></ul>
+<ul class='classStorage' id='eclass11'></ul>
+<ul class='classStorage' id='eclass12'></ul>
+<ul class='classStorage' id='eclass13'></ul>
+<ul class='classStorage' id='eclass14'></ul>
+<ul class='classStorage' id='eclass15'></ul>
+<ul class='classStorage' id='eclass16'></ul>
+<ul class='classStorage' id='eclass17'></ul>
+<ul class='classStorage' id='eclass18'></ul>
+<ul class='classStorage' id='eclass19'></ul>
+<ul class='classStorage' id='eclass20'></ul>
+<ul class='classStorage' id='eclass21'></ul>
+<ul class='classStorage' id='eclass22'></ul>
+<ul class='classStorage' id='eclass23'></ul>
+<ul class='classStorage' id='eclass24'></ul>
+<ul class='classStorage' id='eclass25'></ul>
+<ul class='classStorage' id='eclass26'></ul>
+<ul class='classStorage' id='eclass27'></ul>
+<ul class='classStorage' id='eclass28'></ul>
+<ul class='classStorage' id='eclass29'></ul>
+<ul class='classStorage' id='eclass30'></ul>
+
+<!-- When the data loads from the server, it ends up here for searching. -->
+<ul class='wordStorage'></ul>
+    </div>
+  </body>
+</html>
+
+<script>
+	//Initializers
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i) ? true : false;
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i) ? true : false;
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i) ? true : false;
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
+    }
+};
+var deviceType = 'large';
+
+if ( isMobile.Android() || isMobile.iOS() || isMobile.BlackBerry() ) {
+  deviceType = 'small';
+  document.addEventListener("touchstart", touchHandler, true);
+  document.addEventListener("touchmove", touchHandler, true);
+  document.addEventListener("touchend", touchHandler, true);
+  document.addEventListener("touchcancel", touchHandler, true); 
+}
+else
+	$("#wordSubmit").focus(); 
+  // triggering focus on mobile devices brings up a keyboard unexpectedly
+
+  $("h2#loading").hide();
+
+	//Data
+var data = new Array();
+data.currentClass = 1;
+data.currentSymbol = "&lt;";
+data.myWords = new Array();
+data.equivalenceClasses = new Array();
+data.equivalenceClasses[0] = 0;
+data[0] = 0;
+data[1] = 'crosshatch,&#9641;';
+data[2] = 'snowman,&#9731;';
+data[3] = 'at,&#64;';
+data[4] = 'female,&#9792;';
+data[5] = 'scissors,&#9988;';
+data[6] = 'airplane,&#9992;';
+data[7] = 'cloud,&#9729;';
+data[8] = 'fourpoint,&#10022;';
+data[9] = 'flower,&#10047;';
+data[10] = 'phonemic,&#9742;';
+data[11] = 'sun,&#10050;';
+data[12] = 'peace,&#9996;';
+data[13] = 'blackstar,&#10040;';
+data[14] = 'elevator,&#10208;';
+data[15] = 'chess,&#9818;';
+data[16] = 'smile,&#9786;';
+data[17] = 'circle,&#10687;';
+data[18] = 'wheel,&#9784;';
+data[19] = 'pencil,&#9998;';
+data[20] = 'coffee,&#9832;';
+data[21] = 'umbrella,&#9730;';
+data[22] = 'perceive,&#9717;';
+data[23] = 'mac,&#8984;';
+data[24] = 'eject,&#9167;';
+data[25] = 'medical,&#9764;';
+data[26] = 'biohazard,&#9763;';
+data[27] = 'blackdiamond,&#10070;';
+data[28] = 'castle,&#9814;';
+data[29] = 'star,&#9733;';
+data[30] = 'sagit,&#9808;';
+
+data.equivalencePresets = new Array();
+data.equivalencePresets[28] = 
+  [ ['ʊ'], ['u'], ['eɪ'], ['oʊ'], ['aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ'], ['ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n'], ['k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t'], ['s', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ'], ['t͡ʃ'], ['ʒ'], ['d͡ʒ']];
+data.equivalencePresets[19] = 
+[ ['ʊ', 'u', 'eɪ'], ['oʊ', 'aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n', 'k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+data.equivalencePresets[12] = 
+[ ['ʊ', 'u', 'eɪ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ'], ['ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l','n', 'k','ɡ', 'ŋ','h'], ['d','t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+data.equivalencePresets[10] = 
+[ ['ʊ', 'u', 'eɪ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+data.equivalencePresets[2] =  
+[ ['ʊ', 'u', 'eɪ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+data.equivalencePresets[1] =  
+[ ['ʊ', 'u', 'eɪ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j', 'p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+
+data.equivalencePresetsARPA = new Array();
+data.equivalencePresetsARPA[1] = [['UH', 'UW', 'EY', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y', 'P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[2] = [['UH', 'UW', 'EY', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[10] = [['UH', 'UW', 'EY'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[12] = [['UH', 'UW', 'EY'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY'], ['AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH'], ['D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[19] = [['UH', 'UW', 'EY'], ['OW', 'AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N', 'K'], ['G', 'NG'], ['HH'], ['D'], ['T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY'], ['OW'], ['AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY'], ['AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N'], ['K'], ['G', 'NG'], ['HH'], ['D'], ['T'], ['S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH'], ['CH'], ['ZH'], ['JH']];
+
+
+	//Click Functions
+
+	// Arrow Clicks
+	$("#leftArrow").click(function() {
+		var tracker = $("#equivClass").html();
+		if (!(tracker <= 1) && !(tracker > 25))
+			$("[id=equivClass]").each(function() { $(this).html(parseInt($(this).html()) - 6); });
+
+	});
+	$("#rightArrow").click(function() {
+		var tracker = $("#equivClass").html();
+		if (!(tracker < 1) && !(tracker > 24))
+			$("[id=equivClass]").each(function() { $(this).html(parseInt($(this).html()) + 6); });
+	});
+
+	//Equivalence Class Group Click
+	$("button#equivClass").click(function() {
+		if ($(this).html() != String(data.currentClass)) {
+		data.currentClass = $(this).html();
+		$("th#classNum").html(data.currentClass);
+		$("th#classSym").html(data[data.currentClass].split(",")[1]);
+
+		$("span#grouped").html("");
+		$("ul#eclass"+data.currentClass+" li button").each(function() {
+			$("span#grouped").append($(this).clone());
+		});
+		}
+	});
+
+
+	//Transcription Tab
+	$('#phonetic a').click(function (e) {
+
+		if (!($(this).parent().hasClass('active'))) {
+		$("h2#transcription").hide();
+		$("h2#loading").show()
+  	e.preventDefault();
+  	$(this).tab('show');
+  	var t=setTimeout(function(){		
+  		$("h2#transcription").show();
+		$("h2#loading").hide()}, 2000);
+	}});
+	$('li#phonetic > a').click(function() {
+    	$('li#phonetic').removeClass();
+    	$(this).parent().addClass('active');
+	});
+
+	//Transcription Item
+	$("button#phon").live({
+		click : function() {
+		data.classname = 'ul#eclass'+data.currentClass;
+		data.currentPhoneme = $(this).html();
+		data.currentCategory = $(this).attr('value');
+
+		$(data.classname).append('<li id="'+data.currentPhoneme+'"><button id="phonActive" class="btn btn" value="'+data.currentCategory+'">'+data.currentPhoneme);
+
+		$("span#grouped").append('<button id="phonActive" class="btn btn" value="'+data.currentCategory+'">'+data.currentPhoneme);
+		$(this).remove();
+		}
+	});
+	$("button#phonActive").live({
+		click : function() {
+		data.currentPhoneme = $(this).html();
+		data.currentCategory = $(this).attr('value');
+		$("li#"+data.currentPhoneme).remove();
+
+		$("p."+data.currentCategory).append('<button id="phon" class="btn" value="'+data.currentCategory+'">'+data.currentPhoneme);
+		$(this).remove();
+		}
+	});
+	function classCount() {
+		return $("ul.classStorage li").parent().length;
+	}
+
+	//Hover Functions
+
+	//Word Bank
+	$("li#wordBank").live({
+		hover : function() {
+		data.currentWord = $(this).html();
+		//$("#mainWord").html($(this).html()).css("text-align", "center");
+    $("#mainWord").html($("[value = "+data.currentWord+"]").attr("symbol"));
+    $("#mainWord").css("text-align", "center");
+		$("b#wordSyllables").html($("[value = "+data.currentWord+"]").attr("syllable-count"));
+    $("b#wordFam").html($("[value = "+data.currentWord+"]").attr("familiarity"));
+    $("tr#hoverMore").popover({'placement':'top', 'title':$(this).html()});
+    //$("b#wordLEC1").html($($(this).html()).attr("syllable-count"));
+		//console.log($("[value = "+data.currentWord+"]").attr("syllable-count"));
+		},
+		touchstart : function() {
+    data.currentWord = $(this).html();
+    //$("#mainWord").html($(this).html()).css("text-align", "center");
+    $("#mainWord").html($("[value = "+data.currentWord+"]").attr("symbol"));
+    $("#mainWord").css("text-align", "center");
+    $("b#wordSyllables").html($("[value = "+data.currentWord+"]").attr("syllable-count"));
+    $("b#wordFam").html($("[value = "+data.currentWord+"]").attr("familiarity"));
+    $("tr#hoverMore").popover({'placement':'top', 'title':$(this).html()});
+    //$("b#wordLEC1").html($($(this).html()).attr("syllable-count"));
+    //console.log($("[value = "+data.currentWord+"]").attr("syllable-count"));
+		}
+	});
+  function wordBankCount(){
+    return $("#newWords").children().length;
+  }
+  function removeWordBankWord(word) {
+    $("li#wordBank").each(function(){if ($(this).html() == word) $(this).remove();})
+    return;
+  }
+	//Input Functions
+
+	//Word Input
+  // ****
+	$("#newWord").submit(function(e) {
+ 		e.preventDefault();
+		data.newWords = $("#wordSubmit").val().split(" ");
+    if (data.newWords[0] == "") 
+      if (wordBankCount != 0) {
+        sendOff();
+        return;
+      }
+      else
+        return;
+		$("#wordSubmit").val('');
+    data.wordCount = 0
+		for (var i = 0; i < data.newWords.length; i++) {
+      if (!(data.myWords.contains(data.newWords[i]))) {
+          if (/^[a-zA-Z()]+$/.test(data.newWords[i])) {
+        data.myWords.push(data.newWords[i].toLowerCase());
+			 $("#newWords").append("<li id='wordBank' style='font-size:18px; margin-bottom:10px;'>"+data.newWords[i].toLowerCase()+"</li>");
+       data.wordCount += 1;
+      }
+        else {
+          postStatus("Bad_Word", "<h4 style='color:white; padding-bottom:5px;'>Words must not contain symbols or numbers.</h4>", "important", 5000);
+        }
+      } 
+    }
+    postStatus("Words", "<h4 style='color:white; padding-bottom:5px;'>Added "+data.wordCount+" Word(s)</h4><h6 style='color:white; padding-bottom:5px'>Total: "+wordBankCount()+"</h6>", "success", 4000);
+    sendOff("");
+		$("#wordSubmit").focus();
+
+	});
+
+	//Status Updates
+	function postStatus(itemname, message, type, time) {
+	
+		$("#status").append("<li id="+itemname+" class='label label-"+type+"' style='margin-top:3px'><strong>"+message+"</strong></li>"); 
+		clearTextAt(itemname, time);
+	} 
+	function postStatusAt(itemname, message, type, time, delay) {
+
+		var t=setTimeout(function(){postStatus(itemname, message, type, time);}, delay);
+	} 
+	function clearTextAt(itemname, when) {
+	
+		var t=setTimeout(function(){clearText(itemname)}, when);
+	}
+	
+	function clearText(itemname) {
+		//jQuery(('#'+itemname)).html("");
+		jQuery(('#'+itemname)).remove();
+	}
+	postStatusAt("Welcome", "<h5 style='color:white; padding-bottom:5px;'>Welcome to</br>Fresno's Audiovisual</br>Lexicon Tool</h5>", "info", 3000, 2000);
+	postStatusAt("Welcome", "<h5 style='color:white; padding-bottom:5px;'>also known as</br><span style='font-size:32px'>FALT</span></h5>", "info", 3000, 6000);
+
+	//Keyboard Shortcuts
+
+	//Gathering Data
+	function getWordBank() {
+		data.allWords = "";
+		$("li#wordBank").each(function(){
+			data.allWords = data.allWords + $(this).html() + ",";
+		});
+		data.allWords = data.allWords.substr(0, data.allWords.length-1);
+		return data.allWords
+	}
+
+	function everything() {
+		data.userClassNum = new Array();
+	$(".classStorage").each(function() { 
+		var i = $(this).children("li"); 
+    data.className = getIntFrom($(this).attr("id"));
+    console.log("Class --- "+data.className);
+    data.userClassNum[data.className] = new Array();
+		i.each(function(){
+			$(this).children().each(function() {
+      data.classPhoneme = $(this).html();
+			data.userClassNum[data.className].push(data.classPhoneme);
+			console.log(data.classPhoneme);
+    });
+
+	}); });
+		return "Total Classes: "+totalClasses();
+	}
+function getIntFrom(theString) {
+    rx=/(\d[\d\.\*]*)/g
+    return theString.match(rx)[0];
+}
+function logClasses(){
+return $(".classStorage").each(function() { var i = $(this).children("li"); i.each(function(){console.log($(this).children().html()+" at class "+getIntFrom($(this).parent().attr("id")))}); if (i.length) console.log("Size for this class = "+ i.length);});
+}
+function getEquivalenceClasses() {
+	$(".classStorage").each(function() { 
+		var i = $(this).children("li"); 
+		if (i.length > 0) {
+			data.equivalenceClasses[getIntFrom($(this).attr("id"))] = new Array();
+			i.each(function(){
+				var x = data.equivalenceClasses[getIntFrom($(this).parent().attr("id"))];
+				x = ( typeof x != 'undefined' && x instanceof Array ) ? x : [];
+			x.push($(this).children().html());
+		}); 
+		}
+	});
+	return data.equivalenceClasses; 
+}
+function totalClasses() {
+	return $(".classStorage li").parent().length;
+}
+function currentTranscriptionSelection() {
+	return $("li#phonetic.active").children().html();
+}
+function currentClassSelection() {
+  return Number($("th#classNum").html());
+}
+function currentClassKey() {
+  return Number($("#equivClass").html());
+}
+
+// Presets
+
+function togglePreset(presetNum) {
+  if (presetNum == 0) toggleActivePhonemes(); 
+  else { 
+  if ($.inArray(presetNum, [1, 2, 10, 12, 19, 28]) != -1) {
+    toggleTranscription('ipa');
+    var classNum = 1;
+    data.equivalencePresets[presetNum].each(function(index){ 
+      toggleClass(classNum); classNum++; 
+      index.each(function(index){
+        togglePhoneme(index, 'ipa');
+      });
+    });
+    toggleClass(1);
+  } 
+   else {
+    postStatus("Preset", "<h4 style='color:white'>Presets Currently Available</h4><h5 style='color:white'>1 - 2 - 10 - 12 - 19 - 28</h5>", "inverse", 5000);
+  } }
+    return;
+}
+function togglePresetARPA(presetNum) {
+  if (presetNum == 0) toggleActivePhonemes();
+  else { 
+  if ($.inArray(presetNum, [1, 2, 10, 12, 19, 28]) != -1) {
+    toggleTranscription('arpa');
+    var classNum = 1;
+    data.equivalencePresetsARPA[presetNum].each(function(index){ 
+      toggleClass(classNum); classNum++; 
+      index.each(function(index){
+        togglePhoneme(index, 'arpa');
+      });
+    });
+    toggleClass(1);
+  } 
+  else {
+    postStatus("Preset", "<h4 style='color:white'>Presets Currently Available</h4><h5 style='color:white'>1 - 2 - 10 - 12 - 19 - 28</h5>", "inverse", 5000);
+  } }
+  return;
+}
+function presetCount() {
+  return Number($("span#amount").html());
+}
+
+$("td#preset").click(function() {
+    data.preset = $(this).attr("value");
+    toggleActivePhonemes();
+    slideTo(Number(data.preset));
+    if (wordBankCount() != 0)
+      sendOff();
+  });
+$("td#betType").click(function() {
+  toggleActivePhonemes();
+    data.betSelection = $(this).attr("value");
+    data.currentClassCount = presetCount();
+    switch (data.betSelection) {
+      case 'ARPA':
+      togglePresetARPA(data.currentClassCount);
+      break;
+      case 'IPA':
+      togglePreset(data.currentClassCount);
+      break;
+      default:
+      break;
+    }
+    return;
+  });
+
+
+//Iterating through the LEC
+function toggleTranscription(betType) {
+  betType = betType.toUpperCase();
+  data.transcriptionSelection = ["IPA", "ARPA", "ALPHA"].indexOf(betType);
+  if (!(data.transcriptionSelection == -1))
+   $("li#phonetic").children().eq(data.transcriptionSelection).trigger("click")
+  return;
+}
+function toggleClassPosition(classPos) { 
+  return $("button#equivClass").eq((classPos-1)).trigger("click");
+}
+function toggleClass(classNum) {
+  data.currentClass = currentClassSelection();
+  if (data.currentClass == classNum || classNum < 1 || classNum > 30) return;
+  data.currentClassKey = currentClassKey();
+  data.classDifference = classNum - data.currentClassKey;
+   if (Math.abs(data.classDifference) <= 5 && classNum >= data.currentClassKey)
+      toggleClassPosition(data.classDifference+1);
+   else {
+      if (data.classDifference > 0)
+        $("#rightArrow").trigger("click");
+      else
+        $("#leftArrow").trigger("click");
+      toggleClass(classNum);
+    }
+    return;
+  }
+function toggleNextClass(direction) {
+  switch (direction) {
+    case '+':
+    toggleClass(Number($("#classNum").html())+1);
+    break;
+    case '-':
+    toggleClass(Number($("#classNum").html())-1);
+    break;
+    default:
+    break;
+  }
+  return;
+}
+  function togglePhoneme(phoneme, betType) {
+    var found = false;
+    if (betType != 'ipa')
+      phoneme = phoneme.toUpperCase();
+    $("[value = "+betType+"]").each(function(){
+      if ($(this).html() == phoneme) {
+        $(this).trigger('click');
+        found = true;
+      }
+    });
+    if (!found)
+      console.log("Did not find "+ phoneme);
+    return;
+    //$("[value = "+betType+"]:contains('"+phoneme+"')").trigger('click');
+  }
+  function toggleActivePhonemes() {
+    $("button#phonActive").each(function(){$(this).trigger('click');});
+    return;
+  }
+  function filterTranscription(transcriptionClass) {
+    switch (transcriptionClass) {
+      case 'arpa':
+      $("button#phonActive").each(function(){ if ($(this).attr("value") == 'ipa' || $(this).attr("value") == 'alpha') $(this).trigger('click');});
+      break;
+      case 'ipa':
+      $("button#phonActive").each(function(){ if ($(this).attr("value") == 'arpa' || $(this).attr("value") == 'alpha') $(this).trigger('click');});
+      default:
+      break;
+  }
+  return;
+  }
+
+	//Ajax
+function sendOff(){
+
+	data.dataToSend = getWordBank();
+	data.dataSplit = data.dataToSend.split(",");
+  data.currentClassSize = $("span#amount").html();
+  if (data.currentClassSize == '0') {
+     postStatus("Preset", "<h4 style='color:white'><a href='#presets' style='color:white;'><button class='btn'>Please choose LEC size.</button></a></h4>", "important", 5000);
+
+    return false;
+  }
+    $.ajax({
+            type:"GET",
+            url :"/word/main/",
+            data:'words='+data.dataToSend+'&size='+data.currentClassSize,
+            datatype:"json",
+            error:function(result){console.log("Bad word.");},//alert('There was an error.');},
+            success:function(result){
+              $("ul.wordStorage").html("");
+            	for (var i = 0; i < data.dataSplit.length; i++) {
+            		console.log(result[data.dataSplit[i]]);
+            		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' familiarity='"+result[data.dataSplit[i]].familiarity+"'></li>");
+            	}
+
+            }
+          });
+
+    return false;
+        }
+        //Keyboard Shortcuts
+
+document.onkeyup = keyCheck;
+
+function keyCheck(e) {
+	
+	var keyID = (window.event) ? event.keyCode : e.keyCode;
+	if ($("#wordSubmit").is(":focus")){}else{
+	switch(keyID) {
+		case 80: // P
+		if ($("#help_modal").is(".in"))
+			$('#help_modal').modal('hide');
+		else
+			$('#help_modal').modal('show');
+		break;
+		case 77: // M
+		if ($("#settings_modal").is(".in"))
+			$('#settings_modal').modal('hide');
+		else
+			$('#settings_modal').modal('show');
+		break;
+    case 37: //Left Arrow
+    toggleNextClass("-");
+    break;
+    case 39: //Right Arrow
+    toggleNextClass("+");
+    break;
+    case 75: // K
+    if ($("#keyboard_modal").is(".in"))
+      $('#keyboard_modal').modal('hide');
+    else
+      $('#keyboard_modal').modal('show');
+    break;
+		default:
+		break;
+	}}
+	return false;
+}
+
+// :)
+function toggleHelp() {
+	var e = {};
+	e.keyCode = 80;
+	keyCheck(e);
+	return false;
+}
+function toggleSettings() {
+	var e = {};
+	e.keyCode = 77;
+	keyCheck(e);
+	return false;
+}
+
+//Popovers
+
+var keepPopover,delay = function() { keepPopover = setTimeout( function() { $('.popover').hide();}, 500); };    
+    $('[data-action="popover"]').popover({ trigger: 'manual'}).mouseenter(function(e) {
+        var $popover = $('.popover');
+  (keepPopover) && clearTimeout(keepPopover);
+        ($popover.length) && $popover.remove();
+        $(this).popover('show');}).mouseleave(function(e) {
+        var $smarttip = $(this);
+        delay();
+        $('.popover').mouseenter(function(e) { clearTimeout(keepPopover); }).mouseleave(function(e) { delay(); });
+    }).click(function(e) {
+        e.preventDefault();
+    });
+
+// Touches (for slider)
+// thanks to
+// http://ross.posterous.com/2008/08/19/iphone-touch-events-in-javascript/
+function touchHandler(event)
+{
+    var touches = event.changedTouches,
+        first = touches[0],
+        type = "";
+         switch(event.type)
+    {
+        case "touchstart": type="mousedown"; break;
+        case "touchmove":  type="mousemove"; break;        
+        case "touchend":   type="mouseup"; break;
+        default: return;
+    }
+
+             //initMouseEvent(type, canBubble, cancelable, view, clickCount, 
+    //           screenX, screenY, clientX, clientY, ctrlKey, 
+    //           altKey, shiftKey, metaKey, button, relatedTarget);
+    
+    var simulatedEvent = document.createEvent("MouseEvent");
+    simulatedEvent.initMouseEvent(type, true, true, window, 1, 
+                              first.screenX, first.screenY, 
+                              first.clientX, first.clientY, false, 
+                              false, false, false, 0/*left*/, null);
+
+    first.target.dispatchEvent(simulatedEvent);
+    //event.preventDefault();
+}
+
+  //Slider
+  $("#slider").append( "<div id='slider-range-min'></div>" );
+  function slideTo(pos) {
+    if (pos >= 0 && pos <= 30) {
+    $("#slider").html("");
+    $("#slider").append( "<div id='slider-range-min'></div>" );
+    $("#slider-range-min").slider({
+      range: "min",
+      value: pos,
+      min: 0,
+      max: 30,
+      slide: function( event, ui ) {
+        $( "#amount" ).html( ui.value );
+        if ($.inArray(ui.value, [1,2,10,12,19,28]) != -1) {
+          toggleActivePhonemes();
+          togglePreset(ui.value);
+        } else {
+          if (ui.value == 0)
+            toggleActivePhonemes();
+        }
+        return;
+      }
+  });
+  $( "#amount" ).html( $( "#slider-range-min" ).slider( "value" ) );
+    togglePreset(pos);
+    }
+  }
+  slideTo(0);
+
+
+  //Charts
+function toggleChartLoading() {
+
+	if ($("#chart #loader").children().length) {
+		$("#loader").remove();
+		$('div.highcharts-container').animate({ opacity: 1.0 }, 300);
+	}
+	else {
+		$('div.highcharts-container').animate({ opacity: 0.5}, 300);
+		$("#chart").prepend('<div id="loader" style="position:relative; z-index:100; text-align:center; width:100%; top:100px;"><img src="http://cloudedbox.com/bootstrap/loading.gif" style="width:40px;" /></br><h2>Loading Graph</h2></div>');
+	}
+}
+var chart;
+$(document).ready(function() {
+	chart = new Highcharts.Chart({
+		chart: {
+			renderTo: 'graph',
+			type: 'scatter',
+			zoomType: 'xy'
+		},
+		title: {
+			text: 'Lexical Equivalence Classes'
+		},
+		subtitle: {
+			text: 'This chart is not functional.'
+		},
+		xAxis: {
+			title: {
+				enabled: true,
+				text: 'Height (cm)'
+			},
+			startOnTick: true,
+			endOnTick: true,
+			showLastLabel: true
+		},
+		yAxis: {
+			title: {
+				text: 'Weight (kg)'
+			}
+		},
+		tooltip: {
+			formatter: function() {
+					return ''+
+					this.x +' cm, '+ this.y +' kg';
+			}
+		},
+		legend: {
+			layout: 'vertical',
+			align: 'left',
+			verticalAlign: 'top',
+			x: 100,
+			y: 70,
+			floating: true,
+			backgroundColor: '#FFFFFF',
+			borderWidth: 1
+		},
+		plotOptions: {
+			scatter: {
+				marker: {
+					radius: 5,
+					states: {
+						hover: {
+							enabled: true,
+							lineColor: 'rgb(100,100,100)'
+						}
+					}
+				},
+				states: {
+					hover: {
+						marker: {
+							enabled: false
+						}
+					}
+				}
+			}
+		},
+		series: [{
+			name: 'Size',
+			color: 'rgba(223, 83, 83, .5)',
+			data: [[161.2, 51.6], [167.5, 59.0], [159.5, 49.2], [157.0, 63.0], [155.8, 53.6],
+				[170.0, 59.0], [159.1, 47.6], [166.0, 69.8], [176.2, 66.8], [160.2, 75.2],
+				[172.5, 55.2], [170.9, 54.2], [172.9, 62.5], [153.4, 42.0], [160.0, 50.0],
+				[147.2, 49.8], [168.2, 49.2], [175.0, 73.2], [157.0, 47.8], [167.6, 68.8],
+				[159.5, 50.6], [175.0, 82.5], [166.8, 57.2], [176.5, 87.8], [170.2, 72.8],
+				[174.0, 54.5], [173.0, 59.8], [179.9, 67.3], [170.5, 67.8], [160.0, 47.0],
+				[154.4, 46.2], [162.0, 55.0], [176.5, 83.0], [160.0, 54.4], [152.0, 45.8],
+				[162.1, 53.6], [170.0, 73.2], [160.2, 52.1], [161.3, 67.9], [166.4, 56.6],
+				[168.9, 62.3], [163.8, 58.5], [167.6, 54.5], [160.0, 50.2], [161.3, 60.3],
+				[167.6, 58.3], [165.1, 56.2], [160.0, 50.2], [170.0, 72.9], [157.5, 59.8],
+				[167.6, 61.0], [160.7, 69.1], [163.2, 55.9], [152.4, 46.5], [157.5, 54.3],
+				[168.3, 54.8], [180.3, 60.7], [165.5, 60.0], [165.0, 62.0], [164.5, 60.3],
+				[156.0, 52.7], [160.0, 74.3], [163.0, 62.0], [165.7, 73.1], [161.0, 80.0],
+				[162.0, 54.7], [166.0, 53.2], [174.0, 75.7], [172.7, 61.1], [167.6, 55.7],
+				[151.1, 48.7], [164.5, 52.3], [163.5, 50.0], [152.0, 59.3], [169.0, 62.5],
+				[164.0, 55.7], [161.2, 54.8], [155.0, 45.9], [170.0, 70.6], [176.2, 67.2],
+				[170.0, 69.4], [162.5, 58.2], [170.3, 64.8], [164.1, 71.6], [169.5, 52.8],
+				[163.2, 59.8], [154.5, 49.0], [159.8, 50.0], [173.2, 69.2], [170.0, 55.9],
+				[161.4, 63.4], [169.0, 58.2], [166.2, 58.6], [159.4, 45.7], [162.5, 52.2],
+				[159.0, 48.6], [162.8, 57.8], [159.0, 55.6], [179.8, 66.8], [162.9, 59.4],
+				[161.0, 53.6], [151.1, 73.2], [168.2, 53.4], [168.9, 69.0], [173.2, 58.4],
+				[171.8, 56.2], [178.0, 70.6], [164.3, 59.8], [163.0, 72.0], [168.5, 65.2],
+				[166.8, 56.6], [172.7, 105.2], [163.5, 51.8], [169.4, 63.4], [167.8, 59.0],
+				[159.5, 47.6], [167.6, 63.0], [161.2, 55.2], [160.0, 45.0], [163.2, 54.0],
+				[162.2, 50.2], [161.3, 60.2], [149.5, 44.8], [157.5, 58.8], [163.2, 56.4],
+				[172.7, 62.0], [155.0, 49.2], [156.5, 67.2], [164.0, 53.8], [160.9, 54.4],
+				[162.8, 58.0], [167.0, 59.8], [160.0, 54.8], [160.0, 43.2], [168.9, 60.5],
+				[158.2, 46.4], [156.0, 64.4], [160.0, 48.8], [167.1, 62.2], [158.0, 55.5],
+				[167.6, 57.8], [156.0, 54.6], [162.1, 59.2], [173.4, 52.7], [159.8, 53.2],
+				[170.5, 64.5], [159.2, 51.8], [157.5, 56.0], [161.3, 63.6], [162.6, 63.2],
+				[160.0, 59.5], [168.9, 56.8], [165.1, 64.1], [162.6, 50.0], [165.1, 72.3],
+				[166.4, 55.0], [160.0, 55.9], [152.4, 60.4], [170.2, 69.1], [162.6, 84.5],
+				[170.2, 55.9], [158.8, 55.5], [172.7, 69.5], [167.6, 76.4], [162.6, 61.4],
+				[167.6, 65.9], [156.2, 58.6], [175.2, 66.8], [172.1, 56.6], [162.6, 58.6],
+				[160.0, 55.9], [165.1, 59.1], [182.9, 81.8], [166.4, 70.7], [165.1, 56.8],
+				[177.8, 60.0], [165.1, 58.2], [175.3, 72.7], [154.9, 54.1], [158.8, 49.1],
+				[172.7, 75.9], [168.9, 55.0], [161.3, 57.3], [167.6, 55.0], [165.1, 65.5],
+				[175.3, 65.5], [157.5, 48.6], [163.8, 58.6], [167.6, 63.6], [165.1, 55.2],
+				[165.1, 62.7], [168.9, 56.6], [162.6, 53.9], [164.5, 63.2], [176.5, 73.6],
+				[168.9, 62.0], [175.3, 63.6], [159.4, 53.2], [160.0, 53.4], [170.2, 55.0],
+				[162.6, 70.5], [167.6, 54.5], [162.6, 54.5], [160.7, 55.9], [160.0, 59.0],
+				[157.5, 63.6], [162.6, 54.5], [152.4, 47.3], [170.2, 67.7], [165.1, 80.9],
+				[172.7, 70.5], [165.1, 60.9], [170.2, 63.6], [170.2, 54.5], [170.2, 59.1],
+				[161.3, 70.5], [167.6, 52.7], [167.6, 62.7], [165.1, 86.3], [162.6, 66.4],
+				[152.4, 67.3], [168.9, 63.0], [170.2, 73.6], [175.2, 62.3], [175.2, 57.7],
+				[160.0, 55.4], [165.1, 104.1], [174.0, 55.5], [170.2, 77.3], [160.0, 80.5],
+				[167.6, 64.5], [167.6, 72.3], [167.6, 61.4], [154.9, 58.2], [162.6, 81.8],
+				[175.3, 63.6], [171.4, 53.4], [157.5, 54.5], [165.1, 53.6], [160.0, 60.0],
+				[174.0, 73.6], [162.6, 61.4], [174.0, 55.5], [162.6, 63.6], [161.3, 60.9],
+				[156.2, 60.0], [149.9, 46.8], [169.5, 57.3], [160.0, 64.1], [175.3, 63.6],
+				[169.5, 67.3], [160.0, 75.5], [172.7, 68.2], [162.6, 61.4], [157.5, 76.8],
+				[176.5, 71.8], [164.4, 55.5], [160.7, 48.6], [174.0, 66.4], [163.8, 67.3]]
+
+		}, {
+			name: 'Density',
+			color: 'rgba(119, 152, 191, .5)',
+			data: [[174.0, 65.6], [175.3, 71.8], [193.5, 80.7], [186.5, 72.6], [187.2, 78.8],
+				[181.5, 74.8], [184.0, 86.4], [184.5, 78.4], [175.0, 62.0], [184.0, 81.6],
+				[180.0, 76.6], [177.8, 83.6], [192.0, 90.0], [176.0, 74.6], [174.0, 71.0],
+				[184.0, 79.6], [192.7, 93.8], [171.5, 70.0], [173.0, 72.4], [176.0, 85.9],
+				[176.0, 78.8], [180.5, 77.8], [172.7, 66.2], [176.0, 86.4], [173.5, 81.8],
+				[178.0, 89.6], [180.3, 82.8], [180.3, 76.4], [164.5, 63.2], [173.0, 60.9],
+				[183.5, 74.8], [175.5, 70.0], [188.0, 72.4], [189.2, 84.1], [172.8, 69.1],
+				[170.0, 59.5], [182.0, 67.2], [170.0, 61.3], [177.8, 68.6], [184.2, 80.1],
+				[186.7, 87.8], [171.4, 84.7], [172.7, 73.4], [175.3, 72.1], [180.3, 82.6],
+				[182.9, 88.7], [188.0, 84.1], [177.2, 94.1], [172.1, 74.9], [167.0, 59.1],
+				[169.5, 75.6], [174.0, 86.2], [172.7, 75.3], [182.2, 87.1], [164.1, 55.2],
+				[163.0, 57.0], [171.5, 61.4], [184.2, 76.8], [174.0, 86.8], [174.0, 72.2],
+				[177.0, 71.6], [186.0, 84.8], [167.0, 68.2], [171.8, 66.1], [182.0, 72.0],
+				[167.0, 64.6], [177.8, 74.8], [164.5, 70.0], [192.0, 101.6], [175.5, 63.2],
+				[171.2, 79.1], [181.6, 78.9], [167.4, 67.7], [181.1, 66.0], [177.0, 68.2],
+				[174.5, 63.9], [177.5, 72.0], [170.5, 56.8], [182.4, 74.5], [197.1, 90.9],
+				[180.1, 93.0], [175.5, 80.9], [180.6, 72.7], [184.4, 68.0], [175.5, 70.9],
+				[180.6, 72.5], [177.0, 72.5], [177.1, 83.4], [181.6, 75.5], [176.5, 73.0],
+				[175.0, 70.2], [174.0, 73.4], [165.1, 70.5], [177.0, 68.9], [192.0, 102.3],
+				[176.5, 68.4], [169.4, 65.9], [182.1, 75.7], [179.8, 84.5], [175.3, 87.7],
+				[184.9, 86.4], [177.3, 73.2], [167.4, 53.9], [178.1, 72.0], [168.9, 55.5],
+				[157.2, 58.4], [180.3, 83.2], [170.2, 72.7], [177.8, 64.1], [172.7, 72.3],
+				[165.1, 65.0], [186.7, 86.4], [165.1, 65.0], [174.0, 88.6], [175.3, 84.1],
+				[185.4, 66.8], [177.8, 75.5], [180.3, 93.2], [180.3, 82.7], [177.8, 58.0],
+				[177.8, 79.5], [177.8, 78.6], [177.8, 71.8], [177.8, 116.4], [163.8, 72.2],
+				[188.0, 83.6], [198.1, 85.5], [175.3, 90.9], [166.4, 85.9], [190.5, 89.1],
+				[166.4, 75.0], [177.8, 77.7], [179.7, 86.4], [172.7, 90.9], [190.5, 73.6],
+				[185.4, 76.4], [168.9, 69.1], [167.6, 84.5], [175.3, 64.5], [170.2, 69.1],
+				[190.5, 108.6], [177.8, 86.4], [190.5, 80.9], [177.8, 87.7], [184.2, 94.5],
+				[176.5, 80.2], [177.8, 72.0], [180.3, 71.4], [171.4, 72.7], [172.7, 84.1],
+				[172.7, 76.8], [177.8, 63.6], [177.8, 80.9], [182.9, 80.9], [170.2, 85.5],
+				[167.6, 68.6], [175.3, 67.7], [165.1, 66.4], [185.4, 102.3], [181.6, 70.5],
+				[172.7, 95.9], [190.5, 84.1], [179.1, 87.3], [175.3, 71.8], [170.2, 65.9],
+				[193.0, 95.9], [171.4, 91.4], [177.8, 81.8], [177.8, 96.8], [167.6, 69.1],
+				[167.6, 82.7], [180.3, 75.5], [182.9, 79.5], [176.5, 73.6], [186.7, 91.8],
+				[188.0, 84.1], [188.0, 85.9], [177.8, 81.8], [174.0, 82.5], [177.8, 80.5],
+				[171.4, 70.0], [185.4, 81.8], [185.4, 84.1], [188.0, 90.5], [188.0, 91.4],
+				[182.9, 89.1], [176.5, 85.0], [175.3, 69.1], [175.3, 73.6], [188.0, 80.5],
+				[188.0, 82.7], [175.3, 86.4], [170.5, 67.7], [179.1, 92.7], [177.8, 93.6],
+				[175.3, 70.9], [182.9, 75.0], [170.8, 93.2], [188.0, 93.2], [180.3, 77.7],
+				[177.8, 61.4], [185.4, 94.1], [168.9, 75.0], [185.4, 83.6], [180.3, 85.5],
+				[174.0, 73.9], [167.6, 66.8], [182.9, 87.3], [160.0, 72.3], [180.3, 88.6],
+				[167.6, 75.5], [186.7, 101.4], [175.3, 91.1], [175.3, 67.3], [175.9, 77.7],
+				[175.3, 81.8], [179.1, 75.5], [181.6, 84.5], [177.8, 76.6], [182.9, 85.0],
+				[177.8, 102.5], [184.2, 77.3], [179.1, 71.8], [176.5, 87.9], [188.0, 94.3],
+				[174.0, 70.9], [167.6, 64.5], [170.2, 77.3], [167.6, 72.3], [188.0, 87.3],
+				[174.0, 80.0], [176.5, 82.3], [180.3, 73.6], [167.6, 74.1], [188.0, 85.9],
+				[180.3, 73.2], [167.6, 76.3], [183.0, 65.9], [183.0, 90.9], [179.1, 89.1],
+				[170.2, 62.3], [177.8, 82.7], [179.1, 79.1], [190.5, 98.2], [177.8, 84.1],
+				[180.3, 83.2], [180.3, 83.2]]
+		}]
+	});
+});
+
+</script>
