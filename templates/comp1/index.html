@@ -59,6 +59,8 @@
               <li><a href="javascript:toggleHelp();">About</a></li>
               <li class="divider"></li>
               <li><a href="javascript:toggleSettings();">Settings</a></li>
+              <li class="divider"></li>
+              <li><a href="http://98.239.116.240:3000/falt">Blog</a></li>
             </ul>
           </div>
         </div>
@@ -467,8 +469,8 @@ if ( isMobile.Android() || isMobile.iOS() || isMobile.BlackBerry() ) {
   document.addEventListener("touchend", touchHandler, true);
   document.addEventListener("touchcancel", touchHandler, true); 
 }
-else
-	$("#wordSubmit").focus(); 
+
+	//$("#wordSubmit").focus(); 
   // triggering focus on mobile devices brings up a keyboard unexpectedly
 
   $("h2#loading").hide();

@@ -112,7 +112,7 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 
     # YOU WILL NEED TO EDIT THIS
-    "/Users/cameronbriar/Desktop/FALT/templates",
+    "/Users/cameronbriar/FALT/templates",
 )
 
 INSTALLED_APPS = (
