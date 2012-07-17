@@ -113,6 +113,7 @@ TEMPLATE_DIRS = (
 
     # YOU WILL NEED TO EDIT THIS
     "/Users/cameronbriar/FALT/templates",
+    "/home/cameron/FALT/templates/",
 )
 
 INSTALLED_APPS = (
@@ -129,7 +130,13 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
-
+TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+                               "django.core.context_processors.debug",
+                               "django.core.context_processors.i18n",
+                               "django.core.context_processors.media",
+                               "django.core.context_processors.static",
+                               "django.core.context_processors.request",
+                               "django.contrib.messages.context_processors.messages")
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

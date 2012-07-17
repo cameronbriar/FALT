@@ -88,6 +88,7 @@ class FALT(object):
 	   	# but it would be best to use espeak or the Mac OS X NSSpeechSynthesizer class to 
 	   	# generate more data on new words
 	   	if result == ['']:
+
 	   		result = [word, '','']
 	   	# resul = [ word , ARPA, IPA ]
    		return result
@@ -126,8 +127,8 @@ class FALT(object):
    		# join the list of class numbers, translating them into symbols with symbols.keys()[classNum]
    		for i in range(0, length):
    			newWord.append(symbols[symbols.keys()[newWord[i]]][0])
-   		# [symbolized version, original word, arpa, ipa]
-   		return [newWord[length:], info[0], info[1], info[2]]
+   		# [symbolized version, original word, arpa, ipa, viseme classes]
+   		return [newWord[length:], info[0], info[1], info[2], newWord[:length]]
 
 	def getFamiliarity(self, word):
 		# reference WordNet for word familiarity

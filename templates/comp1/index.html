@@ -31,6 +31,13 @@
 		    opacity: 0.4;
 		    filter: alpha(opacity=40);
 	    }
+      #mainWord, #mainWordSymbolized { 
+        text-align:center;
+      }
+      #wordBank:hover {
+        background-color:#7F9DB0;
+        color:white;
+      }
     </style>
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -94,7 +101,8 @@
           <div class="well" style="min-width:25%; overflow:show;">
             <div class="row-fluid">
           	<div class="span4" style="min-width:25%;">
-          		<h1 id="mainWord">Speechreading</h1>
+          		<h1 id="mainWord">Audiovisual</h1>
+              <h2 id="mainWordSymbolized"></h2>
           	</br>
           	<table class="table">
           	<thead><th>Attribute</th><th class="centered">Value</th></thead>
@@ -102,7 +110,7 @@
           	<tr><td>LEC Size</td><td class="centered"><b id="wordLEC1">0</b></td></tr>
           	<tr><td>Syllables</td><td class="centered"><b id="wordSyllables">0</b></td></tr>
           	<tr id="hoverNeighborhood"><td>Neighborhood</td><td class="centered"><b id="wordSimilar"><i class="icon-exclamation-sign"></i></b></td></tr>
-          	<tr id="hoverMore"><td>More</td><td class="centered"><b id="wordMore"><i class="icon-exclamation-sign"></i></b></td></tr>
+          	<tr id="hoverMore" rel="popover" data-context="" data-original-title=""><td>More</td><td class="centered"><b id="wordMore"><i class="icon-exclamation-sign"></i></b></td></tr>
             </table>
           	</div>
           	<div id="chart" class="span8" style="padding:20px 20px 20px 20px;">
@@ -130,10 +138,10 @@
 			<button id="phon" class="btn" value="ipa">æ</button>
 			<button id="phon" class="btn" value="ipa">ɛ</button>
 			<button id="phon" class="btn" value="ipa">ə</button>
-			<button id="phon" class="btn" value="ipa">ɜ</button>
+			<!--button id="phon" class="btn" value="ipa">ɜ</button-->
 			<button id="phon" class="btn" value="ipa">ɪ</button>
 			<button id="phon" class="btn" value="ipa">i</button>
-			<button id="phon" class="btn" value="ipa">ɒ</button>
+			<!--button id="phon" class="btn" value="ipa">ɒ</button-->
 			<button id="phon" class="btn" value="ipa">ɔ</button>
 			<button id="phon" class="btn" value="ipa">ʊ</button>
 			<button id="phon" class="btn" value="ipa">u</button>
@@ -142,9 +150,9 @@
 			<button id="phon" class="btn" value="ipa">eɪ</button>
 			<button id="phon" class="btn" value="ipa">oʊ</button>
 			<button id="phon" class="btn" value="ipa">ɔɪ</button>
-			<button id="phon" class="btn" value="ipa">eə</button>
-			<button id="phon" class="btn" value="ipa">ɪə</button>
-			<button id="phon" class="btn" value="ipa">ʊə</button>
+			<!--button id="phon" class="btn" value="ipa">eə</button-->
+			<!--button id="phon" class="btn" value="ipa">ɪə</button-->
+			<!--button id="phon" class="btn" value="ipa">ʊə</button-->
 
 			<button id="phon" class="btn" value="ipa">p</button>
 			<button id="phon" class="btn" value="ipa">b</button>
@@ -162,7 +170,7 @@
 			<button id="phon" class="btn" value="ipa">z</button>
 			<button id="phon" class="btn" value="ipa">ʃ</button>
 			<button id="phon" class="btn" value="ipa">ʒ</button>
-			<button id="phon" class="btn" value="ipa">x</button>
+			<!--button id="phon" class="btn" value="ipa">x</button-->
 			<button id="phon" class="btn" value="ipa">h</button>
 			<button id="phon" class="btn" value="ipa">m</button>
 			<button id="phon" class="btn" value="ipa">n</button>
@@ -171,7 +179,7 @@
 			<button id="phon" class="btn" value="ipa">r</button>
 			<button id="phon" class="btn" value="ipa">w</button>
 			<button id="phon" class="btn" value="ipa">j</button>
-			<button id="phon" class="btn" value="ipa">hw</button>
+			<!--button id="phon" class="btn" value="ipa">hw</button-->
     			</p>
     		</div>
 			<div class="tab-pane fade active in" id="phoneticARPA">
@@ -251,7 +259,7 @@
               </p>
             </div>
             <div class="span6">
-              <h2>Equivalence</h2>
+              <h2 id="equivalence">Equivalence</h2>
               <p>
 				<div class="btn-toolbar">
 					<div class="btn-group" style="margin:0px -10px 0px -10px">
@@ -370,6 +378,20 @@
             </div>
           </div>
 
+  <div id="symbols_modal" class="modal hide">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal" >&times;</a>
+              <h3>Viseme Reference</h3>
+            </div>
+            <div class="modal-body">
+              <hr>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn" data-dismiss="modal" >Close</a>
+
+            </div>
+          </div>
+
   <div id="file_modal" class="modal hide">
             <div class="modal-header">
               <a class="close" data-dismiss="modal" >&times;</a>
@@ -460,9 +482,9 @@ var isMobile = {
         return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
     }
 };
-var deviceType = 'large';
 
-if ( isMobile.Android() || isMobile.iOS() || isMobile.BlackBerry() ) {
+var deviceType = 'large';
+if ( isMobile.any() ) {
   deviceType = 'small';
   document.addEventListener("touchstart", touchHandler, true);
   document.addEventListener("touchmove", touchHandler, true);
@@ -470,12 +492,9 @@ if ( isMobile.Android() || isMobile.iOS() || isMobile.BlackBerry() ) {
   document.addEventListener("touchcancel", touchHandler, true); 
 }
 
-	//$("#wordSubmit").focus(); 
-  // triggering focus on mobile devices brings up a keyboard unexpectedly
-
   $("h2#loading").hide();
+  $("tr#hoverMore").popover({'placement':'top', 'delay' : { 'show':500, 'hide' : 2500 }, 'animate' : 'false', 'title' : 'Audiovisual'});
 
-	//Data
 var data = new Array();
 data.currentClass = 1;
 data.currentSymbol = "&lt;";
@@ -568,7 +587,7 @@ data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY'], ['OW'], ['AW'], ['IH'
 
 
 	//Transcription Tab
-	$('#phonetic a').click(function (e) {
+	$('#phonetic a').click(function(e) {
 
 		if (!($(this).parent().hasClass('active'))) {
 		$("h2#transcription").hide();
@@ -614,35 +633,56 @@ data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY'], ['OW'], ['AW'], ['IH'
 	//Hover Functions
 
 	//Word Bank
+
+  // hover & touchstart are the same
 	$("li#wordBank").live({
 		hover : function() {
 		data.currentWord = $(this).html();
 		//$("#mainWord").html($(this).html()).css("text-align", "center");
-    $("#mainWord").html($("[value = "+data.currentWord+"]").attr("symbol"));
-    $("#mainWord").css("text-align", "center");
+    $("#mainWord").html(data.currentWord);
+    $("#mainWordSymbolized").html($("[value = "+data.currentWord+"]").attr("symbol"));
 		$("b#wordSyllables").html($("[value = "+data.currentWord+"]").attr("syllable-count"));
     $("b#wordFam").html($("[value = "+data.currentWord+"]").attr("familiarity"));
-    $("tr#hoverMore").popover({'placement':'top', 'title':$(this).html()});
+
+    $("tr#hoverMore").attr('data-original-title', $("[value = "+data.currentWord+"]").attr("dictionary")+'<span style="float:right"><a href="javascript:dismissPopover();">close</a></span>');
+
+    data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td>...</td><td>' + '' + '</td>'+ '</tr></table>';
+
+    $("tr#hoverMore").attr('data-content', data.newContent);
+
+     $("tr#hoverMore").popover('show');
     //$("b#wordLEC1").html($($(this).html()).attr("syllable-count"));
 		//console.log($("[value = "+data.currentWord+"]").attr("syllable-count"));
 		},
 		touchstart : function() {
     data.currentWord = $(this).html();
     //$("#mainWord").html($(this).html()).css("text-align", "center");
-    $("#mainWord").html($("[value = "+data.currentWord+"]").attr("symbol"));
-    $("#mainWord").css("text-align", "center");
+    $("#mainWord").html(data.currentWord);
+    $("#mainWordSymbolized").html($("[value = "+data.currentWord+"]").attr("symbol"));
     $("b#wordSyllables").html($("[value = "+data.currentWord+"]").attr("syllable-count"));
     $("b#wordFam").html($("[value = "+data.currentWord+"]").attr("familiarity"));
-    $("tr#hoverMore").popover({'placement':'top', 'title':$(this).html()});
+
+    $("tr#hoverMore").attr('data-original-title', $("[value = "+data.currentWord+"]").attr("dictionary")+'<span style="float:right"><a href="javascript:dismissPopover();">close</a></span>');
+    data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td>...</td><td>' + '' + '</td>'+ '</tr></table>';
+
+    $("tr#hoverMore").attr('data-content', data.newContent);
+     $("tr#hoverMore").popover('show');
     //$("b#wordLEC1").html($($(this).html()).attr("syllable-count"));
     //console.log($("[value = "+data.currentWord+"]").attr("syllable-count"));
-		}
+		},
+    mouseout : function() {
+           $("tr#hoverMore").popover('show');
+    }
 	});
   function wordBankCount(){
     return $("#newWords").children().length;
   }
   function removeWordBankWord(word) {
     $("li#wordBank").each(function(){if ($(this).html() == word) $(this).remove();})
+    return;
+  }
+  function dismissPopover() {
+    $("tr#hoverMore").popover('hide');
     return;
   }
 	//Input Functions
@@ -665,7 +705,7 @@ data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY'], ['OW'], ['AW'], ['IH'
       if (!(data.myWords.contains(data.newWords[i]))) {
           if (/^[a-zA-Z()]+$/.test(data.newWords[i])) {
         data.myWords.push(data.newWords[i].toLowerCase());
-			 $("#newWords").append("<li id='wordBank' style='font-size:18px; margin-bottom:10px;'>"+data.newWords[i].toLowerCase()+"</li>");
+			 $("#newWords").append("<li id='wordBank' style='font-size:18px; padding:20px 0px 20px 0px;'>"+data.newWords[i].toLowerCase()+"</li>");
        data.wordCount += 1;
       }
         else {
@@ -912,10 +952,11 @@ function sendOff(){
 	data.dataSplit = data.dataToSend.split(",");
   data.currentClassSize = $("span#amount").html();
   if (data.currentClassSize == '0') {
-     postStatus("Preset", "<h4 style='color:white'><a href='#presets' style='color:white;'><button class='btn'>Please choose LEC size.</button></a></h4>", "important", 5000);
+     postStatus("Preset", "<h4 style='color:white'><a href='#equivalence' style='color:white;'><button class='btn'>Please choose LEC size.</button></a></h4>", "important", 5000);
 
     return false;
   }
+    $("#mainWordSymbolized").html('<small>Loading...</small>');
     $.ajax({
             type:"GET",
             url :"/word/main/",
@@ -925,8 +966,9 @@ function sendOff(){
             success:function(result){
               $("ul.wordStorage").html("");
             	for (var i = 0; i < data.dataSplit.length; i++) {
-            		console.log(result[data.dataSplit[i]]);
-            		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' familiarity='"+result[data.dataSplit[i]].familiarity+"'></li>");
+            		//console.log(result[data.dataSplit[i]]);
+            		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' familiarity='"+result[data.dataSplit[i]].familiarity+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+result[data.dataSplit[i]].visemes+"'></li>");
+                $("#mainWordSymbolized").html('<small>Loading Complete</small>');
             	}
 
             }
@@ -967,6 +1009,12 @@ function keyCheck(e) {
     else
       $('#keyboard_modal').modal('show');
     break;
+    case 83: // S
+    if ($("#symbols_modal").is(".in"))
+      $('#symbols_modal').modal('hide');
+    else
+      $('#symbols_modal').modal('show');
+    break;
 		default:
 		break;
 	}}
@@ -986,21 +1034,6 @@ function toggleSettings() {
 	keyCheck(e);
 	return false;
 }
-
-//Popovers
-
-var keepPopover,delay = function() { keepPopover = setTimeout( function() { $('.popover').hide();}, 500); };    
-    $('[data-action="popover"]').popover({ trigger: 'manual'}).mouseenter(function(e) {
-        var $popover = $('.popover');
-  (keepPopover) && clearTimeout(keepPopover);
-        ($popover.length) && $popover.remove();
-        $(this).popover('show');}).mouseleave(function(e) {
-        var $smarttip = $(this);
-        delay();
-        $('.popover').mouseenter(function(e) { clearTimeout(keepPopover); }).mouseleave(function(e) { delay(); });
-    }).click(function(e) {
-        e.preventDefault();
-    });
 
 // Touches (for slider)
 // thanks to
@@ -1091,7 +1124,7 @@ $(document).ready(function() {
 		xAxis: {
 			title: {
 				enabled: true,
-				text: 'Height (cm)'
+				text: ''
 			},
 			startOnTick: true,
 			endOnTick: true,
@@ -1099,13 +1132,13 @@ $(document).ready(function() {
 		},
 		yAxis: {
 			title: {
-				text: 'Weight (kg)'
+				text: ''
 			}
 		},
 		tooltip: {
 			formatter: function() {
 					return ''+
-					this.x +' cm, '+ this.y +' kg';
+					this.x +' , '+ this.y +' ';
 			}
 		},
 		legend: {

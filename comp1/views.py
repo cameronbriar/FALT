@@ -32,16 +32,22 @@ def mainRequest(request):
 
     for word in words:
         word = word.encode('ascii', 'ignore')
+
+        symbolized = symbolizeWord(word, int(size))
         return_dict[word] = {}
+        return_dict[word]['symbolized'] = ''.join(symbolized[0])
+        return_dict[word]['dictionary'] = symbolized[1]
+        return_dict[word]['arpa'] = symbolized[2]
+        return_dict[word]['ipa'] = symbolized[3]
+        return_dict[word]['visemes'] = ' '.join(str(x+1) for x in symbolized[4])
         return_dict[word]['syllables'] = countSyllables(word)
-        return_dict[word]['symbolized'] = symbolizeWord(word, int(size))
         return_dict[word]['familiarity'] = getFamiliarity(word)
     json = simplejson.dumps(return_dict)
     return HttpResponse(json, mimetype="application/json")
 
 def symbolizeWord(word, LECSize):
     W = FALT.FALT()
-    return ''.join(W.symbolize(word, FALT.eqARPA[LECSize])[0])
+    return W.symbolize(word, FALT.eqARPA[LECSize])
 
 import re
 def countSyllables(word):
@@ -58,6 +64,10 @@ def countSyllables(word):
     if count == 0:
         count = 1
     return count
+
+def getWordFromDictionary(word):
+    W = FALT.FALT()
+    return W.getWordFromDictionary(word)[0]
 
 def getFamiliarity(word):
     W = FALT.FALT()
