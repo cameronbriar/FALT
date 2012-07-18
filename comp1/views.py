@@ -20,6 +20,8 @@ h = HTMLParser.HTMLParser()
 
 import FALT as FALT
 
+W = FALT.FALT()
+
 def index(request):
 	c = RequestContext(request, {'foo': 'bar',})
 	return render_to_response('comp1/index.html', c)
@@ -46,7 +48,6 @@ def mainRequest(request):
     return HttpResponse(json, mimetype="application/json")
 
 def symbolizeWord(word, LECSize):
-    W = FALT.FALT()
     return W.symbolize(word, FALT.eqARPA[LECSize])
 
 import re
@@ -66,9 +67,7 @@ def countSyllables(word):
     return count
 
 def getWordFromDictionary(word):
-    W = FALT.FALT()
     return W.getWordFromDictionary(word)[0]
 
 def getFamiliarity(word):
-    W = FALT.FALT()
     return W.getFamiliarity(word)

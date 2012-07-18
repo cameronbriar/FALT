@@ -24,8 +24,13 @@
       	font-size:32px;
       	padding:10px 5px 25px 5px;
       }
-      #presets td {
+      #presets {
         text-align:center;
+      }
+      button #preset {
+        padding:5px 10px 5px 10px;
+        text-align:center;
+        margin:0 auto;
       }
 	   .modal-backdrop, .modal-backdrop.fade.in {
 		    opacity: 0.4;
@@ -42,7 +47,6 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="http://cloudedbox.com/bootstrap/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-114-precomposed.png">
@@ -88,11 +92,9 @@
               <li class="divider"></li>
 			        <li class="nav-header">Status</li>
 			     </br>
-			       <div id="status" style="min-height:100px; max-height:200px; overflow:auto;">
-             </div>
+			       <div id="status" style="min-height:100px; max-height:200px; overflow:auto;"></div>
     <li class="nav-header">Word Bank</li>
-        <div id="newWords" style="max-height:350px; overflow:auto;">
-        </div>
+        <div id="newWords" style="max-height:350px; overflow:auto;"></div>
         <li class="divider"></li>
             </ul>
           </div>
@@ -120,7 +122,7 @@
       	  </div>
           <div class="row-fluid" style="text-align:center">
             <div class="span6">
-              <h2 id="transcription">Transcription</h2>
+              <h2 id="transcription">Phonemes</h2>
               	<h2 id="loading"><img src="http://cloudedbox.com/bootstrap/loading.gif" style="width:20px; padding:10px 0px 5px 0px;" /><p>Loading</p></h2>
               <p>
 		<div class="pagination" style="text-align:center">
@@ -271,7 +273,6 @@
 						<button class="btn" id="equivClass" name="equivClass">5</button>
 						<button class="btn" id="equivClass" name="equivClass">6</button>
 						<button class="btn" id="rightArrow">&gt;</button>
-
 					</div>
 				</div>
 				<table class="table" id="classes">
@@ -281,17 +282,29 @@
 						</span>
 					</td></tr>
 				</table>
-            <h3>Preset Slider</h3>
+            <h3>Presets</h3>
           </hr>
               	<div style="padding:10px">
-              	<div id="slider"></div><label for="amount">Classes: </label>
+              	<div id="slider"></div><label for="amount">Set</label>
               	<span id="amount" style="font-weight:bold;"></span>
                 <p>
-                  <table class="table table-bordered table-condensed" id="presets"><tr>
-                    <td id="preset" style="cursor:pointer" value="0"><h6>0</h6></td><td id="preset" style="cursor:pointer" value="1"><h6>1</h6></td><td id="preset" style="cursor:pointer" value="2"><h6>2</h6></td><td id="preset" style="cursor:pointer" value="10"><h6>10</h6></td><td id="preset" style="cursor:pointer" value="12"><h6>12</h6></td><td id="preset" style="cursor:pointer" value="19"><h6>19</h6></td><td id="preset" style="cursor:pointer" value="28"><h6>28</h6></td>
-                  </tr><tr>
-                  <td id="betType" colspan="4" value="IPA" style="cursor:pointer; padding:10px 0px 10px 0px;"><h6>IPA</h6></td><td id="betType" value="ARPA" colspan="4" style="cursor:pointer; padding:10px 0px 10px 0px;"><h6>ARPA</h6></td>
-                  </tr></table>
+                <div class="btn-toolbar">
+                  <div id="presets" class="btn-group">
+                    <button id="preset" class="btn btn-primary" style="cursor:pointer">0</button>
+                    <button id="preset" class="btn btn-primary" style="cursor:pointer">1</button>
+                    <button id="preset" class="btn btn-primary" style="cursor:pointer">2</button>
+                    <button id="preset" class="btn btn-primary" style="cursor:pointer">10</button>
+                    <button id="preset" class="btn btn-primary" style="cursor:pointer">12</button>
+                    <button id="preset" class="btn btn-primary" style="cursor:pointer">19</button>
+                    <button id="preset" class="btn btn-primary" style="cursor:pointer">28</button>
+                  </div>
+              </div>
+                <div class="btn-toolbar">
+                  <div class="btn-group">
+                    <button id="betType" class="btn" style="cursor:pointer">IPA</button>
+                    <button id="betType" class="btn" style="cursor:pointer">ARPA</button>
+                  </div>
+                </div>
                 </p>
               </div>
               </p>
@@ -418,7 +431,7 @@
             </div>
             <div class="modal-footer">
               <button class="btn btn-large" data-dismiss="modal" >Close</button>
-              <button class="btn btn-large btn-primary" type="submit">Upload File</button>
+              <button class="btn btn-primary" type="submit">Upload File</button>
 
 
             </div>
@@ -490,10 +503,25 @@ if ( isMobile.any() ) {
   document.addEventListener("touchmove", touchHandler, true);
   document.addEventListener("touchend", touchHandler, true);
   document.addEventListener("touchcancel", touchHandler, true); 
+} else {
+  welcomeInto();
 }
 
   $("h2#loading").hide();
-  $("tr#hoverMore").popover({'placement':'top', 'delay' : { 'show':500, 'hide' : 2500 }, 'animate' : 'false', 'title' : 'Audiovisual'});
+  $("tr#hoverMore").popover({'placement': 'bottom', 'delay' : { 'show':500, 'hide' : 2500 }, 'animate' : 'false', 'title' : 'Audiovisual'});
+
+var keepPopover,delay = function() { keepPopover = setTimeout( function() { $('.popover').hide();}, 500); };    
+    $('[data-action="popover"]').popover({ trigger: 'manual'}).mouseenter(function(e) {
+        var $popover = $('.popover');
+  (keepPopover) && clearTimeout(keepPopover);
+        ($popover.length) && $popover.remove();
+        $(this).popover('show');}).mouseleave(function(e) {
+        var $smarttip = $(this);
+        delay();
+        $('.popover').mouseenter(function(e) { clearTimeout(keepPopover); }).mouseleave(function(e) { delay(); });
+    }).click(function(e) {
+        e.preventDefault();
+    });
 
 var data = new Array();
 data.currentClass = 1;
@@ -649,8 +677,6 @@ data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY'], ['OW'], ['AW'], ['IH'
     data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td>...</td><td>' + '' + '</td>'+ '</tr></table>';
 
     $("tr#hoverMore").attr('data-content', data.newContent);
-
-     $("tr#hoverMore").popover('show');
     //$("b#wordLEC1").html($($(this).html()).attr("syllable-count"));
 		//console.log($("[value = "+data.currentWord+"]").attr("syllable-count"));
 		},
@@ -666,13 +692,9 @@ data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY'], ['OW'], ['AW'], ['IH'
     data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td>...</td><td>' + '' + '</td>'+ '</tr></table>';
 
     $("tr#hoverMore").attr('data-content', data.newContent);
-     $("tr#hoverMore").popover('show');
     //$("b#wordLEC1").html($($(this).html()).attr("syllable-count"));
     //console.log($("[value = "+data.currentWord+"]").attr("syllable-count"));
-		},
-    mouseout : function() {
-           $("tr#hoverMore").popover('show');
-    }
+		}
 	});
   function wordBankCount(){
     return $("#newWords").children().length;
@@ -738,8 +760,10 @@ data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY'], ['OW'], ['AW'], ['IH'
 		//jQuery(('#'+itemname)).html("");
 		jQuery(('#'+itemname)).remove();
 	}
-	postStatusAt("Welcome", "<h5 style='color:white; padding-bottom:5px;'>Welcome to</br>Fresno's Audiovisual</br>Lexicon Tool</h5>", "info", 3000, 2000);
-	postStatusAt("Welcome", "<h5 style='color:white; padding-bottom:5px;'>also known as</br><span style='font-size:32px'>FALT</span></h5>", "info", 3000, 6000);
+  function welcomeInto() {
+	 postStatusAt("Welcome", "<h5 style='color:white; padding-bottom:5px;'>Welcome to</br>Fresno's Audiovisual</br>Lexicon Tool</h5>", "info", 3000, 2000);
+	 postStatusAt("Welcome", "<h5 style='color:white; padding-bottom:5px;'>also known as</br><span style='font-size:32px'>FALT</span></h5>", "info", 3000, 6000);
+  }
 
 	//Keyboard Shortcuts
 
@@ -848,16 +872,16 @@ function presetCount() {
   return Number($("span#amount").html());
 }
 
-$("td#preset").click(function() {
-    data.preset = $(this).attr("value");
+$("button#preset").click(function() {
+    data.preset = $(this).html();
     toggleActivePhonemes();
     slideTo(Number(data.preset));
     if (wordBankCount() != 0)
       sendOff();
   });
-$("td#betType").click(function() {
+$("button#betType").click(function() {
   toggleActivePhonemes();
-    data.betSelection = $(this).attr("value");
+    data.betSelection = $(this).html();
     data.currentClassCount = presetCount();
     switch (data.betSelection) {
       case 'ARPA':

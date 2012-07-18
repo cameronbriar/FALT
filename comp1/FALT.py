@@ -88,7 +88,6 @@ class FALT(object):
 	   	# but it would be best to use espeak or the Mac OS X NSSpeechSynthesizer class to 
 	   	# generate more data on new words
 	   	if result == ['']:
-
 	   		result = [word, '','']
 	   	# resul = [ word , ARPA, IPA ]
    		return result
