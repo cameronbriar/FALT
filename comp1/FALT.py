@@ -76,12 +76,12 @@ class FALT(object):
 		# instead of reference getDictionary (why? no clue.), 
 		# scan the file for the exact match of the word 
 	   	p = subprocess.Popen('awk \'{if ($1 == "'+word+'") print $0}\' < '+filename, shell=True, stdout=subprocess.PIPE)
-	   	result = p.communicate()[0].split("\n")[0].split("  ")
+	   	result = p.communicate(None)[0].split("\n")[0].split("  ")
 
 	   	# if there is no exact match, try a rough match
 	   	if result == ['']:
 	   		p = subprocess.Popen("grep -i --line-buffered '"+word+"' "+filename, shell=True, stdout=subprocess.PIPE)
-	   		result = p.communicate()[0].split("\n")[0].split("  ")
+	   		result = p.communicate(None)[0].split("\n")[0].split("  ")
 
 	   	# if there is still no match, then we need to do more work
 	   	# for now, we'll just return nothing
@@ -102,7 +102,7 @@ class FALT(object):
    		arpa = info[1]
    		# if there was not entry for the word
    		if arpa == '':
-   			return ['<small>Not found.</small>', '', '', '']
+   			return ['<small>Not found.</small>', '', '', '', '']
    		arpa = arpa.split(" ")
    		# ARPA is much easier to iterate through and recognize
    		# considering that IPA sometimes consists of 1 or 2 non-unique symbols
@@ -128,6 +128,9 @@ class FALT(object):
    			newWord.append(symbols[symbols.keys()[newWord[i]]][0])
    		# [symbolized version, original word, arpa, ipa, viseme classes]
    		return [newWord[length:], info[0], info[1], info[2], newWord[:length]]
+
+   	def getSimilarities(self, symbolized, maxDistance=1):
+   		return
 
 	def getFamiliarity(self, word):
 		# reference WordNet for word familiarity
