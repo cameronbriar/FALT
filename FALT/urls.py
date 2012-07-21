@@ -16,15 +16,10 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^%s/' % settings.DAJAXICE_MEDIA_PREFIX, include('dajaxice.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^word/$', 'comp1.views.index'),
-    url(r'^word/read_word/$', 'comp1.views.read_word'),
-    url(r'^word/test_ajax/$', 'comp1.views.test_ajax'),
-    url(r'^word/syllables/$', 'comp1.views.syllables'),
-    url(r'^word/main/$', 'comp1.views.mainRequest'),
-    # redundant urls removing the 'word'
     url(r'^$', 'comp1.views.index'),
     url(r'^read_word/$', 'comp1.views.read_word'),
     url(r'^test_ajax/$', 'comp1.views.test_ajax'),
     url(r'^syllables/$', 'comp1.views.syllables'),
     url(r'^main/$', 'comp1.views.mainRequest'),
+    url(r'^file/$', 'comp1.views.fileRequest'),
 )

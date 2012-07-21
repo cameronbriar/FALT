@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Fresno's Audiovisual Lexicon Tool">
     <meta name="author" content="hi@cameronbriar.com">
+    <link href="/static/fileuploader.css" rel="stylesheet">
     <link href="http://cloudedbox.com/bootstrap/ui/css/blitzer/jquery-ui-1.8.21.custom.css" rel="stylesheet">
     <link href="http://cloudedbox.com/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="http://cloudedbox.com/bootstrap/css/bootstrap.simplex.css" rel="stylesheet">
@@ -416,8 +417,9 @@
               <p>
                 <h4>File type must be .txt</h4>
               </br>
-              <form>
-                  <div class="control-group">
+              <form id="uploadFile" method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="control-group">
                 <div class="controls">
                 <input type="file" id="fileInput" type="file" name="fileInput">
               </div>
@@ -427,15 +429,13 @@
       </br>
         <h6>space, comma, newline</br></br>or</br></br>enter your own </br><input type="text" class="input-mini" placeholder="" name="delim"></h6>
         </br>
-      </form>
             </p>
               <hr>
             </div>
             <div class="modal-footer">
               <button class="btn btn-large" data-dismiss="modal" >Close</button>
               <button class="btn btn-large btn-primary" type="submit">Upload File</button>
-
-
+              </form>
             </div>
           </div>
 
@@ -479,6 +479,43 @@
 </html>
 
 <script>
+
+function handleFileSelect(evt) {
+        var file = evt.target.files; // FileList object
+
+        if (!(file[0].type == 'text/plain')) {
+          $('#file_modal').modal('hide');
+          postStatus("Error", "<h3 style='color:white'>Error</br>Filetype must be <u>.txt</u></h3>", "important", 6000);
+          return;
+        }
+        // Loop through the FileList
+        for (var i = 0, f; f = file[i]; i++) {
+
+          var reader = new FileReader();
+
+          // Closure to capture the file information.
+          reader.onload = (function(theFile) {
+            return function(e) {
+              // Print the contents of the file
+              var span = document.createElement('span');                    
+              span.innerHTML = ['<p>',e.target.result,'</p>'].join('');
+              //document.getElementById('list').insertBefore(span, null);
+              $('#file_modal').modal('hide');
+              postStatus("Success", "<h3 style='color:white'>Success</br>File uploaded successfully!</h3>", "success", 6000);
+              alert(file[0].type);
+            };
+          })(f);
+
+          // Read in the file
+          //reader.readAsDataText(f,UTF-8);
+          //reader.readAsDataURL(f);
+          reader.readAsText(f, "UTF-8");
+        }
+      }
+
+      document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+
+
 	//Initializers
 var isMobile = {
     Android: function() {
@@ -1035,7 +1072,7 @@ function sendOff(){
     $("#mainWordSymbolized").html('<small>Loading...</small>');
     $.ajax({
             type:"GET",
-            url :"/word/main/",
+            url :"/main/",
             data:'words='+data.dataToSend+'&size='+data.currentClassSize,
             datatype:"json",
             error:function(result){console.log("Bad word.");},//alert('There was an error.');},
@@ -1052,7 +1089,8 @@ function sendOff(){
 
     return false;
         }
-        //Keyboard Shortcuts
+
+//Keyboard Shortcuts
 
 document.onkeyup = keyCheck;
 

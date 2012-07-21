@@ -2,10 +2,12 @@
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-
+from django.core.context_processors import csrf
+from django.middleware.csrf import get_token
 from django.utils import simplejson
 from dajaxice.decorators import dajaxice_register
 from dajaxice.core import dajaxice_autodiscover
+
 dajaxice_autodiscover()
 
 import logging
@@ -44,6 +46,25 @@ def mainRequest(request):
         return_dict[word]['visemes'] = ' '.join(str(x+1) for x in symbolized[4])
         return_dict[word]['syllables'] = countSyllables(word)
         return_dict[word]['familiarity'] = getFamiliarity(word)
+    json = simplejson.dumps(return_dict)
+    return HttpResponse(json, mimetype="application/json")
+
+def fileRequest(request):
+    return_dict = {}
+    validExtensions = ['txt']
+    error = 'None'
+    for filename, file in request.FILES.iteritems():
+        size = request.FILES[filename].size
+        name = request.FILES[filename].name
+        content = request.FILES[filename].read()
+
+        if size > 2000000 or name.split(".")[-1] not in validExtensions:
+            error = 'File must be < 2MB in size and in .txt format.' 
+            return HttpResponse(error, mimetype="application/json")
+
+    return_dict['filename'] = name
+    return_dict['size'] = size
+    return_dict['content'] = content
     json = simplejson.dumps(return_dict)
     return HttpResponse(json, mimetype="application/json")
 
