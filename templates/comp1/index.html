@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Fresno's Audiovisual Lexicon Tool">
     <meta name="author" content="hi@cameronbriar.com">
-    <link href="/static/fileuploader.css" rel="stylesheet">
     <link href="http://cloudedbox.com/bootstrap/ui/css/blitzer/jquery-ui-1.8.21.custom.css" rel="stylesheet">
     <link href="http://cloudedbox.com/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="http://cloudedbox.com/bootstrap/css/bootstrap.simplex.css" rel="stylesheet">
@@ -44,6 +43,26 @@
         background-color:#3a80e8;
         color:white;
       }
+      div.fileinputs {
+  position: relative;
+}
+
+div.fakefile {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+}
+
+input.file {
+  position: relative;
+  text-align: right;
+  -moz-opacity:0 ;
+  filter:alpha(opacity: 0);
+  opacity: 0;
+  z-index: 2;
+}
+
     </style>
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -53,9 +72,9 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-57-precomposed.png">
-    <!-- Dajaxice -->
+    <!-- Dajaxice
     {% load dajaxice_templatetags %}
-    {% dajaxice_js_import %}
+    {% dajaxice_js_import %}-->
   </head>
   <body>
     <div class="navbar navbar-top" style="top:0px;">
@@ -415,27 +434,28 @@
             </div>
             <div class="modal-body">
               <p>
-                <h4>File type must be .txt</h4>
-              </br>
-              <form id="uploadFile" method="POST" action="" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="control-group">
-                <div class="controls">
-                <input type="file" id="fileInput" type="file" name="fileInput">
-              </div>
+        <h4>Filetype must be:</h4>
+        <h5><ul>
+          <li>delimited by a space, comma or newline &nbsp; &nbsp; <a id="aboutDelimiter" href="#" rel="tooltip" data-original-title="all words in the file must be separated by a single character"><i class="icon-question-sign"></i></a></li>
+          <li>in .txt format</li>
+        </ul></h5></br>
+            <input id="fileInput" type="file" style="display:none">
+              <div class="input-append">
+              <input id="fakeFile" class="input-large" type="text">
+              <a class="btn btn-primary" onclick="$('input[id=fileInput]').click();">Browse</a>              
             </div>
-        </br>
-        <h4>The words contained in the file should be separated by one of the following:</h4>
-      </br>
-        <h6>space, comma, newline</br></br>or</br></br>enter your own </br><input type="text" class="input-mini" placeholder="" name="delim"></h6>
+            <script type="text/javascript">
+            $('input[id=fileInput]').change(function() {
+            $('#fakeFile').val($(this).val().replace("C:\\fakepath\\", ""));
+            }); 
+            </script>
         </br>
             </p>
               <hr>
             </div>
             <div class="modal-footer">
               <button class="btn btn-large" data-dismiss="modal" >Close</button>
-              <button class="btn btn-large btn-primary" type="submit">Upload File</button>
-              </form>
             </div>
           </div>
 
@@ -481,41 +501,56 @@
 <script>
 
 function handleFileSelect(evt) {
-        var file = evt.target.files; // FileList object
-
+        var file = evt.target.files;
+        //must be a txt file
         if (!(file[0].type == 'text/plain')) {
           $('#file_modal').modal('hide');
-          postStatus("Error", "<h3 style='color:white'>Error</br>Filetype must be <u>.txt</u></h3>", "important", 6000);
+          postStatus("Error", "<h3 style='color:white'>Error</br>Filetype must be <u>.txt</u></h3>", "important", 8000);
           return;
         }
-        // Loop through the FileList
+        //must be less than 2MB
+        if (!(file[0].size > 2000000)) {
+          $('#file_modal').modal('hide');
+          postStatus("Error", "<h3 style='color:white'>Error</br>Filesize must be <u>less than 2Mb</u></h3>", "important", 8000);
+          return;
+        }
         for (var i = 0, f; f = file[i]; i++) {
-
           var reader = new FileReader();
-
-          // Closure to capture the file information.
           reader.onload = (function(theFile) {
             return function(e) {
-              // Print the contents of the file
-              var span = document.createElement('span');                    
-              span.innerHTML = ['<p>',e.target.result,'</p>'].join('');
-              //document.getElementById('list').insertBefore(span, null);
               $('#file_modal').modal('hide');
-              postStatus("Success", "<h3 style='color:white'>Success</br>File uploaded successfully!</h3>", "success", 6000);
-              alert(file[0].type);
+              postStatus("Success", "<h3 style='color:white'>Success</br>File uploaded!</h3>", "success", 6000);
+              var content = formatContent(e.target.result);
             };
           })(f);
-
-          // Read in the file
-          //reader.readAsDataText(f,UTF-8);
-          //reader.readAsDataURL(f);
           reader.readAsText(f, "UTF-8");
         }
       }
-
       document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 
-
+function formatContent(content) {
+  var listWords = new Array();
+   listWords[0] = content.split(',');
+   listWords[1] = content.split('\n');
+   listWords[2] = content.split(' ');
+   var wordList = maxArrayOfArray(listWords).join(" ");
+   $("#wordSubmit").val(wordList);
+   console.log(wordList);
+   $("#wordAdd").click();
+  return;
+}
+  function maxArrayOfArray(arr) {
+    var max = 0;
+    var index, i = 0;
+    for (x in arr) {
+      if (arr[x].length > max) {
+        max = arr[x].length;
+        index = i;
+      } i += 1;
+    }
+    var dets = "Max:" + max.toString();
+    return arr[index];  
+  }
 	//Initializers
 var isMobile = {
     Android: function() {
@@ -549,6 +584,7 @@ if ( isMobile.any() ) {
 
   $("h2#loading").hide();
   $("tr#hoverMore").popover({'placement': 'bottom', 'animate' : 'false', 'title' : 'Audiovisual', 'trigger' : 'manual'});
+  $("#aboutDelimiter").tooltip();
 
 var keepPopover,delay = function() { keepPopover = setTimeout( function() { $('.popover').hide();}, 500); };    
     $('[data-action="popover"]').popover({ trigger: 'manual'}).mouseenter(function(e) {
