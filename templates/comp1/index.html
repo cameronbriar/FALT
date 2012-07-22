@@ -456,7 +456,7 @@ input.file {
               <h1 id="fileLoading">Loading...</h2>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-large" data-dismiss="modal" >Close</button>
+              <button id="fileClose" class="btn btn-large" data-dismiss="modal" >Close</button>
             </div>
           </div>
 
@@ -504,16 +504,19 @@ input.file {
 function handleFileSelect(evt) {
         var file = evt.target.files;
         $("#fileLoading").show();
+        $("#fileClose").attr("disabled", "disabled");
         //must be a txt file
         if (!(file[0].type == 'text/plain')) {
           $('#file_modal').modal('hide');
+          $("#fileLoading").hide();
           postStatus("Error", "<h3 style='color:white'>Error</br>Filetype must be <u>.txt</u></h3>", "important", 8000);
           return;
         }
-        //must be less than 2MB
-        if (file[0].size > 500000) {
+        //must be less than 10Kb
+        if (file[0].size > 10000) {
           $('#file_modal').modal('hide');
-          postStatus("Error", "<h3 style='color:white'>Error</br>Filesize must be <u>less than 2Mb</u></h3>", "important", 8000);
+          $("#fileLoading").hide();
+          postStatus("Error", "<h3 style='color:white'>Error</br>Filesize must be <u>less than 10Kb</u></h3>", "important", 8000);
           return;
         }
         for (var i = 0, f; f = file[i]; i++) {
@@ -522,6 +525,7 @@ function handleFileSelect(evt) {
             return function(e) {
               $('#file_modal').modal('hide');
               $("#fileLoading").hide();
+              $("#fileClose").removeAttr("disabled");
               postStatus("Success", "<h3 style='color:white'>Success</br>File uploaded!</h3>", "success", 6000);
               var content = formatContent(e.target.result);
             };
