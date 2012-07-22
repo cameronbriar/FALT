@@ -453,6 +453,7 @@ input.file {
         </br>
             </p>
               <hr>
+              <h1 id="fileLoading">Loading...</h2>
             </div>
             <div class="modal-footer">
               <button class="btn btn-large" data-dismiss="modal" >Close</button>
@@ -502,6 +503,7 @@ input.file {
 
 function handleFileSelect(evt) {
         var file = evt.target.files;
+        $("#fileLoading").show();
         //must be a txt file
         if (!(file[0].type == 'text/plain')) {
           $('#file_modal').modal('hide');
@@ -509,7 +511,7 @@ function handleFileSelect(evt) {
           return;
         }
         //must be less than 2MB
-        if (!(file[0].size > 2000000)) {
+        if (file[0].size > 500000) {
           $('#file_modal').modal('hide');
           postStatus("Error", "<h3 style='color:white'>Error</br>Filesize must be <u>less than 2Mb</u></h3>", "important", 8000);
           return;
@@ -519,6 +521,7 @@ function handleFileSelect(evt) {
           reader.onload = (function(theFile) {
             return function(e) {
               $('#file_modal').modal('hide');
+              $("#fileLoading").hide();
               postStatus("Success", "<h3 style='color:white'>Success</br>File uploaded!</h3>", "success", 6000);
               var content = formatContent(e.target.result);
             };
@@ -530,10 +533,11 @@ function handleFileSelect(evt) {
 
 function formatContent(content) {
   var listWords = new Array();
-   listWords[0] = content.split(',');
+   //listWords[0] = content.split(',');
    listWords[1] = content.split('\n');
-   listWords[2] = content.split(' ');
-   var wordList = maxArrayOfArray(listWords).join(" ");
+   //listWords[2] = content.split(' ');
+   //var wordList = maxArrayOfArray(listWords).join(" ");
+   var wordList = listWords[1].join(" ");
    $("#wordSubmit").val(wordList);
    console.log(wordList);
    $("#wordAdd").click();
@@ -585,6 +589,7 @@ if ( isMobile.any() ) {
   $("h2#loading").hide();
   $("tr#hoverMore").popover({'placement': 'bottom', 'animate' : 'false', 'title' : 'Audiovisual', 'trigger' : 'manual'});
   $("#aboutDelimiter").tooltip();
+  $("#fileLoading").hide();
 
 var keepPopover,delay = function() { keepPopover = setTimeout( function() { $('.popover').hide();}, 500); };    
     $('[data-action="popover"]').popover({ trigger: 'manual'}).mouseenter(function(e) {
@@ -776,7 +781,7 @@ Array.prototype.remove= function(){
 
     $("tr#hoverMore").attr('data-original-title', $("[value = "+data.currentWord+"]").attr("dictionary")+'<span style="float:right"><a href="javascript:dismissPopover();">close</a></span>');
 
-    data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td>...</td><td>' + '' + '</td>'+ '</tr></table></br></br></br></br></br></br></br></br></br></br></br>';
+    data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td>...</td><td>' + '' + '</td>'+ '</tr></table></br>';
 
     $("tr#hoverMore").attr('data-content', data.newContent);
     //$("b#wordLEC1").html($($(this).html()).attr("syllable-count"));
@@ -1105,6 +1110,7 @@ function sendOff(){
      postStatus("Preset", "<h4 style='color:white'><a href='javascript:scrollBottom();' style='color:white;'><button class='btn'>Please choose LEC size.</button></a></h4>", "important", 5000);
     return false;
   }
+    var time1 = new Date();
     $("#mainWordSymbolized").html('<small>Loading...</small>');
     $.ajax({
             type:"GET",
@@ -1119,7 +1125,8 @@ function sendOff(){
             		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' familiarity='"+result[data.dataSplit[i]].familiarity+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+result[data.dataSplit[i]].visemes+"'></li>");
                 $("#mainWordSymbolized").html('<small>Loading Complete</small>');
             	}
-
+                var time2 = new Date();
+                console.log("Time to process "+ String(wordBankCount())+" words: "+String((time2.getTime() - time1.getTime())/1000));
             }
           });
 

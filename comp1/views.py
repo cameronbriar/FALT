@@ -33,6 +33,10 @@ def mainRequest(request):
     words = request.GET['words']
     words = words.split(',')
     size = request.GET['size']
+    try:
+        pretty = request.GET['pretty']
+    except:
+        pretty = False;
 
     for word in words:
         word = word.encode('ascii', 'ignore')
@@ -46,7 +50,10 @@ def mainRequest(request):
         return_dict[word]['visemes'] = ' '.join(str(x+1) for x in symbolized[4])
         return_dict[word]['syllables'] = countSyllables(word)
         return_dict[word]['familiarity'] = getFamiliarity(word)
+
     json = simplejson.dumps(return_dict)
+    if pretty:
+        json = simplejson.dumps(return_dict, sort_keys=True, indent=4)
     return HttpResponse(json, mimetype="application/json")
 
 def fileRequest(request):
