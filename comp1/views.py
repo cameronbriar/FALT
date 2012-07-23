@@ -31,12 +31,14 @@ def index(request):
 def mainRequest(request):
     return_dict = {}
     words = request.GET['words']
-    words = words.split(',')
     size = request.GET['size']
+    
     try:
         pretty = request.GET['pretty']
     except:
         pretty = False;
+
+    words = words.split(',')
 
     for word in words:
         word = word.encode('ascii', 'ignore')

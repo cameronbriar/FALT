@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Fresno's Audiovisual Lexicon Tool">
     <meta name="author" content="hi@cameronbriar.com">
-    <link href="http://cloudedbox.com/bootstrap/ui/css/blitzer/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+    <!--link href="http://cloudedbox.com/bootstrap/ui/css/blitzer/jquery-ui-1.8.21.custom.css" rel="stylesheet"-->
     <link href="http://cloudedbox.com/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="http://cloudedbox.com/bootstrap/css/bootstrap.simplex.css" rel="stylesheet">
     <link href="http://cloudedbox.com/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
@@ -44,24 +44,33 @@
         color:white;
       }
       div.fileinputs {
-  position: relative;
-}
+        position: relative;
+      }
 
-div.fakefile {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  z-index: 1;
-}
+      div.fakefile {
+       position: relative;
+       z-index: 1;
+       margin:0 auto;
+      }
 
-input.file {
-  position: relative;
-  text-align: right;
-  -moz-opacity:0 ;
-  filter:alpha(opacity: 0);
-  opacity: 0;
-  z-index: 2;
-}
+      input.file {
+        position: relative;
+        text-align: right;
+        -moz-opacity:0 ;
+        filter:alpha(opacity: 0);
+        opacity: 0;
+        z-index: 2;
+        }
+      div.input-append a {
+        float:left;
+      }
+      div#fileInputContainer {
+        width:100%;
+        position:relative;
+        margin:0 auto;
+        text-align:center;
+      }
+
 
     </style>
     <!--[if lt IE 9]>
@@ -108,11 +117,19 @@ input.file {
               <li><input type="text" class="input-small search-query" id="wordSubmit"/></li>
               <li><button class="btn btn-mini" id="wordAdd"/>Add</button></li>
           </form>
-              <li class="nav-header"><a href="#file_modal" data-toggle="modal">Or Upload a File</a></li>
+              <li class="nav-header"><a id="uploadFile">Or Upload a File</a></li>
+              <li class="nav-header">
+              <input id="fileInput" type="file" style="display:none">
+                <div id="fileInputContainer">
+              <button class="btn btn-primary" onclick="$('input[id=fileInput]').click();"><i class="icon-upload icon-white"></i></button>            
+            </div>
+            <h6 id="fileInputNotSupported">Your browser does not support File IO</h6>
+              </li>
               <li class="divider"></li>
 			        <li class="nav-header">Status</li>
 			     </br>
 			       <div id="status" style="min-height:100px; max-height:200px; overflow:auto;"></div>
+              <li class="divider"></li>
     <li class="nav-header">Word Bank</li>
         <div id="newWords" style="max-height:350px; overflow:auto;"></div>
         <li class="divider"></li>
@@ -427,7 +444,7 @@ input.file {
             </div>
           </div>
 
-  <div id="file_modal" class="modal hide">
+  <!--div id="file_modal" class="modal hide">
             <div class="modal-header">
               <a class="close" data-dismiss="modal" >&times;</a>
               <h3>Upload a List of Words</h3>
@@ -458,7 +475,7 @@ input.file {
             <div class="modal-footer">
               <button id="fileClose" class="btn btn-large" data-dismiss="modal" >Close</button>
             </div>
-          </div>
+          </div-->
 
 <!-- New idea: treat the HTML doc like XML and store the data to be referenced. -->
     <div style="display:none">
@@ -591,9 +608,14 @@ if ( isMobile.any() ) {
 }
 
   $("h2#loading").hide();
+  $("h6#fileInputNotSupported").hide();
+  $("div#fileInputContainer").hide();
   $("tr#hoverMore").popover({'placement': 'bottom', 'animate' : 'false', 'title' : 'Audiovisual', 'trigger' : 'manual'});
   $("#aboutDelimiter").tooltip();
   $("#fileLoading").hide();
+
+  $('input[id=fileInput]').change(function() {
+  $('#fakeFile').val($(this).val().replace("C:\\fakepath\\", "")); });
 
 var keepPopover,delay = function() { keepPopover = setTimeout( function() { $('.popover').hide();}, 500); };    
     $('[data-action="popover"]').popover({ trigger: 'manual'}).mouseenter(function(e) {
@@ -710,7 +732,13 @@ Array.prototype.remove= function(){
 		}
 	});
 
-
+//Upload File Click
+  $("#uploadFile").click(function() {
+    if (!(isMobile.any()))
+      $("div#fileInputContainer").toggle();
+    else
+      $("h6#fileInputNotSupported").toggle();
+  })
 	//Transcription Tab
 	$('#phonetic a').click(function(e) {
 
@@ -785,7 +813,7 @@ Array.prototype.remove= function(){
 
     $("tr#hoverMore").attr('data-original-title', $("[value = "+data.currentWord+"]").attr("dictionary")+'<span style="float:right"><a href="javascript:dismissPopover();">close</a></span>');
 
-    data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td>...</td><td>' + '' + '</td>'+ '</tr></table></br>';
+    data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td></td><td>' + '' + '</td>'+ '</tr></table>';
 
     $("tr#hoverMore").attr('data-content', data.newContent);
     //$("b#wordLEC1").html($($(this).html()).attr("syllable-count"));
@@ -799,7 +827,7 @@ Array.prototype.remove= function(){
     $("b#wordFam").html($("[value = "+data.currentWord+"]").attr("familiarity"));
 
     $("tr#hoverMore").attr('data-original-title', $("[value = "+data.currentWord+"]").attr("dictionary")+'<span style="float:right"><a href="javascript:dismissPopover();">close</a></span>');
-    data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td>...</td><td>' + '' + '</td>'+ '</tr></table>';
+    data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td></td><td>' + '' + '</td>'+ '</tr></table>';
 
     $("tr#hoverMore").attr('data-content', data.newContent);
     togglePopover();
