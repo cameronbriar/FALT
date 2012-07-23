@@ -14,7 +14,6 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    url(r'^%s/' % settings.DAJAXICE_MEDIA_PREFIX, include('dajaxice.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'comp1.views.index'),
     url(r'^read_word/$', 'comp1.views.read_word'),

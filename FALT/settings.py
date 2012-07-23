@@ -2,7 +2,6 @@
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-DAJAXICE_MEDIA_PREFIX="dajaxice"
 
 ADMINS = (
     ('Cameron Briar', 'hi@cameronbriar.com'),
@@ -126,7 +125,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'comp1', #component 1
-    'dajaxice',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

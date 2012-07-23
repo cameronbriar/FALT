@@ -5,10 +5,6 @@ from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.middleware.csrf import get_token
 from django.utils import simplejson
-from dajaxice.decorators import dajaxice_register
-from dajaxice.core import dajaxice_autodiscover
-
-dajaxice_autodiscover()
 
 import logging
 logging.basicConfig()
@@ -32,7 +28,7 @@ def mainRequest(request):
     return_dict = {}
     words = request.GET['words']
     size = request.GET['size']
-    
+
     try:
         pretty = request.GET['pretty']
     except:
