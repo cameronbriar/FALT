@@ -141,7 +141,8 @@ class FALT(object):
 			p = subprocess.Popen(process, shell=True, stdout=subprocess.PIPE)
 			try:
 				result = p.communicate()[0].split("\n")[3][-2][0]
-				if int(result) > highestFaml:
+				print result
+				if int(result) > int(highestFaml):
 					highestFaml = result
 			except:
 				continue
