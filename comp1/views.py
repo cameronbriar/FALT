@@ -40,9 +40,14 @@ def mainRequest(request):
 
     for word in words:
         word = word.encode('ascii', 'ignore')
+        return_dict[word] = {}
 
         symbolized = W.symbolize(word, size)
-        similarities = W.getSimilarities(word, size)
+
+        if symbolized[1] != word.upper():
+            similarities = W.getSimilarities(symbolized[1], size)
+        else:
+            similarities = W.getSimilarities(word, size)
         returnSims = []
         totalSims = 0
         for similar in similarities:
@@ -51,7 +56,7 @@ def mainRequest(request):
             totalSims += 1
         returnSims.append("Total")
         returnSims.append(str(totalSims))
-        return_dict[word] = {}
+        return_dict[word]['similarities'] = ' '.join(returnSims)
         return_dict[word]['symbolized'] = ''.join(symbolized[0])
         return_dict[word]['dictionary'] = symbolized[1]
         return_dict[word]['arpa'] = symbolized[2]
@@ -59,7 +64,6 @@ def mainRequest(request):
         return_dict[word]['visemes'] = symbolized[4]
         return_dict[word]['syllables'] = countSyllables(word)
         return_dict[word]['familiarity'] = W.getFamiliarity(word)
-        return_dict[word]['similarities'] = ' '.join(returnSims)
 
     json = simplejson.dumps(return_dict)
     if pretty:

@@ -18,6 +18,7 @@ import time
 import pickle
 import subprocess
 import Levenshtein as L
+import time
 
 # FALT : Fresno Audiovisual Lexicon Tool
 # version 0.10
@@ -54,13 +55,15 @@ eqARPA = {1: [[['UH2', 'UH0', 'UH1'], ['UW2', 'UW1', 'UW0'], ['ER1', 'ER0', 'ER2
 class FALT(object):
 	def __init__(self):
 		print 'Initializing FALT...'
+		start = time.time()
 		#self.equivalence = self.initEquivalence(size)
 		self.dictWords = open(dictionaryWords)
 		self.dictionary = pickle.load(self.dictWords)
 		self.dictWords.close()
 		self.phonemes = self.getDictionary()
 		self.result = []
-		print 'FALT is READY'
+		elapsed = (time.time() - start)
+		print 'FALT is READY in', str(elapsed), 's'
 		return
 
 	def getDictionary(self, filename=defaultFilename, delimiter="  "):
@@ -132,6 +135,8 @@ class FALT(object):
 
    	def getSimilarities(self, word, size, maxDistance=1):
    		#index : { 0 : 1, 1 : 2, 2 : 10, 3 : 12, 4 : 19, 5 : 28 }
+   		if word == '':
+   			return []
    		similar = []
    		total = 0
    		index = self.getIndex(size)

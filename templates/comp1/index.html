@@ -553,6 +553,10 @@ function formatContent(content) {
    $("#wordAdd").click();
   return;
 }
+function addWord(word) { 
+  $("#wordSubmit").val(word);
+  $("#wordAdd").click();
+}
   function maxArrayOfArray(arr) {
     var max = 0;
     var index, i = 0;
@@ -733,6 +737,12 @@ Array.prototype.remove= function(){
     	$(this).parent().addClass('active');
 	});
 
+  $("td#similar").live({
+    click : function() {
+      addWord($(this).val());
+    }
+  });
+
 	//Transcription Item
 	$("button#phon").live({
 		click : function() {
@@ -863,7 +873,7 @@ Array.prototype.remove= function(){
         sendOff();
         return;
       }
-      else
+      else 
         return;
 		$("#wordSubmit").val('');
     data.wordCount = 0
