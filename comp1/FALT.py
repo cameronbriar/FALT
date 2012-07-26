@@ -128,8 +128,6 @@ class FALT(object):
 
    		symbolized = self.dictionary[info[0]][-1][index]
    		visemeSet = self.dictionary[info[0]][index]
-
-   		print info[0], info[1], info[2]
    		# [symbolized version, original word, arpa, ipa, viseme classes]
    		return [symbolized, info[0], info[1], info[2], visemeSet]
 
