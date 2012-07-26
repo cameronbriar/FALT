@@ -27,7 +27,9 @@ def index(request):
 def mainRequest(request):
     return_dict = {}
     words = request.GET['words']
-    size = request.GET['size']
+    size = int(request.GET['size'])
+
+    global W 
 
     try:
         pretty = request.GET['pretty']
@@ -39,15 +41,27 @@ def mainRequest(request):
     for word in words:
         word = word.encode('ascii', 'ignore')
 
-        symbolized = symbolizeWord(word, int(size))
+        symbolized = W.symbolize(word, size)
+        similarities = W.getSimilarities(word, size)
+        returnSims = []
+        totalSims = 0
+        for similar in similarities:
+            returnSims.append("<tr><td>")
+            returnSims.append(similar[0])
+            returnSims.append("</td><td>")
+            returnSims.append(similar[1])
+            returnSims.append("</td></tr>")
+            totalSims += 1
+        returnSims.append("<tr><td>Total</td><td>"+str(totalSims)+"</td></tr>")
         return_dict[word] = {}
         return_dict[word]['symbolized'] = ''.join(symbolized[0])
         return_dict[word]['dictionary'] = symbolized[1]
         return_dict[word]['arpa'] = symbolized[2]
         return_dict[word]['ipa'] = symbolized[3]
-        return_dict[word]['visemes'] = ' '.join(str(x+1) for x in symbolized[4])
+        return_dict[word]['visemes'] = symbolized[4]
         return_dict[word]['syllables'] = countSyllables(word)
-        return_dict[word]['familiarity'] = getFamiliarity(word)
+        return_dict[word]['familiarity'] = W.getFamiliarity(word)
+        return_dict[word]['similarities'] = ' '.join(returnSims)
 
     json = simplejson.dumps(return_dict)
     if pretty:
@@ -73,9 +87,6 @@ def fileRequest(request):
     json = simplejson.dumps(return_dict)
     return HttpResponse(json, mimetype="application/json")
 
-def symbolizeWord(word, LECSize):
-    return W.symbolize(word, FALT.eqARPA[LECSize])
-
 import re
 def countSyllables(word):
     word = word.lower()
@@ -91,9 +102,3 @@ def countSyllables(word):
     if count == 0:
         count = 1
     return count
-
-def getWordFromDictionary(word):
-    return W.getWordFromDictionary(word)[0]
-
-def getFamiliarity(word):
-    return W.getFamiliarity(word)

@@ -15,7 +15,9 @@
 import os
 import sys
 import time
+import pickle
 import subprocess
+import Levenshtein as L
 
 # FALT : Fresno Audiovisual Lexicon Tool
 # version 0.10
@@ -24,7 +26,7 @@ import subprocess
 # it has been modified with the IPA equivalence
 # default location: /static/
 defaultFilename = "cmudict_ARPA_IPA"
-
+dictionaryWords = "words_all"
 # the symbols used for representing viseme sets
 # must remain in same order as symbols.keys()
 symbols = {'crosshatch': [u'\u25a9', '&#9641;'], 'snowman': [u'\u2603', '&#9731;'], 'at': [u'@', '&#64;'], 'female': [u'\u2640', '&#9792;'], 'scissors': [u'\u2704', '&#9988;'], 'airplane': [u'\u2708', '&#9992;'], 'cloud': [u'\u2601', '&#9729;'], 'fourpoint': [u'\u2726', '&#10022;'], 'flower': [u'\u273f', '&#10047;'], 'phonemic': [u'\u260e', '&#9742;'], 'sun': [u'\u2742', '&#10050;'], 'peace': [u'\u270c', '&#9996;'], 'blackstar': [u'\u2738', '&#10040;'], 'elevator': [u'\u27e0', '&#10208;'], 'chess': [u'\u265a', '&#9818;'], 'smile': [u'\u263a', '&#9786;'], 'circle': [u'\u29bf', '&#10687;'], 'wheel': [u'\u2638', '&#9784;'], 'pencil': [u'\u270f', '&#9998;'], 'coffee': [u'\u2668', '&#9832;'], 'umbrella': [u'\u2602', '&#9730;'], 'perceive': [u'\u25f5', '&#9717;'], 'mac': [u'\u2318', '&#8984;'], 'eject': [u'\u23cf', '&#9167;'], 'medical': [u'\u2624', '&#9764;'], 'biohazard': [u'\u2623', '&#9763;'], 'blackdiamond': [u'\u2756', '&#10070;'], 'castle': [u'\u2656', '&#9814;'], 'star': [u'\u2605', '&#9733;'], 'sagit': [u'\u2650', '&#9808;']}
@@ -45,11 +47,20 @@ ipaToARPA = {u'\u0283': ['SH'], u'a\u028a': ['AW1', 'AW0', 'AW2'], u'o\u028a': [
 #eqIPA[2] =  [ ['ʊ', 'u', 'eɪ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 'tʃ', 'ʒ', 'dʒ']]
 #eqIPA[1] =  [ ['ʊ', 'u', 'eɪ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j', 'p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 'tʃ', 'ʒ', 'dʒ']]
 
-eqARPA = {1: [[['UH2', 'UH0', 'UH1'], ['UW2', 'UW1', 'UW0'], ['EY1', 'EY0', 'EY2'], ['OW1', 'OW0', 'OW2'], ['AW1', 'AW0', 'AW2'], ['IH2', 'IH2', 'IH1', 'IH0', 'IH'], ['IY1', 'IY0', 'IY2'], ['EH2', 'EH0', 'EH1'], ['AE1', 'AE0', 'AE2'], ['OY2', 'OY1', 'OY0'], ['AO2', 'AO1', 'AO0'], ['AY1', 'AY0', 'AY2'], ['AH2', 'AH1', 'AX0'], ['AH0'], ['AA0', 'AA2', 'AA1'], ['Y'], ['P'], ['B'], ['M'], ['V'], ['F'], ['L'], ['N'], ['K'], ['G'], ['NG'], ['HH'], ['D'], ['T'], ['S'], ['Z'], ['R'], ['W'], ['DH'], ['TH'], ['SH'], ['CH'], ['ZH'], ['JH']]], 2: [[['UH2', 'UH0', 'UH1'], ['UW2', 'UW1', 'UW0'], ['EY1', 'EY0', 'EY2'], ['OW1', 'OW0', 'OW2'], ['AW1', 'AW0', 'AW2'], ['IH2', 'IH2', 'IH1', 'IH0', 'IH'], ['IY1', 'IY0', 'IY2'], ['EH2', 'EH0', 'EH1'], ['AE1', 'AE0', 'AE2'], ['OY2', 'OY1', 'OY0'], ['AO2', 'AO1', 'AO0'], ['AY1', 'AY0', 'AY2'], ['AH2', 'AH1', 'AX0'], ['AH0'], ['AA0', 'AA2', 'AA1'], ['Y']], [['P'], ['B'], ['M'], ['V'], ['F'], ['L'], ['N'], ['K'], ['G'], ['NG'], ['HH'], ['D'], ['T'], ['S'], ['Z'], ['R'], ['W'], ['DH'], ['TH'], ['SH'], ['CH'], ['ZH'], ['JH']]], 10: [[['UH2', 'UH0', 'UH1'], ['UW2', 'UW1', 'UW0'], ['EY1', 'EY0', 'EY2']], [['OW1', 'OW0', 'OW2'], ['AW1', 'AW0', 'AW2']], [['IH2', 'IH2', 'IH1', 'IH0', 'IH'], ['IY1', 'IY0', 'IY2'], ['EH2', 'EH0', 'EH1'], ['AE1', 'AE0', 'AE2']], [['OY2', 'OY1', 'OY0'], ['AO2', 'AO1', 'AO0'], ['AY1', 'AY0', 'AY2'], ['AH2', 'AH1', 'AX0'], ['AH0'], ['AA0', 'AA2', 'AA1'], ['Y']], [['P'], ['B'], ['M']], [['V'], ['F']], [['L'], ['N'], ['K'], ['G'], ['NG'], ['HH'], ['D'], ['T'], ['S'], ['Z']], [['R'], ['W']], [['DH'], ['TH']], [['SH'], ['CH'], ['ZH'], ['JH']]], 12: [[['UH2', 'UH0', 'UH1'], ['UW2', 'UW1', 'UW0'], ['EY1', 'EY0', 'EY2']], [['OW1', 'OW0', 'OW2'], ['AW1', 'AW0', 'AW2']], [['IH2', 'IH2', 'IH1', 'IH0', 'IH'], ['IY1', 'IY0', 'IY2'], ['EH2', 'EH0', 'EH1'], ['AE1', 'AE0', 'AE2']], [['OY2', 'OY1', 'OY0']], [['AO2', 'AO1', 'AO0'], ['AY1', 'AY0', 'AY2'], ['AH2', 'AH1', 'AX0'], ['AH0'], ['AA0', 'AA2', 'AA1'], ['Y']], [['P'], ['B'], ['M']], [['V'], ['F']], [['L'], ['N'], ['K'], ['G'], ['NG'], ['HH']], [['D'], ['T'], ['S'], ['Z']], [['R'], ['W']], [['DH'], ['TH']], [['SH'], ['CH'], ['ZH'], ['JH']]], 19: [[['UH2', 'UH0', 'UH1'], ['UW2', 'UW1', 'UW0'], ['EY1', 'EY0', 'EY2']], [['OW1', 'OW0', 'OW2'], ['AW1', 'AW0', 'AW2']], [['IH2', 'IH2', 'IH1', 'IH0', 'IH'], ['IY1', 'IY0', 'IY2']], [['EH2', 'EH0', 'EH1']], [['AE1', 'AE0', 'AE2']], [['OY2', 'OY1', 'OY0']], [['AO2', 'AO1', 'AO0']], [['AY1', 'AY0', 'AY2'], ['AH2', 'AH1', 'AX0'], ['AH0'], ['AA0', 'AA2', 'AA1'], ['Y']], [['P'], ['B'], ['M']], [['V'], ['F']], [['L']], [['N'], ['K']], [['G'], ['NG']], [['HH']], [['D']], [['T'], ['S'], ['Z']], [['R'], ['W']], [['DH'], ['TH']], [['SH'], ['CH'], ['ZH'], ['JH']]], 28: [[['UH2', 'UH0', 'UH1']], [['UW2', 'UW1', 'UW0']], [['EY1', 'EY0', 'EY2']], [['OW1', 'OW0', 'OW2']], [['AW1', 'AW0', 'AW2']], [['IH2', 'IH2', 'IH1', 'IH0', 'IH'], ['IY1', 'IY0', 'IY2']], [['EH2', 'EH0', 'EH1']], [['AE1', 'AE0', 'AE2']], [['OY2', 'OY1', 'OY0']], [['AO2', 'AO1', 'AO0']], [['AY1', 'AY0', 'AY2']], [['AH2', 'AH1', 'AX0'], ['AH0'], ['AA0', 'AA2', 'AA1'], ['Y']], [['P'], ['B'], ['M']], [['V'], ['F']], [['L']], [['N']], [['K']], [['G'], ['NG']], [['HH']], [['D']], [['T']], [['S'], ['Z']], [['R'], ['W']], [['DH'], ['TH']], [['SH']], [['CH']], [['ZH']], [['JH']]]}
+eqARPA = {1: [[['UH2', 'UH0', 'UH1'], ['UW2', 'UW1', 'UW0'], ['ER1', 'ER0', 'ER2'], ['EY1', 'EY0', 'EY2'], ['OW1', 'OW0', 'OW2'], ['AW1', 'AW0', 'AW2'], ['IH2', 'IH2', 'IH1', 'IH0', 'IH'], ['IY1', 'IY0', 'IY2'], ['EH2', 'EH0', 'EH1'], ['AE1', 'AE0', 'AE2'], ['OY2', 'OY1', 'OY0'], ['AO2', 'AO1', 'AO0'], ['AY1', 'AY0', 'AY2'], ['AH2', 'AH1', 'AX0'], ['AH0'], ['AA0', 'AA2', 'AA1'], ['Y'], ['P'], ['B'], ['M'], ['V'], ['F'], ['L'], ['N'], ['K'], ['G'], ['NG'], ['HH'], ['D'], ['T'], ['S'], ['Z'], ['R'], ['W'], ['DH'], ['TH'], ['SH'], ['CH'], ['ZH'], ['JH']]], 2: [[['UH2', 'UH0', 'UH1'], ['UW2', 'UW1', 'UW0'], ['ER1', 'ER0', 'ER2'], ['EY1', 'EY0', 'EY2'], ['OW1', 'OW0', 'OW2'], ['AW1', 'AW0', 'AW2'], ['IH2', 'IH2', 'IH1', 'IH0', 'IH'], ['IY1', 'IY0', 'IY2'], ['EH2', 'EH0', 'EH1'], ['AE1', 'AE0', 'AE2'], ['OY2', 'OY1', 'OY0'], ['AO2', 'AO1', 'AO0'], ['AY1', 'AY0', 'AY2'], ['AH2', 'AH1', 'AX0'], ['AH0'], ['AA0', 'AA2', 'AA1'], ['Y']], [['P'], ['B'], ['M'], ['V'], ['F'], ['L'], ['N'], ['K'], ['G'], ['NG'], ['HH'], ['D'], ['T'], ['S'], ['Z'], ['R', 'R0'], ['W'], ['DH'], ['TH'], ['SH'], ['CH'], ['ZH'], ['JH']]], 10: [[['UH2', 'UH0', 'UH1'], ['UW2', 'UW1', 'UW0'], ['ER1', 'ER0', 'ER2'], ['EY1', 'EY0', 'EY2']], [['OW1', 'OW0', 'OW2'], ['AW1', 'AW0', 'AW2']], [['IH2', 'IH2', 'IH1', 'IH0', 'IH'], ['IY1', 'IY0', 'IY2'], ['EH2', 'EH0', 'EH1'], ['AE1', 'AE0', 'AE2']], [['OY2', 'OY1', 'OY0'], ['AO2', 'AO1', 'AO0'], ['AY1', 'AY0', 'AY2'], ['AH2', 'AH1', 'AX0'], ['AH0'], ['AA0', 'AA2', 'AA1'], ['Y']], [['P'], ['B'], ['M']], [['V'], ['F']], [['L'], ['N'], ['K'], ['G'], ['NG'], ['HH'], ['D'], ['T'], ['S'], ['Z']], [['R'], ['W']], [['DH'], ['TH']], [['SH'], ['CH'], ['ZH'], ['JH']]], 12: [[['UH2', 'UH0', 'UH1'], ['UW2', 'UW1', 'UW0'], ['EY1', 'EY0', 'EY2'], ['ER1', 'ER0', 'ER2']], [['OW1', 'OW0', 'OW2'], ['AW1', 'AW0', 'AW2']], [['IH2', 'IH2', 'IH1', 'IH0', 'IH'], ['IY1', 'IY0', 'IY2'], ['EH2', 'EH0', 'EH1'], ['AE1', 'AE0', 'AE2']], [['OY2', 'OY1', 'OY0']], [['AO2', 'AO1', 'AO0'], ['AY1', 'AY0', 'AY2'], ['AH2', 'AH1', 'AX0'], ['AH0'], ['AA0', 'AA2', 'AA1'], ['Y']], [['P'], ['B'], ['M']], [['V'], ['F']], [['L'], ['N'], ['K'], ['G'], ['NG'], ['HH']], [['D'], ['T'], ['S'], ['Z']], [['R'], ['W']], [['DH'], ['TH']], [['SH'], ['CH'], ['ZH'], ['JH']]], 19: [[['UH2', 'UH0', 'UH1'], ['UW2', 'UW1', 'UW0'], ['ER1', 'ER0', 'ER2'], ['EY1', 'EY0', 'EY2']], [['OW1', 'OW0', 'OW2'], ['AW1', 'AW0', 'AW2']], [['IH2', 'IH2', 'IH1', 'IH0', 'IH'], ['IY1', 'IY0', 'IY2']], [['EH2', 'EH0', 'EH1']], [['AE1', 'AE0', 'AE2']], [['OY2', 'OY1', 'OY0']], [['AO2', 'AO1', 'AO0']], [['AY1', 'AY0', 'AY2'], ['AH2', 'AH1', 'AX0'], ['AH0'], ['AA0', 'AA2', 'AA1'], ['Y']], [['P'], ['B'], ['M']], [['V'], ['F']], [['L']], [['N'], ['K']], [['G'], ['NG']], [['HH']], [['D']], [['T'], ['S'], ['Z']], [['R'], ['W']], [['DH'], ['TH']], [['SH'], ['CH'], ['ZH'], ['JH']]], 28: [[['UH2', 'UH0', 'UH1']], [['UW2', 'UW1', 'UW0']], [['EY1', 'EY0', 'EY2', 'ER1', 'ER0', 'ER2']], [['OW1', 'OW0', 'OW2']], [['AW1', 'AW0', 'AW2']], [['IH2', 'IH2', 'IH1', 'IH0', 'IH'], ['IY1', 'IY0', 'IY2']], [['EH2', 'EH0', 'EH1']], [['AE1', 'AE0', 'AE2']], [['OY2', 'OY1', 'OY0']], [['AO2', 'AO1', 'AO0']], [['AY1', 'AY0', 'AY2']], [['AH2', 'AH1', 'AX0'], ['AH0'], ['AA0', 'AA2', 'AA1'], ['Y']], [['P'], ['B'], ['M']], [['V'], ['F']], [['L']], [['N']], [['K']], [['G'], ['NG']], [['HH']], [['D']], [['T']], [['S'], ['Z']], [['R'], ['W']], [['DH'], ['TH']], [['SH']], [['CH']], [['ZH']], [['JH']]]}
 #eqARPA = {1: [['UH', 'UW', 'EY', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AH0', 'AA', 'Y', 'P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']], 2: [['UH', 'UW', 'EY', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AH0', 'AA', 'Y'], ['P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']], 10: [['UH', 'UW', 'EY'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY', 'AO', 'AY', 'AH', 'AH0', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']], 12: [['UH', 'UW', 'EY'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY'], ['AO', 'AY', 'AH', 'AH0', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH'], ['D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']], 19: [['UH', 'UW', 'EY'], ['OW', 'AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY', 'AH', 'AH0', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N', 'K'], ['G', 'NG'], ['HH'], ['D'], ['T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']], 28: [['UH'], ['UW'], ['EY'], ['OW'], ['AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY'], ['AH', 'AH0', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N'], ['K'], ['G', 'NG'], ['HH'], ['D'], ['T'], ['S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH'], ['CH'], ['ZH'], ['JH']]}
+
 
 class FALT(object):
 	def __init__(self):
+		print 'Initializing FALT...'
+		#self.equivalence = self.initEquivalence(size)
+		self.dictWords = open(dictionaryWords)
+		self.dictionary = pickle.load(self.dictWords)
+		self.dictWords.close()
+		self.phonemes = self.getDictionary()
+		self.result = []
+		print 'FALT is READY'
 		return
 
 	def getDictionary(self, filename=defaultFilename, delimiter="  "):
@@ -72,65 +83,70 @@ class FALT(object):
 
 	def getWordFromDictionary(self, word, filename=defaultFilename):
 		word = word.upper()
+		self.result = []
 
-		# instead of reference getDictionary (why? no clue.), 
-		# scan the file for the exact match of the word 
-	   	p = subprocess.Popen('awk \'{if ($1 == "'+word+'") print $0}\' < '+filename, shell=True, stdout=subprocess.PIPE)
-	   	result = p.communicate(None)[0].split("\n")[0].split("  ")
-
+		if self.phonemes.has_key(word):
+			self.result.append(word)
+			self.result.append(self.phonemes[word][0])
+			self.result.append(self.phonemes[word][1])
 	   	# if there is no exact match, try a rough match
-	   	if result == ['']:
+	   	else:
 	   		p = subprocess.Popen("grep -i --line-buffered '"+word+"' "+filename, shell=True, stdout=subprocess.PIPE)
-	   		result = p.communicate(None)[0].split("\n")[0].split("  ")
+	   		self.result = p.communicate(None)[0].split("\n")[0].split("  ")
 
-	   	# if there is still no match, then we need to do more work
-	   	# for now, we'll just return nothing
-	   	# but it would be best to use espeak or the Mac OS X NSSpeechSynthesizer class to 
-	   	# generate more data on new words
-	   	if result == ['']:
-	   		result = [word, '','']
+	   	if self.result == ['']:
+	   		self.result = [word, '', '']
 	   	# resul = [ word , ARPA, IPA ]
-   		return result
+   		return self.result
+
+   	def getIndex(self, size):
+   		d = { 1 : 0, 2 : 1, 10 : 2, 12 : 3, 19 : 4, 28 : 5 }
+   		return d[size]
+
+   	def initEquivalence(self, size):
+   		#returns a dictionary with ARPA keys
+   		#and viseme class values
+   		d = {}
+   		for i, sets in enumerate(eqARPA[size]):
+   			for group in sets:
+   				for phoneme in group:
+   					d[phoneme] = i
+   		return d
 
    	def ipaToArpa(self, phoneme):
    		return ipaToARPA[phoneme.decode('utf-8')]
 
-   	def symbolize(self, word, equivClass):
-   		newWord = []
-   		found = False
+   	def symbolize(self, word, size):
    		info = self.getWordFromDictionary(word)
-   		arpa = info[1]
+   		index = self.getIndex(size)
    		# if there was not entry for the word
-   		if arpa == '':
+   		if info[1] == '':
    			return ['<small>Not found.</small>', '', '', '', '']
-   		arpa = arpa.split(" ")
-   		# ARPA is much easier to iterate through and recognize
-   		# considering that IPA sometimes consists of 1 or 2 non-unique symbols
 
-   		# iterate through every phoneme given for the word
-   		for phoneme in arpa:
-   			# iterate through every visemic class provided
-   			for i, group in enumerate(equivClass):
-   				for eachMember in group:
-   					# if the phoneme is in the class, append the class number and break
-   					if phoneme in eachMember:
-   						newWord.append(i)
-   						found = True
-   						break
-   				# if found already, move onto next phoneme
-   				if found:
-   					break
-   			# reset found for the next hunt
-   			found = False
-   		length = len(newWord)
-   		# join the list of class numbers, translating them into symbols with symbols.keys()[classNum]
-   		for i in range(0, length):
-   			newWord.append(symbols[symbols.keys()[newWord[i]]][0])
+   		symbolized = self.dictionary[info[0]][-1][index]
+   		visemeSet = self.dictionary[info[0]][index]
+
+   		print info[0], info[1], info[2]
    		# [symbolized version, original word, arpa, ipa, viseme classes]
-   		return [newWord[length:], info[0], info[1], info[2], newWord[:length]]
+   		return [symbolized, info[0], info[1], info[2], visemeSet]
 
-   	def getSimilarities(self, symbolized, maxDistance=1):
-   		return
+   	def getSimilarities(self, word, size, maxDistance=1):
+   		#index : { 0 : 1, 1 : 2, 2 : 10, 3 : 12, 4 : 19, 5 : 28 }
+   		similar = []
+   		total = 0
+   		index = self.getIndex(size)
+   		word = word.upper()
+   		for eachWord in self.dictionary:
+   			if abs(len(self.dictionary[word][-1][index]) - len(self.dictionary[eachWord][-1][index])) > 0:
+   				continue
+   			else:
+   				try:
+					if L.distance(''.join(self.dictionary[eachWord][-1][index]), ''.join(self.dictionary[word][-1][index])) <= maxDistance:
+						similar.append((eachWord, ''.join(self.dictionary[eachWord][-1][index])))
+						total += 1
+				except:
+					continue
+   		return similar
 
 	def getFamiliarity(self, word):
 		# reference WordNet for word familiarity
@@ -141,7 +157,6 @@ class FALT(object):
 			p = subprocess.Popen(process, shell=True, stdout=subprocess.PIPE)
 			try:
 				result = p.communicate()[0].split("\n")[3][-2][0]
-				print result
 				if int(result) > int(highestFaml):
 					highestFaml = result
 			except:

@@ -517,19 +517,13 @@
 
 function handleFileSelect(evt) {
         var file = evt.target.files;
-        $("#fileLoading").show();
-        $("#fileClose").attr("disabled", "disabled");
         //must be a txt file
         if (!(file[0].type == 'text/plain')) {
-          $('#file_modal').modal('hide');
-          $("#fileLoading").hide();
           postStatus("Error", "<h3 style='color:white'>Error</br>Filetype must be <u>.txt</u></h3>", "important", 8000);
           return;
         }
         //must be less than 10Kb
         if (file[0].size > 10000) {
-          $('#file_modal').modal('hide');
-          $("#fileLoading").hide();
           postStatus("Error", "<h3 style='color:white'>Error</br>Filesize must be <u>less than 10Kb</u></h3>", "important", 8000);
           return;
         }
@@ -537,8 +531,6 @@ function handleFileSelect(evt) {
           var reader = new FileReader();
           reader.onload = (function(theFile) {
             return function(e) {
-              $('#file_modal').modal('hide');
-              $("#fileLoading").hide();
               $("#fileClose").removeAttr("disabled");
               postStatus("Success", "<h3 style='color:white'>Success</br>File uploaded!</h3>", "success", 6000);
               var content = formatContent(e.target.result);
@@ -551,11 +543,11 @@ function handleFileSelect(evt) {
 
 function formatContent(content) {
   var listWords = new Array();
-   //listWords[0] = content.split(',');
+   listWords[0] = content.split(',');
    listWords[1] = content.split('\n');
-   //listWords[2] = content.split(' ');
-   //var wordList = maxArrayOfArray(listWords).join(" ");
-   var wordList = listWords[1].join(" ");
+   listWords[2] = content.split(' ');
+   var wordList = maxArrayOfArray(listWords).join(" ");
+   //var wordList = listWords[1].join(" ");
    $("#wordSubmit").val(wordList);
    console.log(wordList);
    $("#wordAdd").click();
@@ -607,25 +599,12 @@ if ( isMobile.any() ) {
   $("h2#loading").hide();
   $("h6#fileInputNotSupported").hide();
   $("div#fileInputContainer").hide();
-  $("tr#hoverMore").popover({'placement': 'bottom', 'animate' : 'false', 'title' : 'Audiovisual', 'trigger' : 'manual'});
+  $("tr#hoverMore").popover({'placement': 'bottom', 'animate' : 'false', 'title' : 'Audiovisual', 'trigger' : 'manual', 'content' : ''});
   $("#aboutDelimiter").tooltip();
   $("#fileLoading").hide();
 
   $('input[id=fileInput]').change(function() {
   $('#fakeFile').val($(this).val().replace("C:\\fakepath\\", "")); });
-
-var keepPopover,delay = function() { keepPopover = setTimeout( function() { $('.popover').hide();}, 500); };    
-    $('[data-action="popover"]').popover({ trigger: 'manual'}).mouseenter(function(e) {
-        var $popover = $('.popover');
-  (keepPopover) && clearTimeout(keepPopover);
-        ($popover.length) && $popover.remove();
-        $(this).popover('show');}).mouseleave(function(e) {
-        var $smarttip = $(this);
-        delay();
-        $('.popover').mouseenter(function(e) { clearTimeout(keepPopover); }).mouseleave(function(e) { delay(); });
-    }).click(function(e) {
-        e.preventDefault();
-    });
 
 var data = new Array();
 data.currentClass = 1;
@@ -633,6 +612,7 @@ data.isVisible = false;
 data.currentSymbol = "&lt;";
 data.currentWord = 'Welcome to FALT';
 data.myWords = new Array();
+data.popLocked = false;
 data.equivalenceClasses = new Array();
 data.equivalenceClasses[0] = 0;
 data[0] = 0;
@@ -810,9 +790,12 @@ Array.prototype.remove= function(){
 
     $("tr#hoverMore").attr('data-original-title', $("[value = "+data.currentWord+"]").attr("dictionary")+'<span style="float:right"><a href="javascript:dismissPopover();">close</a></span>');
 
-    data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td></td><td>' + '' + '</td>'+ '</tr></table>';
+    data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td>Similarities</td><td>' + $("[value = "+data.currentWord+"]").attr("similarities") + '</td>'+ '</tr></table>';
 
-    $("tr#hoverMore").attr('data-content', data.newContent);
+    //$("tr#hoverMore").attr('data-content', data.newContent);
+    $("tr#hoverMore").data('popover').options.content = data.newContent;
+    if (!data.popLocked)
+      $("tr#hoverMore").popover('show');
     //$("b#wordLEC1").html($($(this).html()).attr("syllable-count"));
 		//console.log($("[value = "+data.currentWord+"]").attr("syllable-count"));
 		},
@@ -824,7 +807,7 @@ Array.prototype.remove= function(){
     $("b#wordFam").html($("[value = "+data.currentWord+"]").attr("familiarity"));
 
     $("tr#hoverMore").attr('data-original-title', $("[value = "+data.currentWord+"]").attr("dictionary")+'<span style="float:right"><a href="javascript:dismissPopover();">close</a></span>');
-    data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td></td><td>' + '' + '</td>'+ '</tr></table>';
+  data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td>Similarities</td><td>' + $("[value = "+data.currentWord+"]").attr("similarities") + '</td>'+ '</tr></table>';
 
     $("tr#hoverMore").attr('data-content', data.newContent);
     togglePopover();
@@ -840,6 +823,7 @@ Array.prototype.remove= function(){
       else {
         togglePopover();
       }
+      data.popLocked = !data.popLocked;
     },
     dblclick : function() {
       removeWordBankWord($(this).html());
@@ -1151,7 +1135,7 @@ function sendOff(){
               $("ul.wordStorage").html("");
             	for (var i = 0; i < data.dataSplit.length; i++) {
             		//console.log(result[data.dataSplit[i]]);
-            		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' familiarity='"+result[data.dataSplit[i]].familiarity+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+result[data.dataSplit[i]].visemes+"'></li>");
+            		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' familiarity='"+result[data.dataSplit[i]].familiarity+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+result[data.dataSplit[i]].visemes+"' similarities='"+result[data.dataSplit[i]].similarities+"'></li>");
                 $("#mainWordSymbolized").html('<small>Loading Complete</small>');
             	}
                 var time2 = new Date();
