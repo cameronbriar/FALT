@@ -1135,7 +1135,19 @@ function sendOff(){
               $("ul.wordStorage").html("");
             	for (var i = 0; i < data.dataSplit.length; i++) {
             		//console.log(result[data.dataSplit[i]]);
-            		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' familiarity='"+result[data.dataSplit[i]].familiarity+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+result[data.dataSplit[i]].visemes+"' similarities='"+result[data.dataSplit[i]].similarities+"'></li>");
+                //format similarities
+                var similars = result[data.dataSplit[i]].similarities.split(" ");
+                var prettySimilars = new Array();
+                for (var j = 0; j < similars.length; j+=2) {
+                  prettySimilars.push("<tr>"); 
+                  prettySimilars.push("<td>");
+                  prettySimilars.push(similars[j])
+                  prettySimilars.push("</td><td>");
+                  prettySimilars.push(similars[j+1])
+                  prettySimilars.push("</td>");
+                  prettySimilars.push("</tr>");
+                }
+            		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' familiarity='"+result[data.dataSplit[i]].familiarity+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+result[data.dataSplit[i]].visemes+"' similarities='"+prettySimilars.join("")+"'></li>");
                 $("#mainWordSymbolized").html('<small>Loading Complete</small>');
             	}
                 var time2 = new Date();

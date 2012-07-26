@@ -46,13 +46,11 @@ def mainRequest(request):
         returnSims = []
         totalSims = 0
         for similar in similarities:
-            returnSims.append("<tr><td>")
             returnSims.append(similar[0])
-            returnSims.append("</td><td>")
             returnSims.append(similar[1])
-            returnSims.append("</td></tr>")
             totalSims += 1
-        returnSims.append("<tr><td>Total</td><td>"+str(totalSims)+"</td></tr>")
+        returnSims.append("Total")
+        returnSims.append(str(totalSims))
         return_dict[word] = {}
         return_dict[word]['symbolized'] = ''.join(symbolized[0])
         return_dict[word]['dictionary'] = symbolized[1]
