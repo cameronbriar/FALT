@@ -33,10 +33,10 @@ dictionaryWords = "words_all"
 symbols = {'crosshatch': [u'\u25a9', '&#9641;'], 'snowman': [u'\u2603', '&#9731;'], 'at': [u'@', '&#64;'], 'female': [u'\u2640', '&#9792;'], 'scissors': [u'\u2704', '&#9988;'], 'airplane': [u'\u2708', '&#9992;'], 'cloud': [u'\u2601', '&#9729;'], 'fourpoint': [u'\u2726', '&#10022;'], 'flower': [u'\u273f', '&#10047;'], 'phonemic': [u'\u260e', '&#9742;'], 'sun': [u'\u2742', '&#10050;'], 'peace': [u'\u270c', '&#9996;'], 'blackstar': [u'\u2738', '&#10040;'], 'elevator': [u'\u27e0', '&#10208;'], 'chess': [u'\u265a', '&#9818;'], 'smile': [u'\u263a', '&#9786;'], 'circle': [u'\u29bf', '&#10687;'], 'wheel': [u'\u2638', '&#9784;'], 'pencil': [u'\u270f', '&#9998;'], 'coffee': [u'\u2668', '&#9832;'], 'umbrella': [u'\u2602', '&#9730;'], 'perceive': [u'\u25f5', '&#9717;'], 'mac': [u'\u2318', '&#8984;'], 'eject': [u'\u23cf', '&#9167;'], 'medical': [u'\u2624', '&#9764;'], 'biohazard': [u'\u2623', '&#9763;'], 'blackdiamond': [u'\u2756', '&#10070;'], 'castle': [u'\u2656', '&#9814;'], 'star': [u'\u2605', '&#9733;'], 'sagit': [u'\u2650', '&#9808;']}
 
 # dictionary to convert ARPA -> IPA
-arpaToIPA = {'IH2': u'\u026a', 'UH0 R': u'\u028ar', 'IH1': u'\u026a', 'AH2': u'\u028c', 'AA0 R': u'\u0251r', 'AH0': u'\u0259', 'AH1': u'\u028c', 'JH': u'd\u0292', 'AW0 R': u'a\u028ar', 'EH2': u'\u025b', 'EH0': u'\u025b', 'EH1': u'\u025b', 'EY1': u'e\u026a', 'AO2 R': u'\u0254r', 'EY2': u'e\u026a', 'EH0 R': u'\u025br', 'AY1': u'a\u026a', 'IH0': u'\u026a', 'AY2': u'a\u026a', 'R0': u'\u0279', 'D': u'd', 'AO1 R': u'\u0254r', 'AW2': u'a\u028a', 'AW1': u'a\u028a', 'AW0': u'a\u028a', 'P': u'p', 'AO2': u'\u0254', 'AO1': u'\u0254', 'AO0': u'\u0254', 'AX0': u'\u028c', 'IH0 R': u'\u026ar', 'IY0 R': u'\u026ar', 'OY2': u'\u0254\u026a', 'OY1': u'\u0254\u026a', 'OY0': u'\u0254\u026a', 'UH2 R': u'\u028ar', 'UH1 R': u'\u028ar', 'UW2': u'u', 'UW1': u'u', 'UW0': u'u', 'HH': u'h', 'UH2': u'\u028a', 'UH0': u'\u028a', 'UH1': u'\u028a', 'EH1 R': u'\u025br', 'AO0 R': u'\u0254r', 'ZH': u'\u0292', 'G': u'\u0261', 'K': u'k', 'S': u's', 'IH2 R': u'\u026ar', 'W': u'w', 'ER': u'\u025d', 'AE1': u'\xe6', 'AE0': u'\xe6', 'AE2': u'\xe6', 'IH1 R': u'\u026ar', 'AW2 R': u'a\u028ar', 'EY0': u'e\u026a', 'EH2 R': u'\u025br', 'NG': u'\u014b', 'CH': u't\u0283', 'F': u'f', 'N': u'n', 'R': u'\u0279', 'V': u'v', 'Z': u'z', 'MEYE1': u'm\xe6', 'AY0': u'a\u026a', 'SH': u'\u0283', 'AW1 R': u'a\u028ar', 'DH': u'\xf0', 'IY1 R': u'\u026ar', 'B': u'b', 'DX': u'\u027e', 'AA1 R': u'\u0251r', 'AA2 R': u'\u0251r', 'TH': u'\u03b8', 'AA1': u'\u0251', 'IY0': u'i', 'IY2': u'i', 'M': u'm', 'L': u'l', 'IH': u'\u026a', 'IY2 R': u'\u026ar', 'Y': u'j', 'OW1': u'o\u028a', 'OW0': u'o\u028a', 'OW2': u'o\u028a', 'ER0': u'\u025d', 'ER1': u'\u025a', 'ER2': u'\u025a', 'IY1': u'i', 'AA0': u'\u0251', 'AA2': u'\u0251', 'T': u't'}
+arpaToIPA = {'IH': u'\u026a', 'UH R': u'\u028ar', 'UH' : u'\u028a', 'UW' : 'u', 'IH': u'\u026a', 'AH': u'\u028c', 'AA R': u'\u0251r', 'AH': u'\u0259', 'AH': u'\u028c', 'JH': u'd\u0292', 'AW R': u'a\u028ar', 'EH': u'\u025b', 'EH': u'\u025b', 'EH': u'\u025b', 'EY': u'e\u026a', 'AO R': u'\u0254r', 'EY': u'e\u026a', 'EH R': u'\u025br', 'AY': u'a\u026a', 'IH': u'\u026a', 'AY': u'a\u026a', 'R': u'\u0279', 'D': u'd', 'AO R': u'\u0254r', 'AW': u'a\u028a', 'AW': u'a\u028a', 'AW': u'a\u028a', 'P': u'p', 'AO': u'\u0254', 'AX': u'\u028c', 'IH R': u'\u026ar', 'IY R': u'\u026ar', 'OY': u'\u0254\u026a', 'UH R': u'\u028ar', 'UW': u'u', 'HH': u'h', 'UH': u'\u028a', 'EH R': u'\u025br', 'AO R': u'\u0254r', 'ZH': u'\u0292', 'G': u'\u0261', 'K': u'k', 'S': u's', 'IH R': u'\u026ar', 'W': u'w', 'ER': u'\u025d', 'AE': u'\xe6', 'AE': u'\xe6', 'IH R': u'\u026ar', 'AW R': u'a\u028ar', 'EY': u'e\u026a', 'EH R': u'\u025br', 'NG': u'\u014b', 'CH': u't\u0283', 'F': u'f', 'N': u'n', 'R': u'\u0279', 'V': u'v', 'Z': u'z', 'MEYE': u'm\xe6', 'AY': u'a\u026a', 'SH': u'\u0283', 'AW R': u'a\u028ar', 'DH': u'\xf0', 'IY R': u'\u026ar', 'B': u'b', 'DX': u'\u027e', 'AA R': u'\u0251r', 'TH': u'\u03b8', 'IY': u'i', 'M': u'm', 'L': u'l', 'IH': u'\u026a', 'IY R': u'\u026ar', 'Y': u'j', 'OW': u'o\u028a', 'ER': u'\u025d', 'IY': u'i', 'AA': u'\u0251', 'T': u't'}
 
 # dictionary to convert IPA -> ARPA
-ipaToARPA = {u'\u0283': ['SH'], u'a\u028a': ['AW1', 'AW0', 'AW2'], u'o\u028a': ['OW1', 'OW0', 'OW2'], u'e\u026a': ['EY1', 'EY0', 'EY2'], u'a\u028ar': ['AW0 R', 'AW2 R', 'AW1 R'], u'a\u026a': ['AY1', 'AY0', 'AY2'], u'\u0254r': ['AO1 R', 'AO0 R', 'AO2 R'], u'\u028c': ['AH2', 'AH1', 'AX0'], u'\u0292': ['ZH'], u'\u0254\u026a': ['OY2', 'OY1', 'OY0'], u'\u025br': ['EH0 R', 'EH1 R', 'EH2 R'], u'\xf0': ['DH'], u'j': ['Y'], u'\u03b8': ['TH'], u'b': ['B'], u'd\u0292': ['JH'], u'\u0251r': ['AA0 R', 'AA1 R', 'AA2 R'], u'\u014b': ['NG'], u'\u026ar': ['IH0 R', 'IY0 R', 'IH2 R', 'IH1 R', 'IY1 R', 'IY2 R'], u'\u0251': ['AA0', 'AA2', 'AA1'], u'm\xe6': ['MEYE1'], u'\u0254': ['AO2', 'AO1', 'AO0'], u'\u0259': ['AH0'], u'\u025b': ['EH2', 'EH0', 'EH1'], u'\u025a': ['ER1', 'ER2'], u'\u025d': ['ER', 'ER0'], u't\u0283': ['CH'], u'\u0261': ['G'], u'f': ['F'], u'd': ['D'], u'\xe6': ['AE1', 'AE0', 'AE2'], u'i': ['IY1', 'IY0', 'IY2'], u'h': ['HH'], u'k': ['K'], u'\u026a': ['IH2', 'IH2', 'IH1', 'IH0', 'IH'], u'm': ['M'], u'l': ['L'], u'\u028ar': ['UH0 R', 'UH0 R', 'UH2 R', 'UH1 R'], u'n': ['N'], u'r': ['R'], u'\u028a': ['UH2', 'UH0', 'UH1'], u'p': ['P'], u's': ['S'], u'u': ['UW2', 'UW1', 'UW0'], u't': ['T'], u'w': ['W'], u'v': ['V'], u'\u0279': ['R0', 'R'], u'z': ['Z'], u'\u027e': ['DX']}
+ipaToARPA = {u'\u0283': ['SH'], u't\u0361\u0283' : ['CH0', 'CH1', 'CH2', 'CH'], u'd\u0361\u0292' : ['JH'], 'u' : 'UW', u'a\u028a': ['AW1', 'AW0', 'AW2'], u'o\u028a': ['OW1', 'OW0', 'OW2'], u'e\u026a': ['EY1', 'EY0', 'EY2'], u'a\u028ar': ['AW0 R', 'AW2 R', 'AW1 R'], u'a\u026a': ['AY1', 'AY0', 'AY2'], u'\u0254r': ['AO1 R', 'AO0 R', 'AO2 R'], u'\u028c': ['AH2', 'AH1', 'AX0'], u'\u0292': ['ZH'], u'\u0254\u026a': ['OY2', 'OY1', 'OY0'], u'\u025br': ['EH0 R', 'EH1 R', 'EH2 R'], u'\xf0': ['DH'], u'j': ['Y'], u'\u03b8': ['TH'], u'b': ['B'], u'd\u0292': ['JH'], u'\u0251r': ['AA0 R', 'AA1 R', 'AA2 R'], u'\u014b': ['NG'], u'\u026ar': ['IH0 R', 'IY0 R', 'IH2 R', 'IH1 R', 'IY1 R', 'IY2 R'], u'\u0251': ['AA0', 'AA2', 'AA1'], u'm\xe6': ['MEYE1'], u'\u0254': ['AO2', 'AO1', 'AO0'], u'\u0259': ['AH0'], u'\u025b': ['EH2', 'EH0', 'EH1'], u'\u025a': ['ER1', 'ER2'], u'\u025d': ['ER', 'ER0'], u't\u0283': ['CH'], u'\u0261': ['G'], u'f': ['F'], u'd': ['D'], u'\xe6': ['AE1', 'AE0', 'AE2'], u'i': ['IY1', 'IY0', 'IY2'], u'h': ['HH'], u'k': ['K'], u'\u026a': ['IH2', 'IH2', 'IH1', 'IH0', 'IH'], u'm': ['M'], u'l': ['L'], u'\u028ar': ['UH0 R', 'UH0 R', 'UH2 R', 'UH1 R'], u'n': ['N'], u'r': ['R'], u'\u028a': ['UH2', 'UH0', 'UH1'], u'p': ['P'], u's': ['S'], u'u': ['UW2', 'UW1', 'UW0'], u't': ['T'], u'w': ['W'], u'v': ['V'], u'\u0279': ['R0', 'R'], u'z': ['Z'], u'\u027e': ['DX']}
 
 # visemic classes as seen in auer and bernstein
 # http://cloudedbox.com/FALT/auerandbernstein.pdf
@@ -136,6 +136,8 @@ class FALT(object):
    		if word == '':
    			return []
    		similar = []
+   		internal = []
+   		external = []
    		total = 0
    		index = self.getIndex(size)
    		word = word.upper()
@@ -144,17 +146,21 @@ class FALT(object):
    				continue
    			else:
    				try:
-					if L.distance(''.join(self.dictionary[eachWord][-1][index]), ''.join(self.dictionary[word][-1][index])) <= maxDistance:
-						similar.append((eachWord, ''.join(self.dictionary[eachWord][-1][index])))
+   					distance = L.distance(''.join(self.dictionary[eachWord][-1][index]), ''.join(self.dictionary[word][-1][index]))
+					if distance == 0:
+						internal.append((eachWord, ''.join(self.dictionary[eachWord][-1][index])))
+						total += 1
+					elif distance <= maxDistance:
+						external.append((eachWord, ''.join(self.dictionary[eachWord][-1][index])))
 						total += 1
 				except:
 					continue
-   		return similar
+   		return (internal, external)
 
 	def getFamiliarity(self, word):
 		# reference WordNet for word familiarity
 		# return the highest familiarity, -1 for not found
-		highestFaml = -1
+		highestFaml = 0
 		for wordType in ['n', 'v', 'a', 'r']:
 			process = "wn '"+word+"' -faml"+wordType
 			p = subprocess.Popen(process, shell=True, stdout=subprocess.PIPE)
