@@ -30,6 +30,7 @@ import time
 # default location: /static/
 defaultFilename = "cmudict_ARPA_IPA_m"
 dictionaryWords = "words_all_m"
+dictionaryFreqs = "words_freq_m"
 # the symbols used for representing viseme sets
 # must remain in same order as symbols.keys()
 symbols = {'crosshatch': [u'\u25a9', '&#9641;'], 'snowman': [u'\u2603', '&#9731;'], 'at': [u'@', '&#64;'], 'female': [u'\u2640', '&#9792;'], 'scissors': [u'\u2704', '&#9988;'], 'airplane': [u'\u2708', '&#9992;'], 'cloud': [u'\u2601', '&#9729;'], 'fourpoint': [u'\u2726', '&#10022;'], 'flower': [u'\u273f', '&#10047;'], 'phonemic': [u'\u260e', '&#9742;'], 'sun': [u'\u2742', '&#10050;'], 'peace': [u'\u270c', '&#9996;'], 'blackstar': [u'\u2738', '&#10040;'], 'elevator': [u'\u27e0', '&#10208;'], 'chess': [u'\u265a', '&#9818;'], 'smile': [u'\u263a', '&#9786;'], 'circle': [u'\u29bf', '&#10687;'], 'wheel': [u'\u2638', '&#9784;'], 'pencil': [u'\u270f', '&#9998;'], 'coffee': [u'\u2668', '&#9832;'], 'umbrella': [u'\u2602', '&#9730;'], 'perceive': [u'\u25f5', '&#9717;'], 'mac': [u'\u2318', '&#8984;'], 'eject': [u'\u23cf', '&#9167;'], 'medical': [u'\u2624', '&#9764;'], 'biohazard': [u'\u2623', '&#9763;'], 'blackdiamond': [u'\u2756', '&#10070;'], 'castle': [u'\u2656', '&#9814;'], 'star': [u'\u2605', '&#9733;'], 'sagit': [u'\u2650', '&#9808;']}
@@ -65,6 +66,9 @@ class FALT(object):
 		self.index = { 1 : 0, 2 : 1, 10 : 2, 12 : 3, 19 : 4, 28 : 5 }
 		self.dictWords = open(defaultFilename)
 		self.phonemes = marshal.load(self.dictWords)
+		self.dictWords.close()
+		self.dictWords = open('words_freq_m')
+		self.familiarity = marshal.load(self.dictWords)
 		self.dictWords.close()
 		self.result = []
 		elapsed = (time.time() - start)
@@ -158,21 +162,12 @@ class FALT(object):
    		return (internal, external)
 
 	def getFamiliarity(self, word):
-		# reference WordNet for word familiarity
-		# return the highest familiarity, 0
-		self.result = []
-		for wordType in ['v','n','a','r']: 
-			process = "wn "+word+" -faml"+wordType
-			p = subprocess.Popen(process, shell=True, stdout=subprocess.PIPE)
-			r = p.communicate()[0]
-			self.result.append(r)
+		# numbers from WordNet
+		word = word.upper()
 		try:
-			r = ''.join(self.result)
-			self.result = re.findall(r'\d+', r)
-			return int(max(self.result))
+			return self.familiarity[word]
 		except:
 			return 0
-
 def main():
 	return
 
