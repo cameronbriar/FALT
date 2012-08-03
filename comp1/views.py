@@ -23,6 +23,15 @@ def index(request):
 	c = RequestContext(request, {'foo': 'bar',})
 	return render_to_response('comp1/index.html', c)
 
+def customRequest(request):
+    global W
+    words = request.GET['words']
+    distance = int(request.GET['distance'])
+    classes = request.GET['classes']
+    d = W.customRun(words, classes, distance, False)
+    json = simplejson.dumps(d, sort_keys=True, indent=4)
+    return HttpResponse(json, mimetype="application/json")
+
 def mainRequest(request):
     return_dict = {}
     words = request.GET['words']

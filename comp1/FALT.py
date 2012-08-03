@@ -195,6 +195,7 @@ class FALT(object):
 					newClasses[num].append(phoneme)
 					newClasses[phoneme] = str(num)
 					phonToSym[phoneme] = symbols[symbols.keys()[num]][0]
+		print newClasses
 		#get dictionary
 		dictionary = {}
 		for key in self.phonemes.keys():
