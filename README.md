@@ -11,4 +11,4 @@ Fresno Audiovisual Lexicon Tool
 
 ### Powered by Django:
 
-* adjust STATICFILES_DIRS  in _settings.py_ to match your directory setup
+* adjust STATICFILES\_DIRS  in _settings.py_ to match your directory setup
