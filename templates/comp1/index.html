@@ -241,7 +241,7 @@
 			<button id="phon" class="btn" value="arpa">D</button>
 			<button id="phon" class="btn" value="arpa">DH</button>
 			<button id="phon" class="btn" value="arpa">EH</button>
-			<!--button id="phon" class="btn" value="arpa">ER</button-->
+			<button id="phon" class="btn" value="arpa">ER</button>
 			<button id="phon" class="btn" value="arpa">EY</button>
 			<button id="phon" class="btn" value="arpa">F</button>
 			<button id="phon" class="btn" value="arpa">G</button>
@@ -375,6 +375,9 @@
                 <tbody>
                   <tr><td>p</td><td>P-KEY</td><td>MORE INFORMATION</td></tr>
                   <tr><td>m</td><td>M-KEY</td><td>SETTINGS</td></tr>
+                  <tr><td>k</td><td>K-KEY</td><td>KEYBOARD MENU</td></tr>
+                  <tr><td>t</td><td>T-KEY</td><td>STYLE</td></tr>
+                  <tr><td>s</td><td>S-KEY</td><td>VISEME CLASS REFERENCE</td></tr>
                   <tr><td><i class="icon-arrow-left"></i></td><td>LEFT ARROW</td><td>PREVIOUS CLASS</td></tr>
                   <tr><td><i class="icon-arrow-right"></i></td><td>RIGHT ARROW</td><td>NEXT CLASS</td></tr>
                 </tbody>
@@ -560,7 +563,7 @@ function addWord(word) {
   $("#wordAdd").click();
 }
 $("#addSim").live({click : function(){addWord($(this).html());}});
-
+$("span#viseme").live({click : function(){toggleClass($(this).html());}});
   function maxArrayOfArray(arr) {
     var max = 0;
     var index, i = 0;
@@ -659,25 +662,25 @@ data[30] = 'sagit,&#9808;';
 
 data.equivalencePresets = new Array();
 data.equivalencePresets[28] = 
-  [ ['ʊ'], ['u'], ['eɪ'], ['oʊ'], ['aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ'], ['ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n'], ['k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t'], ['s', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ'], ['t͡ʃ'], ['ʒ'], ['d͡ʒ']];
+  [ ['ʊ'], ['u'], ['eɪ', 'ɝ'], ['oʊ'], ['aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ'], ['ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n'], ['k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t'], ['s', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ'], ['t͡ʃ'], ['ʒ'], ['d͡ʒ']];
 data.equivalencePresets[19] = 
-[ ['ʊ', 'u', 'eɪ'], ['oʊ', 'aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n', 'k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+[ ['ʊ', 'u', 'eɪ', 'ɝ'], ['oʊ', 'aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n', 'k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
 data.equivalencePresets[12] = 
-[ ['ʊ', 'u', 'eɪ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ'], ['ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l','n', 'k','ɡ', 'ŋ','h'], ['d','t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+[ ['ʊ', 'u', 'eɪ', 'ɝ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ'], ['ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l','n', 'k','ɡ', 'ŋ','h'], ['d','t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
 data.equivalencePresets[10] = 
-[ ['ʊ', 'u', 'eɪ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+[ ['ʊ', 'u', 'eɪ', 'ɝ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
 data.equivalencePresets[2] =  
-[ ['ʊ', 'u', 'eɪ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+[ ['ʊ', 'u', 'eɪ', 'ɝ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
 data.equivalencePresets[1] =  
-[ ['ʊ', 'u', 'eɪ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j', 'p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+[ ['ʊ', 'u', 'eɪ', 'ɝ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j', 'p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
 
 data.equivalencePresetsARPA = new Array();
-data.equivalencePresetsARPA[1] = [['UH', 'UW', 'EY', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y', 'P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[2] = [['UH', 'UW', 'EY', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[10] = [['UH', 'UW', 'EY'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[12] = [['UH', 'UW', 'EY'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY'], ['AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH'], ['D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[19] = [['UH', 'UW', 'EY'], ['OW', 'AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N', 'K'], ['G', 'NG'], ['HH'], ['D'], ['T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY'], ['OW'], ['AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY'], ['AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N'], ['K'], ['G', 'NG'], ['HH'], ['D'], ['T'], ['S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH'], ['CH'], ['ZH'], ['JH']];
+data.equivalencePresetsARPA[1] = [['UH', 'UW', 'EY', 'ER', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y', 'P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[2] = [['UH', 'UW', 'EY', 'ER', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[10] = [['UH', 'UW', 'EY', 'ER'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[12] = [['UH', 'UW', 'EY', 'ER'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY'], ['AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH'], ['D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[19] = [['UH', 'UW', 'EY', 'ER'], ['OW', 'AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N', 'K'], ['G', 'NG'], ['HH'], ['D'], ['T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY', 'ER'], ['OW'], ['AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY'], ['AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N'], ['K'], ['G', 'NG'], ['HH'], ['D'], ['T'], ['S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH'], ['CH'], ['ZH'], ['JH']];
 
 Array.prototype.remove= function(){
     var what, a= arguments, L= a.length, ax;
@@ -1209,7 +1212,16 @@ function sendOff(){
                   externalSimilars.push("</td>");
                   externalSimilars.push("</tr>");
                 }
-            		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' wordFrequency='"+result[data.dataSplit[i]].wordFrequency+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+result[data.dataSplit[i]].visemes+"' internal='"+internalSimilars.join("")+"' external='"+externalSimilars.join("")+"' internalCount='"+result[data.dataSplit[i]].internalCount+"' externalCount='"+result[data.dataSplit[i]].externalCount+"' internalFrequency='"+result[data.dataSplit[i]].internalFrequency+"' externalFrequency='"+result[data.dataSplit[i]].externalFrequency+"' totalFrequency='"+result[data.dataSplit[i]].totalFrequency+"'></li>");
+                var visemes = result[data.dataSplit[i]].visemes;
+                visemes = visemes.split(" ");
+                var formattedVisemes = new Array();
+                for (var j = 0; j < visemes.length; j++) {
+                  formattedVisemes.push("<span id=\"viseme\">"+visemes[j]+"</span>");
+                }
+                visemes = formattedVisemes.join(" ");
+                console.log(visemes);
+
+            		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' wordFrequency='"+result[data.dataSplit[i]].wordFrequency+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+visemes+"' internal='"+internalSimilars.join("")+"' external='"+externalSimilars.join("")+"' internalCount='"+result[data.dataSplit[i]].internalCount+"' externalCount='"+result[data.dataSplit[i]].externalCount+"' internalFrequency='"+result[data.dataSplit[i]].internalFrequency+"' externalFrequency='"+result[data.dataSplit[i]].externalFrequency+"' totalFrequency='"+result[data.dataSplit[i]].totalFrequency+"'></li>");
                 $("#mainWord").html('<small>Loading Complete</small>');
             	}
                 var time2 = new Date();
@@ -1367,8 +1379,8 @@ $("#changeStyle").click(function(){
     postStatus("StyleChange", "<h3 style='color:white'>Journal</h3>", "info", 5000);
     break;
     case 1:
-    document.getElementById('stylesheet').href = "http://bootswatch.com/slate/bootstrap.min.css";
-    postStatus("StyleChange", "<h3 style='color:white'>Slate</h3>", "info", 5000);
+    document.getElementById('stylesheet').href = "http://bootswatch.com/superhero/bootstrap.min.css";
+    postStatus("StyleChange", "<h3 style='color:white'>Superhero</h3>", "info", 5000);
     break;
     case 2:
     document.getElementById('stylesheet').href = "http://bootswatch.com/cerulean/bootstrap.min.css";
