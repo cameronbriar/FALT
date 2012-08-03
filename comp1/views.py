@@ -60,7 +60,7 @@ def mainRequest(request):
                 totalInts += len(intSims)/2
                 totalFreq += tempFreq
                 if totalInts != 0:
-                    return_dict[word]['internalFrequency'] = tempFreq/totalInts
+                    return_dict[word]['internalFrequency'] = round(float(1.0*tempFreq/totalInts), 3)
                 else:
                     return_dict[word]['internalFrequency'] = 0
 
@@ -72,12 +72,12 @@ def mainRequest(request):
                 totalExts += len(extSims)/2
                 totalFreq += tempFreq
                 if totalExts != 0:
-                    return_dict[word]['externalFrequency'] = tempFreq/totalExts
+                    return_dict[word]['externalFrequency'] = round(float(1.0*tempFreq/totalExts), 3)
                 else:
                     return_dict[word]['externalFrequency'] = 0
 
                 totalSims = totalInts + totalExts
-                return_dict[word]['totalFrequency'] = totalFreq/totalSims
+                return_dict[word]['totalFrequency'] = round(float(1.0*totalFreq/totalSims), 3)
             return_dict[word]['internal'] = ' '.join(intSims)
             return_dict[word]['external'] = ' '.join(extSims)
             return_dict[word]['internalCount'] = totalInts
@@ -91,15 +91,15 @@ def mainRequest(request):
             return_dict[word]['syllables'] = countSyllables(word)
             return_dict[word]['wordFrequency'] = W.getFamiliarity(word)
         else:
-            return_dict[word] = notFound()
+            return_dict[word] = notFound(word.upper())
     json = simplejson.dumps(return_dict, sort_keys=False, indent=4)
     return HttpResponse(json, mimetype="application/json")
 
-def notFound():
+def notFound(word):
     return {
         "ipa": "", 
         "internalCount": 0, 
-        "dictionary": "", 
+        "dictionary": word, 
         "externalCount": 0, 
         "totalFrequency": 0, 
         "arpa": "", 
