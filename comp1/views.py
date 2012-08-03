@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
-from django.middleware.csrf import get_token
 from django.utils import simplejson
 
 import logging
@@ -24,6 +23,15 @@ def index(request):
 	c = RequestContext(request, {'foo': 'bar',})
 	return render_to_response('comp1/index.html', c)
 
+def customRequest(request):
+    global W
+    words = request.GET['words']
+    distance = int(request.GET['distance'])
+    classes = request.GET['classes']
+    d = W.customRun(words, classes, distance, False)
+    json = simplejson.dumps(d, sort_keys=True, indent=4)
+    return HttpResponse(json, mimetype="application/json")
+
 def mainRequest(request):
     return_dict = {}
     words = request.GET['words']
@@ -39,6 +47,7 @@ def mainRequest(request):
 
         symbolized = W.symbolize(word, size)
 
+<<<<<<< HEAD
         #if symbolized[2] != '':
         if symbolized[1] != word.upper():
             similarities = W.getSimilarities(symbolized[1], size)
@@ -95,7 +104,83 @@ def mainRequest(request):
         return_dict[word]['wordFrequency'] = W.getFamiliarity(word)
 
     json = simplejson.dumps(return_dict, sort_keys=True, indent=4)
+=======
+        if symbolized[2] != '':
+            if symbolized[1] != word.upper():
+                similarities = W.getSimilarities(symbolized[1], size)
+            else:
+                similarities = W.getSimilarities(word, size)
+            #data
+            intSims = []
+            extSims = []
+            totalInts = 0
+            totalExts = 0
+            totalFreq = 0
+            totalSims = 0
+            tempFreq = 0
+            avgFreq = 0
+            if similarities != []:
+                for similar in similarities[0]:
+                    intSims.append(similar[0])
+                    intSims.append(similar[1])
+                    tempFreq += W.getFamiliarity(similar[0])
+                totalInts += len(intSims)/2
+                totalFreq += tempFreq
+                if totalInts != 0:
+                    return_dict[word]['internalFrequency'] = round(float(1.0*tempFreq/totalInts), 3)
+                else:
+                    return_dict[word]['internalFrequency'] = 0
+
+                tempFreq = 0
+                for similar in similarities[1]:
+                    extSims.append(similar[0])
+                    extSims.append(similar[1])
+                    tempFreq += W.getFamiliarity(similar[0])
+                totalExts += len(extSims)/2
+                totalFreq += tempFreq
+                if totalExts != 0:
+                    return_dict[word]['externalFrequency'] = round(float(1.0*tempFreq/totalExts), 3)
+                else:
+                    return_dict[word]['externalFrequency'] = 0
+
+                totalSims = totalInts + totalExts
+                return_dict[word]['totalFrequency'] = round(float(1.0*totalFreq/totalSims), 3)
+            return_dict[word]['internal'] = ' '.join(intSims)
+            return_dict[word]['external'] = ' '.join(extSims)
+            return_dict[word]['internalCount'] = totalInts
+            return_dict[word]['externalCount'] = totalExts
+            return_dict[word]['totalCount'] = totalSims
+            return_dict[word]['symbolized'] = ''.join(symbolized[0])
+            return_dict[word]['dictionary'] = symbolized[1]
+            return_dict[word]['arpa'] = symbolized[2]
+            return_dict[word]['ipa'] = symbolized[3]
+            return_dict[word]['visemes'] = symbolized[4]
+            return_dict[word]['syllables'] = countSyllables(word)
+            return_dict[word]['wordFrequency'] = W.getFamiliarity(word)
+        else:
+            return_dict[word] = notFound(word.upper())
+    json = simplejson.dumps(return_dict, sort_keys=False, indent=4)
+>>>>>>> different
     return HttpResponse(json, mimetype="application/json")
+
+def notFound(word):
+    return {
+        "ipa": "", 
+        "internalCount": 0, 
+        "dictionary": word, 
+        "externalCount": 0, 
+        "totalFrequency": 0, 
+        "arpa": "", 
+        "internalFrequency": 0, 
+        "totalCount": 0, 
+        "internal": "", 
+        "externalFrequency": 0, 
+        "external": "", 
+        "wordFrequency": 0, 
+        "symbolized": "<small>Not found.</small>", 
+        "syllables": 0, 
+        "visemes": ""
+    }
 
 def fileRequest(request):
     return_dict = {}

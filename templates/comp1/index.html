@@ -82,7 +82,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-57-precomposed.png">
   </head>
-  <body>
+  <body style="min-width:450px">
     <div class="navbar navbar-top" style="top:0px;">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -137,6 +137,7 @@
         <div class="span9">
           <div class="well" style="min-width:25%; overflow:show;">
             <div class="row-fluid">
+<<<<<<< HEAD
           	<div class="span4" style="min-width:25%;" id="unit_2">
           		<span style="width:100%; position;relative; text-align:center;"><h1 id="mainLogo">FALT</h1></span>
               <h2></h2>
@@ -163,12 +164,27 @@
                     <tr><th colspan="4" class="centered"><h5><a href="#">Show Internal Words</a></h5></th></tr>
                     <tr><th class="centered"><h3>External</h3></th><td class="centered" id="mainWordExternalCount" colspan="3">0</td></tr>
                     <tr><th colspan="4" class="centered"><h5><a href="#">Show External Words</a></h5></th></tr>
+=======
+              <div style="text-align:center; max-height:360px; overflow:scroll;" id="unit_3">
+                <div style="width:90%; margin:0 auto; position:relative;">
+                <table class="table table-bordered" style="width:100%; position:relative;">
+                  <tr><th colspan="4" class="centered"><h2 id="mainWord">Fresno Audiovisual Lexicon Tool</h2></th></tr>
+                    <tr><th colspan="4" class="centered"><span style="font-size:24px; letter-spacing:5px;" id="mainWordSymbolized"></span></th></tr>
+                    <tr><th colspan="4" class="centered"><span style="font-size:20px; letter-spacing:5px;" id="mainWordVisemes"></span></th></tr>
+                    <tr><th class="centered"><h3>ARPA</h3></th><td class="centered"><span style="font-size:18px;" id="mainWordARPA"></span></td><th class="centered"><h3>IPA</h3></th><td class="centered"><span style="font-size:22px;" id="mainWordIPA"></span></td></tr>
+                    <tr><th class="centered"><h3>Internal</h3><h5><a href="#">Show Internal Words</a></th><td class="centered"><div style="max-height:150px; overflow:scroll;" id="mainWordInternalCount"></div></td>
+                        <th class="centered"><h3>External</h3><h5><a href="#">Show External Words</a></th><td class="centered"><div style="max-height:150px; overflow:scroll;" id="mainWordExternalCount"></div></td></tr>
+>>>>>>> different
                     <tr><th colspan="4" class="centered"><h3>Average Frequency</h3></th></tr>
                     <tr><th class="centered"><h6>Word</h6></th>
                       <th class="centered"><h6>Internal</h6></th>
                       <th class="centered"><h6>External</h6></th>
                       <th class="centered"><h6>Total</h6></th></tr>
+<<<<<<< HEAD
                       <tr><td class="centered" id="mainWordFrequency">0</td><td class="centered" id="mainWordInteralAvgFrequency">0</td><td class="centered" id="mainWordExternalFrequency">0</td><td class="centered" id="mainWordTotalFrequency">0</td></tr>
+=======
+                      <tr><td class="centered" id="mainWordFrequency"></td><td class="centered" id="mainWordInternalFrequency"></td><td class="centered" id="mainWordExternalFrequency"></td><td class="centered" id="mainWordTotalFrequency"></td></tr>
+>>>>>>> different
                     <tr><th colspan="4" class="centered"><h3><a href="#">Chart</a></h3></th></tr>
                     <tr><td colspan="4"><div id="chart" style="padding:15px;">
                       <div id="graph" style="z-index:5; width:100%; height:250px; border:1px solid #ccc;"></div>
@@ -392,6 +408,9 @@
                 <tbody>
                   <tr><td>p</td><td>P-KEY</td><td>MORE INFORMATION</td></tr>
                   <tr><td>m</td><td>M-KEY</td><td>SETTINGS</td></tr>
+                  <tr><td>k</td><td>K-KEY</td><td>KEYBOARD MENU</td></tr>
+                  <tr><td>t</td><td>T-KEY</td><td>STYLE</td></tr>
+                  <tr><td>s</td><td>S-KEY</td><td>VISEME CLASS REFERENCE</td></tr>
                   <tr><td><i class="icon-arrow-left"></i></td><td>LEFT ARROW</td><td>PREVIOUS CLASS</td></tr>
                   <tr><td><i class="icon-arrow-right"></i></td><td>RIGHT ARROW</td><td>NEXT CLASS</td></tr>
                 </tbody>
@@ -577,7 +596,11 @@ function addWord(word) {
   $("#wordAdd").click();
 }
 $("#addSim").live({click : function(){addWord($(this).html());}});
+<<<<<<< HEAD
 
+=======
+$("span#viseme").live({click : function(){toggleClass($(this).html());}});
+>>>>>>> different
   function maxArrayOfArray(arr) {
     var max = 0;
     var index, i = 0;
@@ -676,25 +699,25 @@ data[30] = 'sagit,&#9808;';
 
 data.equivalencePresets = new Array();
 data.equivalencePresets[28] = 
-  [ ['ʊ'], ['u'], ['eɪ'], ['oʊ'], ['aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ'], ['ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n'], ['k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t'], ['s', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ'], ['t͡ʃ'], ['ʒ'], ['d͡ʒ']];
+  [ ['ʊ'], ['u'], ['eɪ', 'ɝ'], ['oʊ'], ['aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ'], ['ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n'], ['k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t'], ['s', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ'], ['t͡ʃ'], ['ʒ'], ['d͡ʒ']];
 data.equivalencePresets[19] = 
-[ ['ʊ', 'u', 'eɪ'], ['oʊ', 'aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n', 'k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+[ ['ʊ', 'u', 'eɪ', 'ɝ'], ['oʊ', 'aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n', 'k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
 data.equivalencePresets[12] = 
-[ ['ʊ', 'u', 'eɪ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ'], ['ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l','n', 'k','ɡ', 'ŋ','h'], ['d','t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+[ ['ʊ', 'u', 'eɪ', 'ɝ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ'], ['ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l','n', 'k','ɡ', 'ŋ','h'], ['d','t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
 data.equivalencePresets[10] = 
-[ ['ʊ', 'u', 'eɪ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+[ ['ʊ', 'u', 'eɪ', 'ɝ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
 data.equivalencePresets[2] =  
-[ ['ʊ', 'u', 'eɪ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+[ ['ʊ', 'u', 'eɪ', 'ɝ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
 data.equivalencePresets[1] =  
-[ ['ʊ', 'u', 'eɪ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j', 'p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
+[ ['ʊ', 'u', 'eɪ', 'ɝ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j', 'p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 't͡ʃ', 'ʒ', 'd͡ʒ']];
 
 data.equivalencePresetsARPA = new Array();
-data.equivalencePresetsARPA[1] = [['UH', 'UW', 'EY', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y', 'P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[2] = [['UH', 'UW', 'EY', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[10] = [['UH', 'UW', 'EY'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[12] = [['UH', 'UW', 'EY'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY'], ['AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH'], ['D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[19] = [['UH', 'UW', 'EY'], ['OW', 'AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N', 'K'], ['G', 'NG'], ['HH'], ['D'], ['T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY'], ['OW'], ['AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY'], ['AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N'], ['K'], ['G', 'NG'], ['HH'], ['D'], ['T'], ['S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH'], ['CH'], ['ZH'], ['JH']];
+data.equivalencePresetsARPA[1] = [['UH', 'UW', 'EY', 'ER', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y', 'P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[2] = [['UH', 'UW', 'EY', 'ER', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[10] = [['UH', 'UW', 'EY', 'ER'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[12] = [['UH', 'UW', 'EY', 'ER'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY'], ['AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH'], ['D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[19] = [['UH', 'UW', 'EY', 'ER'], ['OW', 'AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N', 'K'], ['G', 'NG'], ['HH'], ['D'], ['T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY', 'ER'], ['OW'], ['AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY'], ['AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N'], ['K'], ['G', 'NG'], ['HH'], ['D'], ['T'], ['S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH'], ['CH'], ['ZH'], ['JH']];
 
 Array.prototype.remove= function(){
     var what, a= arguments, L= a.length, ax;
@@ -827,9 +850,15 @@ Array.prototype.remove= function(){
       $("#mainWordExternalCount").html($("[value = "+data.currentWord+"]").attr("externalCount"));
       $("#mainWordIPA").html($("[value = "+data.currentWord+"]").attr("ipa"));
       $("#mainWordARPA").html($("[value = "+data.currentWord+"]").attr("arpa"));
+<<<<<<< HEAD
       $("#mainWordInternalFrequency").html($("[value = "+data.currentWord+"]").attr("internalFrequency"));
       $("#mainWordExternalFrequency").html($("[value = "+data.currentWord+"]").attr("externalFrequency"));
       $("#mainWordTotalFrequency").html($("[value = "+data.currentWord+"]").attr("totalFrequency"));
+=======
+      $("#mainWordInternalFrequency").html($("[value = "+data.currentWord+"]").attr("internalfrequency"));
+      $("#mainWordExternalFrequency").html($("[value = "+data.currentWord+"]").attr("externalfrequency"));
+      $("#mainWordTotalFrequency").html($("[value = "+data.currentWord+"]").attr("totalfrequency"));
+>>>>>>> different
       $("#mainWordFrequency").html($("[value = "+data.currentWord+"]").attr("wordFrequency"));
       $("#mainWord").html($("[value = "+data.currentWord+"]").attr("dictionary"));
 
@@ -842,19 +871,31 @@ Array.prototype.remove= function(){
 		//console.log($("[value = "+data.currentWord+"]").attr("syllable-count"));
 		},
 		touchstart : function() {
-    data.currentWord = $(this).html();
-    $("#mainWord").html(data.currentWord);
-    $("#mainWordSymbolized").html($("[value = "+data.currentWord+"]").attr("symbol"));
-    $("b#wordSyllables").html($("[value = "+data.currentWord+"]").attr("syllable-count"));
-    $("b#wordFam").html($("[value = "+data.currentWord+"]").attr("familiarity"));
+  
 
+      data.currentWord = $(this).html();
+      $("#mainLogo").html(data.currentWord);
+      $("#mainWordSymbolized").html($("[value = "+data.currentWord+"]").attr("symbol"));
+      $("b#wordSyllables").html($("[value = "+data.currentWord+"]").attr("syllable-count"));
+      $("b#wordFam").html($("[value = "+data.currentWord+"]").attr("familiarity"));
+
+      $("#mainWordVisemes").html($("[value = "+data.currentWord+"]").attr("visemes"));
+      $("#mainWordInternalCount").html($("[value = "+data.currentWord+"]").attr("internalCount"));
+      $("#mainWordExternalCount").html($("[value = "+data.currentWord+"]").attr("externalCount"));
+      $("#mainWordIPA").html($("[value = "+data.currentWord+"]").attr("ipa"));
+      $("#mainWordARPA").html($("[value = "+data.currentWord+"]").attr("arpa"));
+      $("#mainWordInternalFrequency").html($("[value = "+data.currentWord+"]").attr("internalFrequency"));
+      $("#mainWordExternalFrequency").html($("[value = "+data.currentWord+"]").attr("externalFrequency"));
+      $("#mainWordTotalFrequency").html($("[value = "+data.currentWord+"]").attr("totalFrequency"));
+      $("#mainWordFrequency").html($("[value = "+data.currentWord+"]").attr("wordFrequency"));
+      $("#mainWord").html($("[value = "+data.currentWord+"]").attr("dictionary"));
+
+<<<<<<< HEAD
     $("tr#hoverMore").attr('data-original-title', $("[value = "+data.currentWord+"]").attr("dictionary")+'<span style="float:right"><a href="javascript:dismissPopover();">close</a></span>');
   data.newContent = '<table class="table table-condensed"><tr><td>Reference</td><td>' + $("[value = "+data.currentWord+"]").attr("dictionary") + '</td>'+ ' </tr><tr><td>Visemes</td><td>'+ $("[value = "+data.currentWord+"]").attr("symbol") + '</td></tr>' + '<tr><td>Classes</td><td>'+ $("[value = "+data.currentWord+"]").attr("visemes") + '</td></tr><tr><td>IPA</td><td>' + $("[value = "+data.currentWord+"]").attr("ipa") + '</td>'+ ' </tr><tr><td>ARPA</td><td>' + $("[value = "+data.currentWord+"]").attr("arpa") + '</td>'+ ' </tr><tr><td>Internal</td><td>' + $("[value = "+data.currentWord+"]").attr("internal") + '</td>'+ '</tr><tr><td>External</td><td>' + $("[value = "+data.currentWord+"]").attr("external") + '</td>'+ '</tr></table>';
+=======
+>>>>>>> different
 
-    $("tr#hoverMore").attr('data-content', data.newContent);
-    togglePopover();
-    //$("b#wordLEC1").html($($(this).html()).attr("syllable-count"));
-    //console.log($("[value = "+data.currentWord+"]").attr("syllable-count"));
 		},
     click : function() {
       if (data.isVisible) {
@@ -1183,7 +1224,12 @@ function sendOff(){
     return false;
   }
     var time1 = new Date();
+<<<<<<< HEAD
     $("#mainLogo").html('<small>Loading...</small>');
+=======
+    $("#mainWord").html('<small>Loading...</small>');
+    postStatus("Loading", "<h2 style='color:white'>Loading</h2>", "info", 5000);
+>>>>>>> different
     $.ajax({
             type:"GET",
             url :"/main/",
@@ -1191,6 +1237,7 @@ function sendOff(){
             datatype:"json",
             error:function(result){console.log("Bad word.");},//alert('There was an error.');},
             success:function(result){
+              console.log(result);
               $("ul.wordStorage").html("");
             	for (var i = 0; i < data.dataSplit.length; i++) {
             		//console.log(result[data.dataSplit[i]]);
@@ -1217,12 +1264,27 @@ function sendOff(){
                   externalSimilars.push("</td>");
                   externalSimilars.push("</tr>");
                 }
+<<<<<<< HEAD
             		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' wordFrequency='"+result[data.dataSplit[i]].wordFrequency+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+result[data.dataSplit[i]].visemes+"' internal='"+internalSimilars.join("")+"' external='"+externalSimilars.join("")+"' internalCount='"+result[data.dataSplit[i]].internalCount+"' externalCount='"+result[data.dataSplit[i]].externalCount+"' internalFrequency='"+result[data.dataSplit[i]].internalFrequency+"' externalFrequency='"+result[data.dataSplit[i]].externalFrequency+"' totalFrequency='"+result[data.dataSplit[i]].totalFrequency+"'></li>");
                 $("#mainLogo").html('<small>Loading Complete</small>');
                 var t = setTimeout(function(){$("#mainLogo").html('F A L T');}, 4000);
+=======
+                var visemes = result[data.dataSplit[i]].visemes;
+                visemes = visemes.split(" ");
+                var formattedVisemes = new Array();
+                for (var j = 0; j < visemes.length; j++) {
+                  formattedVisemes.push("<span id=\"viseme\">"+visemes[j]+"</span>");
+                }
+                visemes = formattedVisemes.join(" ");
+                console.log(visemes);
+
+            		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' wordFrequency='"+result[data.dataSplit[i]].wordFrequency+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+visemes+"' internal='"+internalSimilars.join("")+"' external='"+externalSimilars.join("")+"' internalCount='"+result[data.dataSplit[i]].internalCount+"' externalCount='"+result[data.dataSplit[i]].externalCount+"' internalFrequency='"+result[data.dataSplit[i]].internalFrequency+"' externalFrequency='"+result[data.dataSplit[i]].externalFrequency+"' totalFrequency='"+result[data.dataSplit[i]].totalFrequency+"'></li>");
+                $("#mainWord").html('<small>Loading Complete</small>');
+>>>>>>> different
             	}
                 var time2 = new Date();
                 console.log("Time to process "+ String(wordBankCount())+" words: "+String((time2.getTime() - time1.getTime())/1000));
+                postStatus("Loading", "<h2 style='color:white'>Complete</h2>", "info", 3000);
             }
           });
 
@@ -1375,8 +1437,8 @@ $("#changeStyle").click(function(){
     postStatus("StyleChange", "<h3 style='color:white'>Journal</h3>", "info", 5000);
     break;
     case 1:
-    document.getElementById('stylesheet').href = "http://bootswatch.com/slate/bootstrap.min.css";
-    postStatus("StyleChange", "<h3 style='color:white'>Slate</h3>", "info", 5000);
+    document.getElementById('stylesheet').href = "http://bootswatch.com/superhero/bootstrap.min.css";
+    postStatus("StyleChange", "<h3 style='color:white'>Superhero</h3>", "info", 5000);
     break;
     case 2:
     document.getElementById('stylesheet').href = "http://bootswatch.com/cerulean/bootstrap.min.css";
