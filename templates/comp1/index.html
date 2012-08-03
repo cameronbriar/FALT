@@ -1211,10 +1211,10 @@ function sendOff(){
                 }
             		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' wordFrequency='"+result[data.dataSplit[i]].wordFrequency+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+result[data.dataSplit[i]].visemes+"' internal='"+internalSimilars.join("")+"' external='"+externalSimilars.join("")+"' internalCount='"+result[data.dataSplit[i]].internalCount+"' externalCount='"+result[data.dataSplit[i]].externalCount+"' internalFrequency='"+result[data.dataSplit[i]].internalFrequency+"' externalFrequency='"+result[data.dataSplit[i]].externalFrequency+"' totalFrequency='"+result[data.dataSplit[i]].totalFrequency+"'></li>");
                 $("#mainWord").html('<small>Loading Complete</small>');
-                postStatus("Loading_Complete", "<h2 style='color:white'>Complete</h2>", "info", 5000);
             	}
                 var time2 = new Date();
                 console.log("Time to process "+ String(wordBankCount())+" words: "+String((time2.getTime() - time1.getTime())/1000));
+                postStatus("Loading", "<h2 style='color:white'>Complete</h2>", "info", 3000);
             }
           });
 
