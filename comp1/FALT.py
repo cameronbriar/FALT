@@ -13,9 +13,11 @@
 #THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import os
+import io
+import re
 import sys
 import time
-import pickle
+import marshal
 import subprocess
 import Levenshtein as L
 import time
@@ -26,8 +28,8 @@ import time
 # this is the name of the Carnegie Melon University ARPA dictionary
 # it has been modified with the IPA equivalence
 # default location: /static/
-defaultFilename = "cmudict_ARPA_IPA"
-dictionaryWords = "words_all"
+defaultFilename = "cmudict_ARPA_IPA_m"
+dictionaryWords = "words_all_m"
 # the symbols used for representing viseme sets
 # must remain in same order as symbols.keys()
 symbols = {'crosshatch': [u'\u25a9', '&#9641;'], 'snowman': [u'\u2603', '&#9731;'], 'at': [u'@', '&#64;'], 'female': [u'\u2640', '&#9792;'], 'scissors': [u'\u2704', '&#9988;'], 'airplane': [u'\u2708', '&#9992;'], 'cloud': [u'\u2601', '&#9729;'], 'fourpoint': [u'\u2726', '&#10022;'], 'flower': [u'\u273f', '&#10047;'], 'phonemic': [u'\u260e', '&#9742;'], 'sun': [u'\u2742', '&#10050;'], 'peace': [u'\u270c', '&#9996;'], 'blackstar': [u'\u2738', '&#10040;'], 'elevator': [u'\u27e0', '&#10208;'], 'chess': [u'\u265a', '&#9818;'], 'smile': [u'\u263a', '&#9786;'], 'circle': [u'\u29bf', '&#10687;'], 'wheel': [u'\u2638', '&#9784;'], 'pencil': [u'\u270f', '&#9998;'], 'coffee': [u'\u2668', '&#9832;'], 'umbrella': [u'\u2602', '&#9730;'], 'perceive': [u'\u25f5', '&#9717;'], 'mac': [u'\u2318', '&#8984;'], 'eject': [u'\u23cf', '&#9167;'], 'medical': [u'\u2624', '&#9764;'], 'biohazard': [u'\u2623', '&#9763;'], 'blackdiamond': [u'\u2756', '&#10070;'], 'castle': [u'\u2656', '&#9814;'], 'star': [u'\u2605', '&#9733;'], 'sagit': [u'\u2650', '&#9808;']}
@@ -57,10 +59,13 @@ class FALT(object):
 		print 'Initializing FALT...'
 		start = time.time()
 		#self.equivalence = self.initEquivalence(size)
-		self.dictWords = open(dictionaryWords)
-		self.dictionary = pickle.load(self.dictWords)
+		self.dictWords = open(dictionaryWords, "rb")
+		self.dictionary = marshal.load(self.dictWords)
 		self.dictWords.close()
-		self.phonemes = self.getDictionary()
+		self.index = { 1 : 0, 2 : 1, 10 : 2, 12 : 3, 19 : 4, 28 : 5 }
+		self.dictWords = open(defaultFilename)
+		self.phonemes = marshal.load(self.dictWords)
+		self.dictWords.close()
 		self.result = []
 		elapsed = (time.time() - start)
 		print 'FALT is READY in', str(elapsed), 's'
@@ -87,24 +92,20 @@ class FALT(object):
 	def getWordFromDictionary(self, word, filename=defaultFilename):
 		word = word.upper()
 		self.result = []
-
+		print word
 		if self.phonemes.has_key(word):
 			self.result.append(word)
 			self.result.append(self.phonemes[word][0])
 			self.result.append(self.phonemes[word][1])
 	   	# if there is no exact match, try a rough match
-	   	else:
-	   		p = subprocess.Popen("grep -i --line-buffered '"+word+"' "+filename, shell=True, stdout=subprocess.PIPE)
-	   		self.result = p.communicate(None)[0].split("\n")[0].split("  ")
+	   	#else:
+	   		#p = subprocess.Popen("grep -i --line-buffered '"+word+"' "+filename, shell=True, stdout=subprocess.PIPE)
+	   		#self.result = p.communicate(None)[0].split("\n")[0].split("  ")
 
-	   	if self.result == ['']:
-	   		self.result = [word, '', '']
+	   	if self.result == []:
+	   		return [word, '', '']
 	   	# resul = [ word , ARPA, IPA ]
    		return self.result
-
-   	def getIndex(self, size):
-   		d = { 1 : 0, 2 : 1, 10 : 2, 12 : 3, 19 : 4, 28 : 5 }
-   		return d[size]
 
    	def initEquivalence(self, size):
    		#returns a dictionary with ARPA keys
@@ -121,11 +122,10 @@ class FALT(object):
 
    	def symbolize(self, word, size):
    		info = self.getWordFromDictionary(word)
-   		index = self.getIndex(size)
    		# if there was not entry for the word
    		if info[1] == '':
    			return ['<small>Not found.</small>', '', '', '', '']
-
+   		index = self.index[size]
    		symbolized = self.dictionary[info[0]][-1][index]
    		visemeSet = self.dictionary[info[0]][index]
    		# [symbolized version, original word, arpa, ipa, viseme classes]
@@ -139,7 +139,7 @@ class FALT(object):
    		internal = []
    		external = []
    		total = 0
-   		index = self.getIndex(size)
+   		index = self.index[size]
    		word = word.upper()
    		for eachWord in self.dictionary:
    			if abs(len(self.dictionary[word][-1][index]) - len(self.dictionary[eachWord][-1][index])) > 0:
@@ -159,19 +159,19 @@ class FALT(object):
 
 	def getFamiliarity(self, word):
 		# reference WordNet for word familiarity
-		# return the highest familiarity
-		highestFaml = 0
-		for wordType in ['n', 'v', 'a', 'r']:
-			process = "wn '"+word+"' -faml"+wordType
+		# return the highest familiarity, 0
+		self.result = []
+		for wordType in ['v','n','a','r']: 
+			process = "wn "+word+" -faml"+wordType
 			p = subprocess.Popen(process, shell=True, stdout=subprocess.PIPE)
-			try:
-				result = p.communicate()[0].split("\n")[3][-2][0]
-				if int(result) > int(highestFaml):
-					highestFaml = result
-			except:
-				continue
-		return highestFaml
-
+			r = p.communicate()[0]
+			self.result.append(r)
+		try:
+			r = ''.join(self.result)
+			self.result = re.findall(r'\d+', r)
+			return int(max(self.result))
+		except:
+			return 0
 
 def main():
 	return
