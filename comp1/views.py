@@ -47,64 +47,6 @@ def mainRequest(request):
 
         symbolized = W.symbolize(word, size)
 
-<<<<<<< HEAD
-        #if symbolized[2] != '':
-        if symbolized[1] != word.upper():
-            similarities = W.getSimilarities(symbolized[1], size)
-        else:
-            similarities = W.getSimilarities(word, size)
-
-        #data
-        intSims = []
-        extSims = []
-        totalInts = 0
-        totalExts = 0
-        totalFreq = 0
-        totalSims = 0
-        tempFreq = 0
-        avgFreq = 0
-        if similarities != []:
-            for similar in similarities[0]:
-                intSims.append(similar[0])
-                intSims.append(similar[1])
-                tempFreq += int(W.getFamiliarity(similar[0]))
-                totalInts += 1
-            totalFreq += tempFreq
-            try:
-                return_dict[word]['internalFrequency'] = str(tempFreq/totalInts)
-            except:
-                return_dict[word]['internal'] = 0
-
-            tempFreq = 0
-            for similar in similarities[1]:
-                extSims.append(similar[0])
-                extSims.append(similar[1])
-                tempFreq += int(W.getFamiliarity(similar[0]))
-                totalExts += 1
-            totalFreq += tempFreq
-            try:
-                return_dict[word]['externalFrequency'] = str(tempFreq/totalExts)
-            except:
-                return_dict[word]['externalFrequency'] = 0
-
-            totalSims = totalInts + totalExts
-            return_dict[word]['totalFrequency'] = str(totalFreq/totalSims)
-
-        return_dict[word]['internal'] = ' '.join(intSims)
-        return_dict[word]['external'] = ' '.join(extSims)
-        return_dict[word]['internalCount'] = totalInts
-        return_dict[word]['externalCount'] = totalExts
-        return_dict[word]['totalCount'] = totalSims
-        return_dict[word]['symbolized'] = ''.join(symbolized[0])
-        return_dict[word]['dictionary'] = symbolized[1]
-        return_dict[word]['arpa'] = symbolized[2]
-        return_dict[word]['ipa'] = symbolized[3]
-        return_dict[word]['visemes'] = symbolized[4]
-        return_dict[word]['syllables'] = countSyllables(word)
-        return_dict[word]['wordFrequency'] = W.getFamiliarity(word)
-
-    json = simplejson.dumps(return_dict, sort_keys=True, indent=4)
-=======
         if symbolized[2] != '':
             if symbolized[1] != word.upper():
                 similarities = W.getSimilarities(symbolized[1], size)
@@ -160,7 +102,6 @@ def mainRequest(request):
         else:
             return_dict[word] = notFound(word.upper())
     json = simplejson.dumps(return_dict, sort_keys=False, indent=4)
->>>>>>> different
     return HttpResponse(json, mimetype="application/json")
 
 def notFound(word):
