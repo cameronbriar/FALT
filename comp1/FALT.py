@@ -188,6 +188,7 @@ class FALT(object):
 						newClasses[phoneme] = str(num)
 						phonToSym[translated] = symbols[symbols.keys()[num]][0]
 					except:
+						print 'appending ?'
 						newClasses[num].append('?')
 						newClasses[phoneme] = '?'
 				else:
@@ -205,11 +206,12 @@ class FALT(object):
 			part3 = []
 			part4 = []
 			for phon in part1.split(" "):
-				try:
+				if phonToSym.has_key(phon):
 					part3.append(phonToSym[phon])
+				else:
+				if newClasses.has_key(phon):
 					part4.append(newClasses[phon])
-				except:
-					part3.append("?")
+				else:
 					part4.append("?")
 			dictionary[key].append([part1, part2, part3, part4])
 		#symbolize word
