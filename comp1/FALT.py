@@ -209,6 +209,8 @@ class FALT(object):
 				if phonToSym.has_key(phon):
 					part3.append(phonToSym[phon])
 				else:
+					part3.append("?")
+					
 				if newClasses.has_key(phon):
 					part4.append(newClasses[phon])
 				else:
