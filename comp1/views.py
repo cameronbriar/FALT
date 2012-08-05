@@ -28,7 +28,11 @@ def customRequest(request):
     words = request.GET['words']
     distance = int(request.GET['distance'])
     classes = request.GET['classes']
-    d = W.customRun(words, classes, distance, False)
+    try:
+        ipa = request.GET['ipa']
+    except:
+        ipa = False;
+    d = W.customRun(words, classes, distance, ipa)
     json = simplejson.dumps(d, sort_keys=True, indent=4)
     return HttpResponse(json, mimetype="application/json")
 

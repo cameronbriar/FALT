@@ -18,6 +18,7 @@ import re
 import sys
 import time
 import marshal
+import urllib
 import subprocess
 import Levenshtein as L
 import time
@@ -169,9 +170,24 @@ class FALT(object):
 			return 0
 	# Custom Fun
 	def customRun(self, words = "", classes = "", distance = 1, ipa = False):
+		# example 1:
+		# words = hello, world, success
+		# classes = UH,UW,EY,ER|OW,AW|IH,IY,EH,AE|OY|AO,AY,AA,Y|P,B,M|V,F|L,N,K,G,NG,HH|D,T,S,Z|R,W|DH,TH|SH,CH,ZH,JH||||||AH
+		# distance = 2
+
+		# example 2: 
+		# words = hello, world, success
+		# classes = ʊ,u,eɪ|oʊ,aʊ|ɪ,i,ɛ,æ|ɔɪ,ɔ,aɪ,ʌ,ə,ɑ,j|p,b,m|v,f|l,n,k,ɡ,ŋ,h,d,t,s,z|r,w|ð,θ|ʃ,ʒ
+		# distance = 1
+		# ipa = True
+
 		#parse words
+		words = urllib.unquote(words)
+		words = words.replace(" ", "")
 		words = words.split(",")
 		#parse classes
+		classes = urllib.unquote(classes)
+		classes = classes.replace(" ", "")
 		classes = classes.split("|")
 		newClasses = {}
 		phonToSym = {}
@@ -183,12 +199,12 @@ class FALT(object):
 			for phoneme in group:
 				if ipa:
 					try:
-						translated = ipaToARPA(phoneme)
+						translated = ipaToARPA[phoneme]
 						newClasses[num].append(translated)
-						newClasses[phoneme] = str(num)
+						newClasses[translated] = str(num)
 						phonToSym[translated] = symbols[symbols.keys()[num]][0]
 					except:
-						print 'appending ?'
+						print 'fail'
 						newClasses[num].append('?')
 						newClasses[phoneme] = '?'
 				else:
@@ -196,7 +212,6 @@ class FALT(object):
 					newClasses[num].append(phoneme)
 					newClasses[phoneme] = str(num)
 					phonToSym[phoneme] = symbols[symbols.keys()[num]][0]
-		print newClasses
 		#get dictionary
 		dictionary = {}
 		for key in self.phonemes.keys():
@@ -212,12 +227,13 @@ class FALT(object):
 					part3.append("?")
 					
 				if newClasses.has_key(phon):
+					print 'Found', phon
 					part4.append(newClasses[phon])
 				else:
+					print 'Did not find', phon
 					part4.append("?")
 			dictionary[key].append([part1, part2, part3, part4])
 		#symbolize word
-		print dictionary['WORLD']
 		symbolized = {}
 		for word in words:
 			word = word.upper()
