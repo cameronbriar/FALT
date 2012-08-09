@@ -203,9 +203,10 @@ class FALT(object):
 						newClasses[translated] = str(num)
 						phonToSym[translated] = symbols[symbols.keys()[num]][0]
 					except:
-						print 'Unable to translate', phoneme
-						newClasses[num].append('?')
-						newClasses[phoneme] = '?'
+						if ipa != "":
+							print 'Unable to translate', phoneme
+							newClasses[num].append('?')
+							newClasses[phoneme] = '?'
 				else:
 					phoneme = re.sub(r'[0-9]', '', phoneme)
 					newClasses[num].append(phoneme)
@@ -213,6 +214,7 @@ class FALT(object):
 					phonToSym[phoneme] = symbols[symbols.keys()[num]][0]
 		#get dictionary
 		dictionary = {}
+		notFound = {}
 		for key in self.phonemes.keys():
 			dictionary[key] = []
 			part1 = re.sub(r'[0-9]', '', self.phonemes[key][0])
@@ -229,9 +231,11 @@ class FALT(object):
 					#print 'Found', phon
 					part4.append(newClasses[phon])
 				else:
-					print 'Did not find', phon
+					notFound[phon] = 1
 					part4.append("?")
 			dictionary[key].append([part1, part2, part3, part4])
+		print 'No symbols for', str(notFound.keys())
+
 		#symbolize word
 		symbolized = {}
 		for word in words:
@@ -244,18 +248,23 @@ class FALT(object):
 				symbolized[word].append("Not Found") 
 				symbolized[word].append("")
 			#find internal and external similarities/frequencies
+
+			#append translations
+			symbolized[word].append(dictionary[word][0][0])
+			symbolized[word].append(dictionary[word][0][1])
 			s = self.getCustomSimilarities(word, dictionary, distance)
 			symbolized[word].append(str(len(s[0]))+" internal words")
 			symbolized[word].append(s[0])
 			symbolized[word].append(str(len(s[1]))+" external words")
 			symbolized[word].append(s[1])
 		return symbolized
-   	def getCustomSimilarities(self, word, dictionary, distance):
+   	def getCustomSimilarities(self, word, dictionary, maxDistance):
    		if word == "Not Found":
    			return []
    		internal = []
    		external = []
-   		total = 0
+   		totalInt = 0
+   		totalExt = 0
 
    		symWordList = dictionary[word][0][2]
    		symWord = ' '.join(symWordList)
@@ -268,20 +277,29 @@ class FALT(object):
    				continue
    			else:
    				#compare Levenshtein distances
-   				otherWord = ' '.join(otherWordList)
+   				otherWord = unicode(' '.join(otherWordList))
+   				#print symWord, type(symWord), 'vs', otherWord, type(otherWord)
    				distance = L.distance(symWord, otherWord)
    				if distance == 0:
-   					#append to internal words (exact match)
+					#append to internal words (exact match)
    					otherWordVisemes = ' '.join(dictionary[eachWord][0][3])
    					internal.append(eachWord)
    					internal.append(otherWord)
    					internal.append(otherWordVisemes)
-   				elif distance <= distance:
+   					familiarity = int(self.getFamiliarity(eachWord))
+   					internal.append(familiarity)
+   					totalInt += familiarity
+   				elif distance <= maxDistance:
    					#append to external words (off by distance)
    					otherWordVisemes = ' '.join(dictionary[eachWord][0][3])
    					external.append(eachWord)
    					external.append(otherWord)
    					external.append(otherWordVisemes)
+   					familiarity = int(self.getFamiliarity(eachWord))
+   					external.append(familiarity)
+					totalExt += familiarity
+   		internal.append("Average Internal Familaritiy "+str(round(float(1.0*totalInt/len(internal)), 3)))
+   		external.append("Average External Familaritiy "+str(round(float(1.0*totalExt/len(external)), 3)))
    		return (internal, external)
 
 def main():
