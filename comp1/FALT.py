@@ -40,7 +40,7 @@ symbols = {'crosshatch': [u'\u25a9', '&#9641;'], 'snowman': [u'\u2603', '&#9731;
 arpaToIPA = {'IH': u'\u026a', 'UH R': u'\u028ar', 'ER' : u'\u025d', 'UH' : u'\u028a', 'UW' : 'u', 'IH': u'\u026a', 'AH': u'\u028c', 'AA R': u'\u0251r', 'AH': u'\u0259', 'AH': u'\u028c', 'JH': u'd\u0292', 'AW R': u'a\u028ar', 'EH': u'\u025b', 'EH': u'\u025b', 'EH': u'\u025b', 'EY': u'e\u026a', 'AO R': u'\u0254r', 'EY': u'e\u026a', 'EH R': u'\u025br', 'AY': u'a\u026a', 'IH': u'\u026a', 'AY': u'a\u026a', 'R': u'\u0279', 'D': u'd', 'AO R': u'\u0254r', 'AW': u'a\u028a', 'AW': u'a\u028a', 'AW': u'a\u028a', 'P': u'p', 'AO': u'\u0254', 'AX': u'\u028c', 'IH R': u'\u026ar', 'IY R': u'\u026ar', 'OY': u'\u0254\u026a', 'UH R': u'\u028ar', 'UW': u'u', 'HH': u'h', 'UH': u'\u028a', 'EH R': u'\u025br', 'AO R': u'\u0254r', 'ZH': u'\u0292', 'G': u'\u0261', 'K': u'k', 'S': u's', 'IH R': u'\u026ar', 'W': u'w', 'AE': u'\xe6', 'AE': u'\xe6', 'IH R': u'\u026ar', 'AW R': u'a\u028ar', 'EY': u'e\u026a', 'NG': u'\u014b', 'CH': u't\u0283', 'F': u'f', 'N': u'n', 'R': u'\u0279', 'V': u'v', 'Z': u'z', 'MEYE': u'm\xe6', 'AY': u'a\u026a', 'SH': u'\u0283', 'AW R': u'a\u028ar', 'DH': u'\xf0', 'IY R': u'\u026ar', 'B': u'b', 'DX': u'\u027e', 'AA R': u'\u0251r', 'TH': u'\u03b8', 'IY': u'i', 'M': u'm', 'L': u'l', 'IH': u'\u026a', 'IY R': u'\u026ar', 'Y': u'j', 'OW': u'o\u028a', 'ER': u'\u025d', 'IY': u'i', 'AA': u'\u0251', 'T': u't'}
 
 # dictionary to convert IPA -> ARPA
-ipaToARPA = {u'\u0283': 'SH', u'\u025d' : 'ER', u't\u0361\u0283' : 'CH', u'd\u0361\u0292' : 'JH', 'u' : 'UW', u'a\u028a': 'AW', u'o\u028a': 'OW', u'e\u026a': 'EY', u'a\u028ar': 'AW R', u'a\u026a': 'AY', u'\u0254r': 'AO R', u'\u028c': 'AH', u'\u0292': 'ZH', u'\u0254\u026a': 'OY2', u'\u025br': 'EH R', u'\xf0': 'DH', u'j': 'Y', u'\u03b8': 'TH', u'b': 'B', u'd\u0292': 'JH', u'\u0251r': 'AA R',  u'\u014b': 'NG', u'\u026ar': 'IH R', u'\u026ar': 'IH R', u'\u0251': 'AA', u'm\xe6': 'MEYE', u'\u0254': 'AO', u'\u0259': 'AH', u'\u025b': 'EH', u'\u025a': 'ER', u'\u025d': 'ER', u't\u0283': 'CH', u'\u0261': 'G', u'f': 'F', u'd': 'D', u'\xe6': 'AE', u'i': 'IY', u'h': 'HH', u'k': 'K', u'\u026a': 'IH', u'm': 'M', u'l': 'L', u'\u028ar': 'UH R', u'n': 'N', u'r': 'R', u'\u028a': 'UH', u'p': 'P', u's': 'S', u'u': 'UW', u't': 'T', u'w': 'W', u'v': 'V', u'\u0279': 'R', u'z': 'Z', u'\u027e': 'DX'}
+ipaToARPA = {u'\u0283': 'SH', u'\u025d' : 'ER', u't\u0361\u0283' : 'CH', u'd\u0361\u0292' : 'JH', 'u' : 'UW', u'a\u028a': 'AW', u'o\u028a': 'OW', u'e\u026a': 'EY', u'a\u028ar': 'AW R', u'a\u026a': 'AY', u'\u0254r': 'AO R', u'\u028c': 'AH', u'\u0292': 'ZH', u'\u0254\u026a': 'OY', u'\u025br': 'EH R', u'\xf0': 'DH', u'j': 'Y', u'\u03b8': 'TH', u'b': 'B', u'd\u0292': 'JH', u'\u0251r': 'AA R',  u'\u014b': 'NG', u'\u026ar': 'IH R', u'\u026ar': 'IH R', u'\u0251': 'AA', u'm\xe6': 'MEYE', u'\u0254': 'AO', u'\u0259': 'AH', u'\u025b': 'EH', u'\u025a': 'ER', u'\u025d': 'ER', u't\u0283': 'CH', u'\u0261': 'G', u'f': 'F', u'd': 'D', u'\xe6': 'AE', u'i': 'IY', u'h': 'HH', u'k': 'K', u'\u026a': 'IH', u'm': 'M', u'l': 'L', u'\u028ar': 'UH R', u'n': 'N', u'r': 'R', u'\u028a': 'UH', u'p': 'P', u's': 'S', u'u': 'UW', u't': 'T', u'w': 'W', u'v': 'V', u'\u0279': 'R', u'z': 'Z', u'\u027e': 'DX'}
 
 # visemic classes as seen in auer and bernstein
 # http://cloudedbox.com/FALT/auerandbernstein.pdf
@@ -139,7 +139,6 @@ class FALT(object):
    	def getSimilarities(self, word, size, maxDistance=1):
    		if word == '':
    			return []
-   		similar = []
    		internal = []
    		external = []
    		total = 0
@@ -204,7 +203,7 @@ class FALT(object):
 						newClasses[translated] = str(num)
 						phonToSym[translated] = symbols[symbols.keys()[num]][0]
 					except:
-						print 'fail'
+						print 'Unable to translate', phoneme
 						newClasses[num].append('?')
 						newClasses[phoneme] = '?'
 				else:
@@ -227,7 +226,7 @@ class FALT(object):
 					part3.append("?")
 					
 				if newClasses.has_key(phon):
-					print 'Found', phon
+					#print 'Found', phon
 					part4.append(newClasses[phon])
 				else:
 					print 'Did not find', phon
@@ -244,7 +243,47 @@ class FALT(object):
 			except:
 				symbolized[word].append("Not Found") 
 				symbolized[word].append("")
+			#find internal and external similarities/frequencies
+			s = self.getCustomSimilarities(word, dictionary, distance)
+			symbolized[word].append(str(len(s[0]))+" internal words")
+			symbolized[word].append(s[0])
+			symbolized[word].append(str(len(s[1]))+" external words")
+			symbolized[word].append(s[1])
 		return symbolized
+   	def getCustomSimilarities(self, word, dictionary, distance):
+   		if word == "Not Found":
+   			return []
+   		internal = []
+   		external = []
+   		total = 0
+
+   		symWordList = dictionary[word][0][2]
+   		symWord = ' '.join(symWordList)
+   		keys = dictionary.keys()
+   		for eachWord in keys:
+   			#compare lengths of words
+   			otherWordList = dictionary[eachWord][0][2]
+   			if abs(len(symWordList) - len(otherWordList)) > 0:
+   				#do nothing
+   				continue
+   			else:
+   				#compare Levenshtein distances
+   				otherWord = ' '.join(otherWordList)
+   				distance = L.distance(symWord, otherWord)
+   				if distance == 0:
+   					#append to internal words (exact match)
+   					otherWordVisemes = ' '.join(dictionary[eachWord][0][3])
+   					internal.append(eachWord)
+   					internal.append(otherWord)
+   					internal.append(otherWordVisemes)
+   				elif distance <= distance:
+   					#append to external words (off by distance)
+   					otherWordVisemes = ' '.join(dictionary[eachWord][0][3])
+   					external.append(eachWord)
+   					external.append(otherWord)
+   					external.append(otherWordVisemes)
+   		return (internal, external)
+
 def main():
 	return
 

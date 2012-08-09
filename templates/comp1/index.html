@@ -144,8 +144,8 @@
                     <tr><th colspan="4" class="centered"><span style="font-size:24px; letter-spacing:5px;" id="mainWordSymbolized"></span></th></tr>
                     <tr><th colspan="4" class="centered"><span style="font-size:20px; letter-spacing:5px;" id="mainWordVisemes"></span></th></tr>
                     <tr><th class="centered"><h3>ARPA</h3></th><td class="centered"><span style="font-size:18px;" id="mainWordARPA"></span></td><th class="centered"><h3>IPA</h3></th><td class="centered"><span style="font-size:22px;" id="mainWordIPA"></span></td></tr>
-                    <tr><th class="centered"><h3>Internal</h3><h5><a href="#">Show Internal Words</a></th><td class="centered"><div style="max-height:150px; overflow:auto;" id="mainWordInternalCount"></div></td>
-                        <th class="centered"><h3>External</h3><h5><a href="#">Show External Words</a></th><td class="centered"><div style="max-height:150px; overflow:auto;" id="mainWordExternalCount"></div></td></tr>
+                    <tr><th class="centered"><h3>Internal</h3><h5><a href="#" id="showInternals">Show Internal Words</a></th><td class="centered"><div style="max-height:150px; overflow:auto;" id="mainWordInternalCount"></div></td>
+                        <th class="centered"><h3>External</h3><h5><a href="#" id="showExternals">Show External Words</a></th><td class="centered"><div style="max-height:150px; overflow:auto;" id="mainWordExternalCount"></div></td></tr>
                     <tr><th colspan="4" class="centered"><h3>Average Frequency</h3></th></tr>
                     <tr><th class="centered"><h6>Word</h6></th>
                       <th class="centered"><h6>Internal</h6></th>
@@ -752,6 +752,12 @@ Array.prototype.remove= function(){
     }
   });
 
+  $("#showInternals").click(function() {
+    var x = $("#mainWordInternalCount");
+    x.html("");
+    x.append("<table class='table table-striped' style='width:100%'>"+$("[value="+data.currentWord+"]").attr("internal")+"</table>");
+    return;
+  });
 	//Transcription Item
 	$("button#phon").live({
 		click : function() {
@@ -1219,7 +1225,7 @@ function sendOff(){
                 visemes = visemes.split(" ");
                 var formattedVisemes = new Array();
                 for (var j = 0; j < visemes.length; j++) {
-                  formattedVisemes.push("<span id=\"viseme\">"+visemes[j]+"</span>");
+                  formattedVisemes.push("<span id=\"viseme\" style=\"cursor:pointer\">"+visemes[j]+"</span>");
                 }
                 visemes = formattedVisemes.join(" ");
 
@@ -1376,7 +1382,7 @@ function scrollBottom() {
 $("#changeStyle").click(function(){
   var count = Number($("#changeStyle").attr("count"));
   count += 1;
-  switch (count % 5) {
+  switch (count % 6) {
     case 0:
     document.getElementById('stylesheet').href = "http://bootswatch.com/journal/bootstrap.min.css";
     postStatus("StyleChange", "<h3 style='color:white'>Journal</h3>", "info", 5000);
@@ -1390,12 +1396,16 @@ $("#changeStyle").click(function(){
     postStatus("StyleChange", "<h3 style='color:white'>Cerulean</h3>", "info", 5000);
     break;
     case 3:
-    document.getElementById('stylesheet').href = "http://bootswatch.com/simplex/bootstrap.min.css";
-    postStatus("StyleChange", "<h3 style='color:white'>Simplex</h3>", "info", 5000);
+    document.getElementById('stylesheet').href = "http://bootswatch.com/spacelab/bootstrap.min.css";
+    postStatus("StyleChange", "<h3 style='color:white'>Space Lab</h3>", "info", 5000);
     break;
     case 4:
     document.getElementById('stylesheet').href = "http://bootswatch.com/united/bootstrap.min.css";
     postStatus("StyleChange", "<h3 style='color:white'>United</h3>", "info", 5000);
+    break;
+    case 5:
+    document.getElementById('stylesheet').href = "";
+    postStatus("StyleChange", "<h3 style='color:white'>Bootstrap</h3>", "info", 5000);
     break;
     default:
     break;
