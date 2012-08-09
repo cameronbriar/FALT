@@ -250,12 +250,16 @@ class FALT(object):
 			#find internal and external similarities/frequencies
 
 			#append translations
-			symbolized[word].append(dictionary[word][0][0])
-			symbolized[word].append(dictionary[word][0][1])
+			try:
+				symbolized[word].append(dictionary[word][0][0])
+				symbolized[word].append(dictionary[word][0][1])
+			except:
+				continue
+
 			s = self.getCustomSimilarities(word, dictionary, distance)
-			symbolized[word].append(str(len(s[0]))+" internal words")
+			symbolized[word].append(str(len(s[0][:-1])/4)+" internal words")
 			symbolized[word].append(s[0])
-			symbolized[word].append(str(len(s[1]))+" external words")
+			symbolized[word].append(str(len(s[1][:-1])/4)+" external words")
 			symbolized[word].append(s[1])
 		return symbolized
    	def getCustomSimilarities(self, word, dictionary, maxDistance):
@@ -299,7 +303,8 @@ class FALT(object):
    					external.append(familiarity)
 					totalExt += familiarity
    		internal.append("Average Internal Familaritiy "+str(round(float(1.0*totalInt/len(internal)), 3)))
-   		external.append("Average External Familaritiy "+str(round(float(1.0*totalExt/len(external)), 3)))
+   		if len(external) != 0:
+   			external.append("Average External Familaritiy "+str(round(float(1.0*totalExt/len(external)), 3)))
    		return (internal, external)
 
 def main():
