@@ -500,6 +500,19 @@
 <ul class='classStorage' id='eclass30'></ul>
 <!-- When the data loads from the server, it ends up here for searching. -->
 <ul class='wordStorage'></ul>
+<ul id="audio"></ul>
+<div id="myCanvasContainer">
+ <canvas width="300" height="300" id="myCanvas">
+  <p>Anything in here will be replaced on browsers that support the canvas element</p>
+  <ul>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="/fish">Fish</a></li>
+   <li><a href="/chips">Chips</a></li>
+   <li><a href="/salt">Salt</a></li>
+   <li><a href="/vinegar">Vinegar</a></li>
+  </ul>
+ </canvas>
+</div>
     </div>
   </body>
 </html>
@@ -517,9 +530,28 @@
     <script src="http://cloudedbox.com/bootstrap/js/highcharts.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.2/mootools-yui-compressed.js" type="text/javascript"></script>
     <script src="http://cloudedbox.com/bootstrap/js/adapters/mootools-adapter.js" type="text/javascript"></script>
-
+    <script src="/static/tagcloud.js" type="text/javascript"></script>
     <script src="/static/speakClient.js" type="text/javascript"></script>
 <script>
+var oopts = {
+  textFont: 'Impact,Arial Black,sans-serif',
+  textHeight: 20,
+  maxSpeed: 0.05,
+  textColour: '#000',
+  decel: 0.9,
+  depth: 0.99,
+  reverse: true,
+  outlineColour: '#000',
+  outlineThickness: 3,
+  pulsateTo: 0.2,
+  pulsateTime: 0.5,
+  wheelZoom: false
+}, ttags = 'taglist', lock, shape = 'sphere';
+
+  window.onload = function() {
+      console.log("YES");
+      $("#myCanvas").tagcanvas(oopts);
+  };
 function handleFileSelect(evt) {
         var file = evt.target.files;
         //must be a txt file
@@ -623,7 +655,7 @@ var data = new Array();
 data.currentClass = 1;
 data.isVisible = false;
 data.currentSymbol = "&lt;";
-data.currentWord = 'Welcome to FALT';
+data.currentWord = 'fresno audio visual lexy con tool'; // sounds better this way
 data.myWords = new Array();
 data.popLocked = false;
 data.equivalenceClasses = new Array();
@@ -801,7 +833,7 @@ Array.prototype.remove= function(){
       }
     });
 
-    $("tr#hoverSpeak").click(function(){
+    $("#mainWord").click(function(){
       if (data.currentWord != undefined)
         speak.play(data.currentWord, {speed : 100});
     });

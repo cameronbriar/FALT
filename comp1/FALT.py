@@ -302,9 +302,9 @@ class FALT(object):
    					familiarity = int(self.getFamiliarity(eachWord))
    					external.append(familiarity)
 					totalExt += familiarity
-   		internal.append("Average Internal Familaritiy "+str(round(float(1.0*totalInt/len(internal)), 3)))
+   		internal.append("Average Internal Familaritiy "+str(round(float(1.0*totalInt/(len(internal)/4)), 3)))
    		if len(external) != 0:
-   			external.append("Average External Familaritiy "+str(round(float(1.0*totalExt/len(external)), 3)))
+   			external.append("Average External Familaritiy "+str(round(float(1.0*totalExt/(len(external)/4)), 3)))
    		return (internal, external)
 
 def main():
