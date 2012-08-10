@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Fresno's Audiovisual Lexicon Tool">
     <meta name="author" content="hi@cameronbriar.com">
-    <!--link href="http://cloudedbox.com/bootstrap/ui/css/blitzer/jquery-ui-1.8.21.custom.css" rel="stylesheet"-->
-    <link href="http://cloudedbox.com/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link id="stylesheet" href="http://cloudedbox.com/bootstrap/css/bootstrap.simplex.css" rel="stylesheet">
-    <link href="http://cloudedbox.com/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <!--link href="/static/ui/css/blitzer/jquery-ui-1.8.21.custom.css" rel="stylesheet"-->
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link id="stylesheet" href="/static/css/bootstrap.simplex.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
     <style type="text/css">
       body {
         /*padding-top: 60px;*/
@@ -76,11 +76,6 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link rel="shortcut icon" href="http://cloudedbox.com/bootstrap/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="http://cloudedbox.com/bootstrap/ico/apple-touch-icon-57-precomposed.png">
   </head>
   <body style="min-width:450px">
     <div class="navbar navbar-top" style="top:0px;">
@@ -186,7 +181,7 @@
           <div class="row-fluid" style="text-align:center">
             <div class="span6" id="unit_4">
               <h2 id="transcription">Phonemes</h2>
-              	<h2 id="loading"><img src="http://cloudedbox.com/bootstrap/loading.gif" style="width:20px; padding:10px 0px 5px 0px;" /><p>Loading</p></h2>
+              	<h2 id="loading"><img src="/static/loading.gif" style="width:20px; padding:10px 0px 5px 0px;" /><p>Loading</p></h2>
               <p>
 		<div class="pagination" style="text-align:center">
 		<ul><h4>
@@ -523,22 +518,22 @@
     </div>
   </body>
 </html>
-<script src="http://cloudedbox.com/bootstrap/js/jquery.js"></script>
-    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-transition.js"></script>
-    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-alert.js"></script>
-    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-modal.js"></script>
-    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-dropdown.js"></script>
-    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-tab.js"></script>
-    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-tooltip.js"></script>
-    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-popover.js"></script>
-    <script src="http://cloudedbox.com/bootstrap/js/bootstrap-button.js"></script>
-    <script src="http://cloudedbox.com/bootstrap/ui/js/jquery-ui-1.8.21.custom.min.js" ></script>
+<script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap-transition.js"></script>
+    <script src="/static/js/bootstrap-alert.js"></script>
+    <script src="/static/js/bootstrap-modal.js"></script>
+    <script src="/static/js/bootstrap-dropdown.js"></script>
+    <script src="/static/js/bootstrap-tab.js"></script>
+    <script src="/static/js/bootstrap-tooltip.js"></script>
+    <script src="/static/js/bootstrap-popover.js"></script>
+    <script src="/static/js/bootstrap-button.js"></script>
+    <script src="/static/js/jquery-ui-1.8.21.custom.min.js" ></script>
 
-    <script src="http://cloudedbox.com/bootstrap/js/highcharts.js" type="text/javascript"></script>
+    <script src="/static/js/highcharts.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.2/mootools-yui-compressed.js" type="text/javascript"></script>
-    <script src="http://cloudedbox.com/bootstrap/js/adapters/mootools-adapter.js" type="text/javascript"></script>
-    <script src="/static/tagcloud.js" type="text/javascript"></script>
-    <script src="/static/speakClient.js" type="text/javascript"></script>
+    <script src="/static/js/mootools-adapter.js" type="text/javascript"></script>
+    <script src="/static/js/tagcloud.js" type="text/javascript"></script>
+    <script src="/static/js/speakClient.js" type="text/javascript"></script>
 <script>
 var oopts = {
   textFont: 'Helvetica Neue,Helvetica,Arial,sans-serif',
@@ -1474,7 +1469,7 @@ function toggleChartLoading() {
 	}
 	else {
 		$('div.highcharts-container').animate({ opacity: 0.5}, 300);
-		$("#chart").prepend('<div id="loader" style="position:relative; z-index:100; text-align:center; width:100%; top:100px;"><img src="http://cloudedbox.com/bootstrap/loading.gif" style="width:40px;" /></br><h2>Loading Graph</h2></div>');
+		$("#chart").prepend('<div id="loader" style="position:relative; z-index:100; text-align:center; width:100%; top:100px;"><img src="/static/loading.gif" style="width:40px;" /></br><h2>Loading Graph</h2></div>');
 	}
 }
 var chart;
