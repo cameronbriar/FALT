@@ -9,6 +9,6 @@ Fresno Audiovisual Lexicon Tool
 
 	python manage.py runserver 0.0.0.0:8000
 
-### Powered by Django:
+### Powered by Django 1.4:
 
 * adjust STATICFILES\_DIRS  in _settings.py_ to match your directory setup
