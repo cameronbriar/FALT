@@ -149,17 +149,36 @@
   </ul>
  </canvas>
 </div>                   </th>
-                        <td class="centered"><div style="max-height:200px; overflow:auto;" id="mainWordInternalCount"></div></td><th class="centered"><h3>External</h3>
+                        <td class="centered"><div style="max-height:260px; overflow:auto; font-size:18px;" id="mainWordInternalCount"></div></td><th class="centered"><h3>External</h3>
                         <h5><a href="#" id="showExternals">Show External Words</a>
 <div id="externalCanvas" style="width:100%; position:relative;">
  <canvas style="position:relative; width:100%; z-index:10;" height="200" id="eCanvas">
   <p>Anything in here will be replaced on browsers that support the canvas element</p>
   <ul id="externalCloud">
    <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+   <li><a href="http://www.google.com" target="_blank">Google</a></li>
   </ul>
  </canvas>
 </div>
-                        </th><td class="centered"><div style="max-height:150px; overflow:auto;" id="mainWordExternalCount"></div></td></tr>
+                        </th><td class="centered"><div style="max-height:260px; overflow:auto; font-size:18px;" id="mainWordExternalCount"></div></td></tr>
                     <tr><th colspan="4" class="centered"><h3>Average Frequency</h3></th></tr>
                     <tr><th class="centered"><h6>Word</h6></th>
                       <th class="centered"><h6>Internal</h6></th>
@@ -959,7 +978,8 @@ Array.prototype.remove= function(){
 		$("#wordSubmit").val('');
     data.wordCount = 0
 		for (var i = 0; i < data.newWords.length; i++) {
-      if (!(data.myWords.contains(data.newWords[i]))) {
+      if (($.inArray(data.newWords[i], data.myWords)) == -1) {
+      //if (!(data.myWords.contains(data.newWords[i]))) {
           if (/^[a-zA-Z()]+$/.test(data.newWords[i])) {
         data.myWords.push(data.newWords[i].toLowerCase());
 			 $("#newWords").append("<li id='wordBank' style='font-size:18px; padding:20px 0px 20px 0px;'>"+data.newWords[i].toLowerCase()+"</li>");
@@ -1086,13 +1106,13 @@ function togglePreset(presetNum) {
   else { 
   if ($.inArray(presetNum, [1, 2, 10, 12, 19, 28]) != -1) {
     toggleTranscription('ipa');
-    var classNum = 1;
-    data.equivalencePresets[presetNum].each(function(index){ 
-      toggleClass(classNum); classNum++; 
-      index.each(function(index){
-        togglePhoneme(index, 'ipa');
-      });
-    });
+    for (var i = 0; i < data.equivalencePresets[presetNum].length; i++) {
+    //data.equivalencePresets[presetNum].each(function(index){ 
+      toggleClass(i+1);
+      for (var j = 0; j < data.equivalencePresets[presetNum][i].length; j++) {
+        togglePhoneme(data.equivalencePresets[presetNum][i][j], 'ipa');
+      }
+    }
     toggleClass(1);
   } 
    else {
