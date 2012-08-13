@@ -77,7 +77,7 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
-  <body style="min-width:450px">
+  <body style="min-width:700px">
     <div class="navbar navbar-top" style="top:0px;">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -136,45 +136,26 @@
                 <div style="width:90%; margin:0 auto; position:relative;">
                 <table class="table table-bordered" style="width:100%; position:relative;">
                   <tr><th colspan="4" class="centered"><h2 id="mainWord">Fresno Audiovisual Lexicon Tool</h2></th></tr>
-                    <tr><th colspan="4" class="centered"><span style="font-size:24px; letter-spacing:5px;" id="mainWordSymbolized"></span></th></tr>
-                    <tr><th colspan="4" class="centered"><span style="font-size:20px; letter-spacing:5px;" id="mainWordVisemes"></span></th></tr>
+                    <tr><th colspan="2" class="centered"><span style="font-size:24px; letter-spacing:5px;" id="mainWordSymbolized"></span></th>
+                    <th colspan="2" class="centered"><span style="font-size:20px; letter-spacing:5px;" id="mainWordVisemes"></span></th></tr>
                     <tr><th class="centered"><h3>ARPA</h3></th><td class="centered"><span style="font-size:18px;" id="mainWordARPA"></span></td><th class="centered"><h3>IPA</h3></th><td class="centered"><span style="font-size:22px;" id="mainWordIPA"></span></td></tr>
                     <tr><th class="centered"><h3>Internal</h3>
                       <h5><a href="#" id="showInternals">Show Internal Words</a>
-<div id="internalCanvas" style="width:100%; position:relative;">
- <canvas style="position:relative; width:100%; z-index:10;" height="200" id="iCanvas">
+<div id="internalCanvas" style="margin:0 auto; max-width:325px; height:200px; position:relative;">
+ <canvas style="position:relative; width:100%; height:100%; z-index:10;" id="iCanvas">
   <p>Anything in here will be replaced on browsers that support the canvas element</p>
   <ul id="internalCloud">
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+
   </ul>
  </canvas>
 </div>                   </th>
                         <td class="centered"><div style="max-height:260px; overflow:auto; font-size:18px;" id="mainWordInternalCount"></div></td><th class="centered"><h3>External</h3>
                         <h5><a href="#" id="showExternals">Show External Words</a>
-<div id="externalCanvas" style="width:100%; position:relative;">
- <canvas style="position:relative; width:100%; z-index:10;" height="200" id="eCanvas">
+<div id="externalCanvas" style="margin:0 auto; max-width:325px; height:200px; position:relative;">
+ <canvas style="position:relative; width:100%; height:100%; z-index:10;" id="eCanvas">
   <p>Anything in here will be replaced on browsers that support the canvas element</p>
   <ul id="externalCloud">
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
-   <li><a href="http://www.google.com" target="_blank">Google</a></li>
+
   </ul>
  </canvas>
 </div>
@@ -549,20 +530,19 @@
     <script src="/static/js/jquery-ui-1.8.21.custom.min.js" ></script>
 
     <script src="/static/js/highcharts.js" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.2/mootools-yui-compressed.js" type="text/javascript"></script>
-    <script src="/static/js/mootools-adapter.js" type="text/javascript"></script>
     <script src="/static/js/tagcloud.js" type="text/javascript"></script>
     <script src="/static/js/speakClient.js" type="text/javascript"></script>
 <script>
 var oopts = {
-  textFont: 'Helvetica Neue,Helvetica,Arial,sans-serif',
-  textHeight: 18,
+  //textFont: 'Helvetica Neue,Helvetica,Arial,sans-serif',
+  textFont: 'Courier, sans-serif',
+  textHeight: 16,
   maxSpeed: 0.05,
   textColour: '#000',
   decel: 0.9,
   depth: 0.99,
   reverse: true,
-  outlineColour: '#000',
+  outlineColour: '#366DDC',
   outlineThickness: 3,
   pulsateTo: 0.2,
   pulsateTime: 0.5,
@@ -571,7 +551,6 @@ var oopts = {
 }, ttags = 'taglist', lock, shape = 'sphere';
 
   window.onload = function() {
-      console.log("YES");
       $("#eCanvas").tagcanvas(oopts);
       oopts["initial"] = [-0.1, 0.1];
       $("#iCanvas").tagcanvas(oopts);
@@ -664,6 +643,8 @@ if ( isMobile.any() ) {
 }
 
   $("h2#loading").hide();
+  $("#externalCanvas").hide();
+  $("#internalCanvas").hide();
   $("h6#fileInputNotSupported").hide();
   $("div#fileInputContainer").hide();
   $("tr#hoverMore").popover({'placement': 'bottom', 'animate' : 'false', 'title' : 'Audiovisual', 'trigger' : 'manual', 'content' : ''});
@@ -813,6 +794,10 @@ Array.prototype.remove= function(){
     var x = $("#mainWordInternalCount");
     x.html("");
     x.append("<table class='table table-striped' style='width:100%'>"+$("[value="+data.currentWord+"]").attr("internal")+"</table>");
+    $("#internalCloud").html("");
+    $("#internalCloud").append($("[value="+data.currentWord+"]").attr("internalCloud"));
+    $("#iCanvas").tagcanvas(oopts);
+    $("#internalCanvas").show();
   }
     return;
   });
@@ -821,6 +806,10 @@ Array.prototype.remove= function(){
     var x = $("#mainWordExternalCount");
     x.html("");
     x.append("<table class='table table-striped' style='width:100%'>"+$("[value="+data.currentWord+"]").attr("external")+"</table>");
+    $("#externalCloud").html("");
+    $("#externalCloud").append($("[value="+data.currentWord+"]").attr("externalCloud"));
+    $("#eCanvas").tagcanvas(oopts);
+    $("#externalCanvas").show();
   }
     return;
   });
@@ -875,8 +864,7 @@ Array.prototype.remove= function(){
 
   // hover & touchstart are the same
 	$("li#wordBank").live({
-		hover : function() {
-
+		mouseover : function() {
       data.currentWord = $(this).html();
       $("#mainLogo").html(data.currentWord);
       $("#mainWordSymbolized").html($("[value = "+data.currentWord+"]").attr("symbol"));
@@ -893,8 +881,8 @@ Array.prototype.remove= function(){
       $("#mainWordTotalFrequency").html($("[value = "+data.currentWord+"]").attr("totalfrequency"));
       $("#mainWordFrequency").html($("[value = "+data.currentWord+"]").attr("wordFrequency"));
       $("#mainWord").html($("[value = "+data.currentWord+"]").attr("dictionary"));
-
-
+      $("#showInternals").click();
+      $("#showExternals").click();
     //$("tr#hoverMore").attr('data-content', data.newContent);
     //$("tr#hoverMore").data('popover').options.content = data.newContent;
     //if (!data.popLocked)
@@ -903,8 +891,6 @@ Array.prototype.remove= function(){
 		//console.log($("[value = "+data.currentWord+"]").attr("syllable-count"));
 		},
 		touchstart : function() {
-  
-
       data.currentWord = $(this).html();
       $("#mainLogo").html(data.currentWord);
       $("#mainWordSymbolized").html($("[value = "+data.currentWord+"]").attr("symbol"));
@@ -978,7 +964,7 @@ Array.prototype.remove= function(){
 		$("#wordSubmit").val('');
     data.wordCount = 0
 		for (var i = 0; i < data.newWords.length; i++) {
-      if (($.inArray(data.newWords[i], data.myWords)) == -1) {
+      if (($.inArray(data.newWords[i], data.myWords)) == -1 && ($.inArray(data.newWords[i].toLowerCase(), data.myWords)) == -1) {
       //if (!(data.myWords.contains(data.newWords[i]))) {
           if (/^[a-zA-Z()]+$/.test(data.newWords[i])) {
         data.myWords.push(data.newWords[i].toLowerCase());
@@ -1270,6 +1256,8 @@ function sendOff(){
                 var extSims = result[data.dataSplit[i]].external.split(" ");
                 var internalSimilars = new Array();
                 var externalSimilars = new Array();
+                var internalCloud = new Array();
+                var externalCloud = new Array();
                 for (var j = 0; j < intSims.length; j+=2) {
                   internalSimilars.push("<tr>"); 
                   internalSimilars.push("<td><span id=\"addSim\">");
@@ -1278,6 +1266,12 @@ function sendOff(){
                   internalSimilars.push(intSims[j+1])
                   internalSimilars.push("</td>");
                   internalSimilars.push("</tr>");
+
+                  if (j < 75) {
+                  internalCloud.push("<li><a id=\"addSim\" href=\"#\">");
+                  internalCloud.push(intSims[j]);
+                  internalCloud.push("</a></li>");
+                  }
                 }
                 for (var j = 0; j < extSims.length; j+=2) {
                   externalSimilars.push("<tr>"); 
@@ -1287,6 +1281,12 @@ function sendOff(){
                   externalSimilars.push(extSims[j+1])
                   externalSimilars.push("</td>");
                   externalSimilars.push("</tr>");
+
+                  if (j < 75) {
+                  externalCloud.push("<li><a id=\"addSim\" href=\"#\">");
+                  externalCloud.push(extSims[j]);
+                  externalCloud.push("</a></li>");
+                  }
                 }
                 var visemes = result[data.dataSplit[i]].visemes;
                 visemes = visemes.split(" ");
@@ -1296,7 +1296,7 @@ function sendOff(){
                 }
                 visemes = formattedVisemes.join(" ");
 
-            		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' wordFrequency='"+result[data.dataSplit[i]].wordFrequency+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+visemes+"' internal='"+internalSimilars.join("")+"' external='"+externalSimilars.join("")+"' internalCount='"+result[data.dataSplit[i]].internalCount+"' externalCount='"+result[data.dataSplit[i]].externalCount+"' internalFrequency='"+result[data.dataSplit[i]].internalFrequency+"' externalFrequency='"+result[data.dataSplit[i]].externalFrequency+"' totalFrequency='"+result[data.dataSplit[i]].totalFrequency+"'></li>");
+            		$("ul.wordStorage").append("<li id='word"+i+"' value='"+data.dataSplit[i]+"' syllable-count='"+result[data.dataSplit[i]].syllables+"' symbol='"+result[data.dataSplit[i]].symbolized+"' wordFrequency='"+result[data.dataSplit[i]].wordFrequency+"' dictionary='"+result[data.dataSplit[i]].dictionary+"' ipa='"+result[data.dataSplit[i]].ipa+"' arpa='"+result[data.dataSplit[i]].arpa+"' visemes='"+visemes+"' internal='"+internalSimilars.join("")+"' external='"+externalSimilars.join("")+"' internalCount='"+result[data.dataSplit[i]].internalCount+"' externalCount='"+result[data.dataSplit[i]].externalCount+"' internalCloud='"+internalCloud.join("")+"' externalCloud='"+externalCloud.join("")+"' internalFrequency='"+result[data.dataSplit[i]].internalFrequency+"' externalFrequency='"+result[data.dataSplit[i]].externalFrequency+"' totalFrequency='"+result[data.dataSplit[i]].totalFrequency+"'></li>");
                 $("#mainWord").html('<small>Loading Complete</small>');
             	}
                 var time2 = new Date();
@@ -1304,7 +1304,6 @@ function sendOff(){
                 postStatus("Loading", "<h2 style='color:white'>Complete</h2>", "info", 3000);
             }
           });
-
     return false;
         }
 
