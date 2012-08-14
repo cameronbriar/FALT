@@ -408,9 +408,12 @@
 	<div id="help_modal" class="modal hide">
             <div class="modal-header">
               <a class="close" data-dismiss="modal" >&times;</a>
-              <h3>Help</h3>
+              <h3>About</h3>
             </div>
             <div class="modal-body">
+              <p>
+                The FALT project is designed to be a research tool to investigate the similarities between audio-only communication and visual-only communication. 
+              </p>
               <hr>
 
             </div>
@@ -1267,7 +1270,7 @@ function sendOff(){
                   internalSimilars.push("</td>");
                   internalSimilars.push("</tr>");
 
-                  if (j < 75) {
+                  if (j < 100) {
                   internalCloud.push("<li><a id=\"addSim\" href=\"#\">");
                   internalCloud.push(intSims[j]);
                   internalCloud.push("</a></li>");
@@ -1282,7 +1285,7 @@ function sendOff(){
                   externalSimilars.push("</td>");
                   externalSimilars.push("</tr>");
 
-                  if (j < 75) {
+                  if (j < 100) {
                   externalCloud.push("<li><a id=\"addSim\" href=\"#\">");
                   externalCloud.push(extSims[j]);
                   externalCloud.push("</a></li>");
@@ -1450,23 +1453,23 @@ $("#changeStyle").click(function(){
   count += 1;
   switch (count % 6) {
     case 0:
-    document.getElementById('stylesheet').href = "http://bootswatch.com/journal/bootstrap.min.css";
+    document.getElementById('stylesheet').href = "/static/css/journal/bootstrap.min.css";
     postStatus("StyleChange", "<h3 style='color:white'>Journal</h3>", "info", 5000);
     break;
     case 1:
-    document.getElementById('stylesheet').href = "http://bootswatch.com/superhero/bootstrap.min.css";
+    document.getElementById('stylesheet').href = "/static/css/superhero/bootstrap.min.css";
     postStatus("StyleChange", "<h3 style='color:white'>Superhero</h3>", "info", 5000);
     break;
     case 2:
-    document.getElementById('stylesheet').href = "http://bootswatch.com/cerulean/bootstrap.min.css";
+    document.getElementById('stylesheet').href = "/static/css/cerulean/bootstrap.min.css";
     postStatus("StyleChange", "<h3 style='color:white'>Cerulean</h3>", "info", 5000);
     break;
     case 3:
-    document.getElementById('stylesheet').href = "http://bootswatch.com/spacelab/bootstrap.min.css";
+    document.getElementById('stylesheet').href = "/static/css/spacelab/bootstrap.min.css";
     postStatus("StyleChange", "<h3 style='color:white'>Space Lab</h3>", "info", 5000);
     break;
     case 4:
-    document.getElementById('stylesheet').href = "http://bootswatch.com/united/bootstrap.min.css";
+    document.getElementById('stylesheet').href = "/static/css/united/bootstrap.min.css";
     postStatus("StyleChange", "<h3 style='color:white'>United</h3>", "info", 5000);
     break;
     case 5:
