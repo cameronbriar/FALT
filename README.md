@@ -3,7 +3,7 @@ FALT
 
 Fresno Audiovisual Lexicon Tool
 
-[Read More](http://67.182.100.26:3000/falt)
+[Read More](http://76.20.66.208:3000/falt)
 
 ### To install:
 
