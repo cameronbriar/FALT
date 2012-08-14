@@ -173,12 +173,16 @@ class FALT(object):
 		# words = hello, world, success
 		# classes = UH,UW,EY,ER|OW,AW|IH,IY,EH,AE|OY|AO,AY,AA,Y|P,B,M|V,F|L,N,K,G,NG,HH|D,T,S,Z|R,W|DH,TH|SH,CH,ZH,JH||||||AH
 		# distance = 2
+		#
+		# url: http://0.0.0.0/custom/?words=hello,%20world,%20success&classes=UH,UW,EY,ER|OW,AW|IH,IY,EH,AE|OY|AO,AY,AA,Y|P,B,M|V,F|L,N,K,G,NG,HH|D,T,S,Z|R,W|DH,TH|SH,CH,ZH,JH||||||AH&distance=2
 
 		# example 2: 
 		# words = hello, world, success
 		# classes = ʊ,u,eɪ|oʊ,aʊ|ɪ,i,ɛ,æ|ɔɪ,ɔ,aɪ,ʌ,ə,ɑ,j|p,b,m|v,f|l,n,k,ɡ,ŋ,h,d,t,s,z|r,w|ð,θ|ʃ,ʒ
 		# distance = 1
 		# ipa = True
+		#
+		# url : http://0.0.0.0/custom/?words=hello,%20world,%20success&classes=%CA%8A,u,e%C9%AA|o%CA%8A,a%CA%8A|%C9%AA,i,%C9%9B,%C3%A6|%C9%94%C9%AA,%C9%94,a%C9%AA,%CA%8C,%C9%99,%C9%91,j|p,b,m|v,f|l,n,k,%C9%A1,%C5%8B,h,d,t,s,z|r,w|%C3%B0,%CE%B8|%CA%83,%CA%92&distance=1&ipa=True
 
 		#parse words
 		words = urllib.unquote(words)
@@ -228,7 +232,6 @@ class FALT(object):
 					part3.append("?")
 					
 				if newClasses.has_key(phon):
-					#print 'Found', phon
 					part4.append(newClasses[phon])
 				else:
 					notFound[phon] = 1
@@ -262,6 +265,7 @@ class FALT(object):
 			symbolized[word].append(str(len(s[1][:-1])/4)+" external words")
 			symbolized[word].append(s[1])
 		return symbolized
+		
    	def getCustomSimilarities(self, word, dictionary, maxDistance):
    		if word == "Not Found":
    			return []

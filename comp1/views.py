@@ -9,6 +9,7 @@ import logging
 logging.basicConfig()
 
 import os
+import re
 import sys
 import subprocess
 
@@ -36,6 +37,12 @@ def customRequest(request):
     json = simplejson.dumps(d, sort_keys=True, indent=4)
     return HttpResponse(json, mimetype="application/json")
 
+# this is the action taken from the main interface (web view)
+# input:
+#       words (comma separated strings)
+#       size  (reference to equivalence class preset)
+#               (1, 2, 10, 12, 19, 28)
+#               (http://cloudedbox.com/FALT/auerandbernstein.pdf)
 def mainRequest(request):
     return_dict = {}
     words = request.GET['words']
@@ -91,6 +98,7 @@ def mainRequest(request):
 
                 totalSims = totalInts + totalExts
                 return_dict[word]['totalFrequency'] = round(float(1.0*totalFreq/totalSims), 3)
+            
             return_dict[word]['internal'] = ' '.join(intSims)
             return_dict[word]['external'] = ' '.join(extSims)
             return_dict[word]['internalCount'] = totalInts
@@ -146,7 +154,6 @@ def fileRequest(request):
     json = simplejson.dumps(return_dict)
     return HttpResponse(json, mimetype="application/json")
 
-import re
 def countSyllables(word):
     word = word.lower()
     if len(word) < 3:
