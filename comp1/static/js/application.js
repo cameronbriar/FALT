@@ -709,12 +709,18 @@ function sendOff(){
     return false;
   }
     var time1 = new Date();
+
+    var urlToSend = 'main/';
+    var dataToSend = 'words='+data.dataToSend+'&size='+data.currentClassSize;
+    var showResultsURL = urlToSend+"?"+dataToSend;
+
+    $("#showResults").attr("href", showResultsURL);
     $("#mainWord").html('<small>Loading...</small>');
     postStatus("Loading", "<h2 style='color:white'>Loading</h2>", "info", 5000);
     $.ajax({
             type:"GET",
-            url :"/main/",
-            data:'words='+data.dataToSend+'&size='+data.currentClassSize,
+            url :urlToSend,
+            data:dataToSend,
             datatype:"json",
             error:function(result){console.log("Please check your input and try again.");},//alert('There was an error.');},
             success:function(result){
