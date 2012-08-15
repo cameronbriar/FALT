@@ -182,7 +182,7 @@ class FALT(object):
 		# distance = 1
 		# ipa = True
 		#
-		# url : http://0.0.0.0/custom/?words=hello,%20world,%20success&classes=%CA%8A,u,e%C9%AA|o%CA%8A,a%CA%8A|%C9%AA,i,%C9%9B,%C3%A6|%C9%94%C9%AA,%C9%94,a%C9%AA,%CA%8C,%C9%99,%C9%91,j|p,b,m|v,f|l,n,k,%C9%A1,%C5%8B,h,d,t,s,z|r,w|%C3%B0,%CE%B8|%CA%83,%CA%92&distance=1&ipa=True
+		# url : http://0.0.0.0:9000/custom/?words=hello,world,success&classes=%CA%8A,u,e%C9%AA|o%CA%8A,a%CA%8A|%C9%AA,i,%C9%9B,%C3%A6|%C9%94%C9%AA,%C9%94,a%C9%AA,%CA%8C,%C9%99,%C9%91,j|p,b,m|v,f|l,n,k,%C9%A1,%C5%8B,h,d,t,s,z|r,w|%C3%B0,%CE%B8|%CA%83,%CA%92&distance=1&ipa=True
 
 		#parse words
 		words = urllib.unquote(words)

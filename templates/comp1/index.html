@@ -70,7 +70,7 @@
         <div class="span9">
           <div class="well" style="min-width:25%; overflow:show;">
             <div class="row-fluid">
-              <div style="text-align:center; max-height:450px; overflow:auto;" id="unit_3">
+              <div style="text-align:center; max-height:550px; overflow:auto;" id="unit_3">
                 <div style="width:90%; margin:0 auto; position:relative;">
                 <table class="table table-bordered" style="width:100%; position:relative;">
                   <tr><th colspan="4" class="centered"><h2 id="mainWord" style="display:inline">Fresno Audiovisual Lexicon Tool</h2><span style="float:right; display:inline;"><i class="icon-volume-up"></i></span></th></tr>
@@ -348,12 +348,50 @@
 	<div id="help_modal" class="modal hide">
             <div class="modal-header">
               <a class="close" data-dismiss="modal" >&times;</a>
-              <h3>About</h3>
+              <h3>FALT Information</h3>
             </div>
             <div class="modal-body">
               <p>
-                The FALT project is designed to be a research tool to investigate the similarities between audio-only communication and visual-only communication. 
+                This project is designed to help investigate the similarities between audio-only communication and visual-only communication. 
               </p>
+<div class="accordion" id="accordion2">
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                  Collapsible Group Item #1
+                </a>
+              </div>
+              <div id="collapseOne" class="accordion-body collapse in">
+                <div class="accordion-inner">
+                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                  Collapsible Group Item #2
+                </a>
+              </div>
+              <div id="collapseTwo" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                  Collapsible Group Item #3
+                </a>
+              </div>
+              <div id="collapseThree" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+              </div>
+            </div>
+          </div>
               <hr>
 
             </div>
@@ -391,39 +429,8 @@
 
             </div>
           </div>
-  <!--div id="file_modal" class="modal hide">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal" >&times;</a>
-              <h3>Upload a List of Words</h3>
-            </div>
-            <div class="modal-body">
-              <p>
-                {% csrf_token %}
-        <h4>Filetype must be:</h4>
-        <h5><ul>
-          <li>delimited by a space, comma or newline &nbsp; &nbsp; <a id="aboutDelimiter" href="#" rel="tooltip" data-original-title="all words in the file must be separated by a single character"><i class="icon-question-sign"></i></a></li>
-          <li>in .txt format</li>
-        </ul></h5></br>
-            <input id="fileInput" type="file" style="display:none">
-              <div class="input-append">
-              <input id="fakeFile" class="input-large" type="text">
-              <a class="btn btn-primary" onclick="$('input[id=fileInput]').click();">Browse</a>              
-            </div>
-            <script type="text/javascript">
-            $('input[id=fileInput]').change(function() {
-            $('#fakeFile').val($(this).val().replace("C:\\fakepath\\", ""));
-            }); 
-            </script>
-        </br>
-            </p>
-              <hr>
-              <h1 id="fileLoading">Loading...</h2>
-            </div>
-            <div class="modal-footer">
-              <button id="fileClose" class="btn btn-large" data-dismiss="modal" >Close</button>
-            </div>
-          </div-->
-<!-- New idea: treat the HTML doc like XML and store the data to be referenced. -->
+
+<!-- idea: treat the HTML doc like XML and store the data to be referenced. -->
     <div style="display:none">
 <ul class='classStorage' id='eclass1'></ul>
 <ul class='classStorage' id='eclass2'></ul>
@@ -470,6 +477,7 @@
 <script src="/static/js/bootstrap-tooltip.js"></script>
 <script src="/static/js/bootstrap-popover.js"></script>
 <script src="/static/js/bootstrap-button.js"></script>
+<script src="/static/js/bootstrap-collapse.js"></script>
 <script src="/static/js/jquery-ui-1.8.21.custom.min.js" ></script>
 
 <!--script src="/static/js/highcharts.js" type="text/javascript"></script-->

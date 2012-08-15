@@ -26,9 +26,13 @@ def index(request):
 
 def customRequest(request):
     global W
-    words = request.GET['words']
-    distance = int(request.GET['distance'])
-    classes = request.GET['classes']
+    try:
+        words = request.GET['words']
+        distance = int(request.GET['distance'])
+        classes = request.GET['classes']
+    except:
+        return HttpResponse(_404)
+
     try:
         ipa = request.GET['ipa']
     except:
@@ -168,3 +172,6 @@ def countSyllables(word):
     if count == 0:
         count = 1
     return count
+
+# Error pages
+_404 = "<html><body><div style=\"text-align:center; width:100%; position:relative;\"><h1>404</h1><p>Please refer to the <a href=\"#\">documentation</a> for useful information.</div></body></html>"
