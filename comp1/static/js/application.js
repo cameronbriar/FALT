@@ -582,13 +582,12 @@ function togglePresetARPA(presetNum) {
   else { 
   if ($.inArray(presetNum, [1, 2, 10, 12, 19, 28]) != -1) {
     toggleTranscription('arpa');
-    var classNum = 1;
-    data.equivalencePresetsARPA[presetNum].each(function(index){ 
-      toggleClass(classNum); classNum++; 
-      index.each(function(index){
-        togglePhoneme(index, 'arpa');
-      });
-    });
+    for (var i = 0; i < data.equivalencePresetsARPA[presetNum].length; i++) {
+      toggleClass(i+1);
+      for (var j = 0; j < data.equivalencePresetsARPA[presetNum][i].length; j++) {
+              togglePhoneme(data.equivalencePresetsARPA[presetNum][i][j], 'arpa');
+      }
+    }
     toggleClass(1);
   } 
   else {

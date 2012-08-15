@@ -74,7 +74,7 @@ class FALT(object):
 		self.dictWords = open(defaultFilename)
 		self.phonemes = marshal.load(self.dictWords)
 		self.dictWords.close()
-		self.dictWords = open('words_freq_m')
+		self.dictWords = open(dictionaryFreqs)
 		self.familiarity = marshal.load(self.dictWords)
 		self.dictWords.close()
 		self.result = []
@@ -316,6 +316,12 @@ class FALT(object):
    		if len(external) != 0:
    			external.append("Average External Familaritiy "+str(round(float(1.0*totalExt/(len(external)/4)), 3)))
    		return (internal, external)
+
+   	def loadResults(self, url):
+   		import simplejson as sj
+   		data = urllib.urlopen(url)
+   		jdata = sj.load(data)
+   		return jdata
 
 def main():
 	return
