@@ -418,6 +418,15 @@ Array.prototype.remove= function(){
     $("b#wordMore i").attr("class", "icon-chevron-down");
     return;
   }
+  $("#increase_modal").click(function(){
+    var modal = $(this).attr("modal") + "_modal";
+    var currentWidth = $("#"+modal).width();
+    var newWidth = currentWidth + 300;
+    var currentMargin = parseInt($("#"+modal).css("margin-left"));
+    var newMargin = currentMargin - 150;
+    $("#"+modal).width(newWidth).css("margin-left", String(newMargin)+"px");
+    return;
+  });
 	//Input Functions
 
 	//Word Input
