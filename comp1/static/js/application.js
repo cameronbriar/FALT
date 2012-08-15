@@ -260,7 +260,10 @@ Array.prototype.remove= function(){
     x.html("");
     x.append("<table class='table table-striped' style='width:100%'>"+$("[value="+data.currentWord+"]").attr("internal")+"</table>");
     $("#internalCloud").html("");
-    $("#internalCloud").append($("[value="+data.currentWord+"]").attr("internalCloud"));
+    var iwords = $("[value="+data.currentWord+"]").attr("internalCloud");
+    if (iwords == '<li><a id="addSim" href="#"></a></li>')
+      iwords = "<li><a href=\"#\">NONE</a></li>";
+    $("#internalCloud").append(iwords);
     $("#iCanvas").tagcanvas(oopts);
     $("#internalCanvas").show();
   }
@@ -272,7 +275,10 @@ Array.prototype.remove= function(){
     x.html("");
     x.append("<table class='table table-striped' style='width:100%'>"+$("[value="+data.currentWord+"]").attr("external")+"</table>");
     $("#externalCloud").html("");
-    $("#externalCloud").append($("[value="+data.currentWord+"]").attr("externalCloud"));
+    var ewords = $("[value="+data.currentWord+"]").attr("externalCloud");
+    if (ewords == '<li><a id="addSim" href="#"></a></li>')
+      ewords = "<li><a href=\"#\">NONE</a></li>";
+    $("#externalCloud").append(ewords);
     $("#eCanvas").tagcanvas(oopts);
     $("#externalCanvas").show();
   }
