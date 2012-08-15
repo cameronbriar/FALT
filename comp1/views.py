@@ -51,6 +51,10 @@ def mainRequest(request):
     return_dict = {}
     words = request.GET['words']
     size = int(request.GET['size'])
+    try:
+        distance = int(request.GET['distance'])
+    except:
+        distance = 1
 
     global W 
 
@@ -64,9 +68,9 @@ def mainRequest(request):
 
         if symbolized[2] != '':
             if symbolized[1] != word.upper():
-                similarities = W.getSimilarities(symbolized[1], size)
+                similarities = W.getSimilarities(symbolized[1], size, distance)
             else:
-                similarities = W.getSimilarities(word, size)
+                similarities = W.getSimilarities(word, size, distance)
             #data
             intSims = []
             extSims = []
