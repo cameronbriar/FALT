@@ -22,4 +22,4 @@ It's my first application written in __Python__ and powered by __Django__, so bu
 
 ### Requirements:
 
-	powered by [Django 1.4](https://www.djangoproject.com/)
+*  powered by [Django 1.4](https://www.djangoproject.com/)
