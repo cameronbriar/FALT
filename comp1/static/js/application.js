@@ -59,7 +59,7 @@ data.density = 100;
 
 // Status Messages 
 // (# of times each message is can be shown)
-data.status_showHoverData = 2;
+data.status_showHoverData = 3;
 
 data.equivalenceClasses = new Array();
 data.equivalenceClasses[0] = 0;

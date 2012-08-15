@@ -5,7 +5,7 @@ Fresno Audiovisual Lexicon Tool
 
 In an effort to further investigate the similarities between audio-alone communication and visual-alone communication, FALT was created. 
 
-Note: It's my first web application written in __Python__ and powered by __Django__, so bugs.
+Note: It's my first web application written in __Python__ and powered by __Django__.
 
 [Read More](http://76.20.66.208:3000/falt)
 
