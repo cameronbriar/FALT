@@ -57,6 +57,10 @@ data.distance = 1;
 // Density in the HTML5 sphere cloud things
 data.density = 100;
 
+// Status Messages 
+// (# of times each message is can be shown)
+data.status_showHoverData = 2;
+
 data.equivalenceClasses = new Array();
 data.equivalenceClasses[0] = 0;
 data[0] = 0;
@@ -469,13 +473,14 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
 	$("#newWord").submit(function(e) {
  		e.preventDefault();
 		data.newWords = $("#wordSubmit").val().split(" ");
-    if (data.newWords[0] == "") 
-      if (wordBankCount != 0) {
+    if (data.newWords[0] == "") {
+      if (wordBankCount() != 0) {
         sendOff();
         return;
-      }
-      else 
+      } else {
+        postStatus("No_words", '<h1><i class="icon-arrow-up"></i></h1><h2>Input words first', "info", 6000);
         return;
+      }}
 		$("#wordSubmit").val('');
     data.wordCount = 0
 		for (var i = 0; i < data.newWords.length; i++) {
@@ -500,13 +505,33 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
 	//Status Updates
 	function postStatus(itemname, message, type, time) {
 	
+    if (statusApproved(itemname)) {
 		$("#status").append("<li id="+itemname+" class='label label-"+type+"' style='margin-top:3px'><strong>"+message+"</strong></li>"); 
 		clearTextAt(itemname, time);
+    }
 	} 
 	function postStatusAt(itemname, message, type, time, delay) {
 
 		var t=setTimeout(function(){postStatus(itemname, message, type, time);}, delay);
 	} 
+  function statusApproved(name) {
+    switch (name) {
+      // this part is custom to application
+      case 'Hover':
+      if (data.status_showHoverData > 0) {
+        data.status_showHoverData -= 1;
+        return true;
+      } else {
+        return false;
+      }
+      break;
+      // this prevents displaying duplicates
+      default:
+      return $("#"+name).html() == null;
+      break;
+
+    }
+  }
 	function clearTextAt(itemname, when) {
 	
 		var t=setTimeout(function(){clearText(itemname)}, when);
@@ -821,7 +846,8 @@ function sendOff(){
             	}
                 var time2 = new Date();
                 console.log("Time to process "+ String(wordBankCount())+" words: "+String((time2.getTime() - time1.getTime())/1000));
-                postStatus("Loading", "<h2 style='color:white'>Complete</h2>", "info", 3000);
+                postStatus("Complete", "<h2 style='color:white'>Complete</h2>", "info", 3000);
+                postStatusAt("Hover", "<h3>Hover over your</br>WORD BANK</br>words to show new data.</h3>", "warning", 5000, 5000);
             }
           });
     return false;
@@ -890,7 +916,7 @@ function toggleHelp() {
 }
 function toggleSettings() {
 	var e = {};
-	e.keyCode = 77;
+	e.keyCode = 83;
 	keyCheck(e);
 	return false;
 }
@@ -898,6 +924,8 @@ function toggleSettings() {
 // Touches (for slider)
 // thanks to
 // http://ross.posterous.com/2008/08/19/iphone-touch-events-in-javascript/
+// however, not actually viewing slider in newer version... comment for good luck
+/*
 function touchHandler(event)
 {
     var touches = event.changedTouches,
@@ -919,11 +947,11 @@ function touchHandler(event)
     simulatedEvent.initMouseEvent(type, true, true, window, 1, 
                               first.screenX, first.screenY, 
                               first.clientX, first.clientY, false, 
-                              false, false, false, 0/*left*/, null);
+                              false, false, false, 0/*left, null);
 
     first.target.dispatchEvent(simulatedEvent);
     //event.preventDefault();
-}
+}*/
 
 function scrollTop() {
        $('html, body').animate({
