@@ -256,31 +256,17 @@ Array.prototype.remove= function(){
 
   $("#showInternals").click(function() {
     if (data.currentWord !='fresno audio visual lexy con tool') {
-    var x = $("#mainWordInternalCount");
+    var x = $("#mainWordInternalWords");
     x.html("");
     x.append("<table class='table table-striped' style='width:100%'>"+$("[value="+data.currentWord+"]").attr("internal")+"</table>");
-    $("#internalCloud").html("");
-    var iwords = $("[value="+data.currentWord+"]").attr("internalCloud");
-    if (iwords == '<li><a id="addSim" href="#"></a></li>')
-      iwords = "<li><a href=\"#\">NONE</a></li>";
-    $("#internalCloud").append(iwords);
-    $("#iCanvas").tagcanvas(oopts);
-    $("#internalCanvas").show();
   }
     return;
   });
   $("#showExternals").click(function() {
     if (data.currentWord !='fresno audio visual lexy con tool') {
-    var x = $("#mainWordExternalCount");
+    var x = $("#mainWordExternalWords");
     x.html("");
     x.append("<table class='table table-striped' style='width:100%'>"+$("[value="+data.currentWord+"]").attr("external")+"</table>");
-    $("#externalCloud").html("");
-    var ewords = $("[value="+data.currentWord+"]").attr("externalCloud");
-    if (ewords == '<li><a id="addSim" href="#"></a></li>')
-      ewords = "<li><a href=\"#\">NONE</a></li>";
-    $("#externalCloud").append(ewords);
-    $("#eCanvas").tagcanvas(oopts);
-    $("#externalCanvas").show();
   }
     return;
   });
@@ -352,8 +338,25 @@ Array.prototype.remove= function(){
       $("#mainWordTotalFrequency").html($("[value = "+data.currentWord+"]").attr("totalfrequency"));
       $("#mainWordFrequency").html($("[value = "+data.currentWord+"]").attr("wordFrequency"));
       $("#mainWord").html($("[value = "+data.currentWord+"]").attr("dictionary"));
-      $("#showInternals").click();
-      $("#showExternals").click();
+      $("#mainWordInternalWords").html("");
+      $("#mainWordExternalWords").html("");
+
+    $("#internalCloud").html("");
+    var iwords = $("[value="+data.currentWord+"]").attr("internalCloud");
+    if (iwords == '<li><a id="addSim" href="#"></a></li>')
+      iwords = "<li><a href=\"#\">NONE</a></li>";
+    $("#internalCloud").append(iwords);
+    $("#iCanvas").tagcanvas(oopts);
+    $("#internalCanvas").show();
+
+    $("#externalCloud").html("");
+    var ewords = $("[value="+data.currentWord+"]").attr("externalCloud");
+    if (ewords == '<li><a id="addSim" href="#"></a></li>')
+      ewords = "<li><a href=\"#\">NONE</a></li>";
+    $("#externalCloud").append(ewords);
+    $("#eCanvas").tagcanvas(oopts);
+    $("#externalCanvas").show();
+
     //$("tr#hoverMore").attr('data-content', data.newContent);
     //$("tr#hoverMore").data('popover').options.content = data.newContent;
     //if (!data.popLocked)
@@ -373,15 +376,34 @@ Array.prototype.remove= function(){
       $("#mainWordExternalCount").html($("[value = "+data.currentWord+"]").attr("externalCount"));
       $("#mainWordIPA").html($("[value = "+data.currentWord+"]").attr("ipa"));
       $("#mainWordARPA").html($("[value = "+data.currentWord+"]").attr("arpa"));
-      $("#mainWordInternalFrequency").html($("[value = "+data.currentWord+"]").attr("internalFrequency"));
-      $("#mainWordExternalFrequency").html($("[value = "+data.currentWord+"]").attr("externalFrequency"));
-      $("#mainWordTotalFrequency").html($("[value = "+data.currentWord+"]").attr("totalFrequency"));
+      $("#mainWordInternalFrequency").html($("[value = "+data.currentWord+"]").attr("internalfrequency"));
+      $("#mainWordExternalFrequency").html($("[value = "+data.currentWord+"]").attr("externalfrequency"));
+      $("#mainWordTotalFrequency").html($("[value = "+data.currentWord+"]").attr("totalfrequency"));
       $("#mainWordFrequency").html($("[value = "+data.currentWord+"]").attr("wordFrequency"));
       $("#mainWord").html($("[value = "+data.currentWord+"]").attr("dictionary"));
+      $("#mainWordInternalWords").html("");
+      $("#mainWordExternalWords").html("");
 
+    $("#internalCloud").html("");
+    var iwords = $("[value="+data.currentWord+"]").attr("internalCloud");
+    if (iwords == '<li><a id="addSim" href="#"></a></li>')
+      iwords = "<li><a href=\"#\">NONE</a></li>";
+    $("#internalCloud").append(iwords);
+    $("#iCanvas").tagcanvas(oopts);
+    $("#internalCanvas").show();
+
+    $("#externalCloud").html("");
+    var ewords = $("[value="+data.currentWord+"]").attr("externalCloud");
+    if (ewords == '<li><a id="addSim" href="#"></a></li>')
+      ewords = "<li><a href=\"#\">NONE</a></li>";
+    $("#externalCloud").append(ewords);
+    $("#eCanvas").tagcanvas(oopts);
+    $("#externalCanvas").show();
 
 		},
     click : function() {
+      $("#showInternals").click();
+      $("#showExternals").click();
       if (data.isVisible) {
         if ($(this).html() == data.currentWord)
           var t = setTimeout(function(){togglePopover();}, 500);
@@ -425,6 +447,12 @@ Array.prototype.remove= function(){
     var currentMargin = parseInt($("#"+modal).css("margin-left"));
     var newMargin = currentMargin - 150;
     $("#"+modal).width(newWidth).css("margin-left", String(newMargin)+"px");
+
+    var currentHeight = $("#"+modal).height();
+    var newHeight = currentHeight + 100;
+    currentMargin = parseInt($("#"+modal).css("margin-top"));
+    newMargin = currentMargin - 50;
+    $("#"+modal).height(newHeight).css("margin-top", String(newMargin)+"px");
     return;
   });
 	//Input Functions

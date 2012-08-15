@@ -79,26 +79,26 @@
                     <th colspan="2" class="centered"><span style="font-size:20px; letter-spacing:5px;" id="mainWordVisemes"></span></th></tr>
                     <tr><th class="centered"><h3>ARPA</h3></th><td class="centered"><span style="font-size:18px;" id="mainWordARPA"></span></td><th class="centered"><h3>IPA</h3></th><td class="centered"><span style="font-size:22px;" id="mainWordIPA"></span></td></tr>
                     <tr><th class="centered"><h3>Internal</h3>
-                      <h5><a href="#" id="showInternals">Show Internal Words</a>
+                      <h5><a href="#" id="showInternals">Show <span id="mainWordInternalCount"></span> Internal Words</a>
 <div id="internalCanvas" style="margin:0 auto; max-width:325px; height:200px; position:relative;">
  <canvas style="position:relative; width:100%; height:100%; z-index:10;" id="iCanvas">
-  <p>Anything in here will be replaced on browsers that support the canvas element</p>
+  <p>Your browser does not support canvas.</p>
   <ul id="internalCloud">
 
   </ul>
  </canvas>
 </div>                   </th>
-                        <td class="centered"><div style="max-height:260px; overflow:auto; font-size:18px;" id="mainWordInternalCount"></div></td><th class="centered"><h3>External</h3>
-                        <h5><a href="#" id="showExternals">Show External Words</a>
+                        <td class="centered"><div style="max-height:260px; overflow:auto; font-size:18px;" id="mainWordInternalWords"></div></td><th class="centered"><h3>External</h3>
+                        <h5><a href="#" id="showExternals">Show <span id="mainWordExternalCount"></span> External Words</a>
 <div id="externalCanvas" style="margin:0 auto; max-width:325px; height:200px; position:relative;">
  <canvas style="position:relative; width:100%; height:100%; z-index:10;" id="eCanvas">
-  <p>Anything in here will be replaced on browsers that support the canvas element</p>
+  <p>Your browser does not support canvas.</p>
   <ul id="externalCloud">
 
   </ul>
  </canvas>
 </div>
-                        </th><td class="centered"><div style="max-height:260px; overflow:auto; font-size:18px;" id="mainWordExternalCount"></div></td></tr>
+                        </th><td class="centered"><div style="max-height:260px; overflow:auto; font-size:18px;" id="mainWordExternalWords"></div></td></tr>
                     <tr><th colspan="4" class="centered"><h3>Average Frequency</h3></th></tr>
                     <tr><th class="centered"><h6>Word</h6></th>
                       <th class="centered"><h6>Internal</h6></th>
@@ -383,6 +383,7 @@
                 You're not exactly sure why he called you a knucklehead, but you're even more worried about the fact that your headphones prevented you from properly understanding that middle word. Was it <i>crush</i>? or maybe it was <i>rush</i>? They <b>looked</b> the same rolling of his tongue!</br></br>
                 Long story short, you were fired for demolishing the cargo rather than hurrying it.</br></br>
                 <b>FALT uses sets of <a href="http://en.wikipedia.org/wiki/Phoneme">phonemes</a> to establish groups of <a href="http://en.wikipedia.org/wiki/Viseme">visemes</a> to find visually similar words given an input of words.</b></br></br>
+                <img src="/static/phonemic_equivalence_classes.png" /></br></br>
                 For example, provided the word <b>rush</b> -- FALT would return the word <b>wash</b> because the 'ru' and 'wa' looks visually similar when spoken. 
                 <a href="http://76.20.66.208:9000/main/?words=rush&size=28">See for yourself.</a>
                 </div>
@@ -400,8 +401,7 @@
                  <p>
                   Using the web interface is by far the easiest way to interact with FALT.</br></br>
                   <h4>The first step is to come up with words to query.</h4></br>
-                  An example of such a query might be...
-                  <pre>hello my name is tubular</pre></br>
+                  An example of such a query might be...hello my name is tubular</br>
                   <img width="200px" src="/static/good_upload.png"/></br></br>
                   <h4>Next, determine which phonemes belong together.</h4></br>
                   <p>Using this chart, select a preset from the interface to create equivalence classes.</p>
@@ -415,15 +415,58 @@
                  <p></p>
                 </div>
               </div>
-            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+                  Glossary
+                </a>
+              </div>
+              <div id="collapseFour" class="accordion-body collapse">
+                <div class="accordion-inner">
+                <strong>List of Terms (Alphabetical)</strong></br>
+                <dl class="dl-horizontal">
+                  <dt>ARPA</dt>
+                  <dd>Arpabet is a phonetic transcription code developed by Advanced Research Projects Agency (ARPA). It represents each phoneme of General American English with a distinct sequence of ASCII characters. Arpabet has been used in several speech synthesizers, like SAM for the Commodore 64, Say for the Amiga and TextAssist for the PC. It is also used in the CMU Pronouncing Dictionary.</dd>
+                  <dd></br></dd>
+                  <dt>CMU Dictionary</dt>
+                  <dd>The CMU Pronouncing Dictionary (also known as cmudict) is a public domain pronouncing dictionary created by Carnegie Mellon University (CMU). It defines a mapping from English words to their North American pronunciations, and is commonly used in speech processing applications such as the Festival Speech Synthesis System and the CMU Sphinx speech recognition system. The latest release is 0.7a, which contains 133,746 entries (from 123,442 baseforms).</dd>
+                  <dd></br></dd>
+                  <dt>External</dt>
+                  <dd>The "external" words are the words which were transcribed into a similar equivalence class. There is a difference of 1 or 2 (default: 1), meaning there is little visual difference when the words are spoken.</br>ie. 'rush' and 'one' are visually similar, but maybe slightly different.</dd>
+                  <dd></br></dd>
+                  <dt>Internal</dt>
+                  <dd>The "internal" words are the words which were transcribed into the same equivalence class. There is a difference of 0, meaning there is very little visual difference when the words are spoken.</br>ie. 'rush' and 'wash' are visually equivalent.</dd>
+                  <dd></br></dd>
+                  <dt>IPA</dt>
+                  <dd>The International Phonetic Alphabet (IPA) is an alphabetic system of phonetic notation based primarily on the Latin alphabet. It was devised by the International Phonetic Association as a standardized representation of the sounds of oral language. The IPA is designed to represent only those qualities of speech that are distinctive in oral language: phonemes, intonation, and the separation of words and syllables. To represent additional qualities of speech such as tooth gnashing, lisping, and sounds made with a cleft palate, an extended set of symbols called the Extensions to the IPA may be used.</dd>
+                  <dd></br></dd>
+                  <dt>Lexicon</dt>
+                  <dd>In linguistics, the description of a language is split into two parts, the grammar consisting of rules describing correct sentence formation and the lexicon listing words and phrases that can be used in the sentences. The lexicon (or wordstock) of a language is its vocabulary.</dd>
+                  <dd></br></dd>
+                  <dt>Phoneme</dt>
+                  <dd>A phoneme is a basic element of a spoken language or dialect, from which words in that language or dialect are analyzed as being built up. The phoneme is defined by the International Phonetic Association as "the smallest segmental unit of sound employed to form meaningful contrasts between utterances".</dd>
+                  <dd></br></dd>
+                  <dt>Phonemic Equivalence Class</dt>
+                  <dd>A phonemic equivalence class comprises the set of phonemes rendered equivalent by the lostt of phonetic distinctiveness. (For example, if /b/, /p/, and /m/ belong to a single phonemic equivalence class, then a rule was deﬁned to transcribe each occurrence of /b/, /p/, and /m/ into a symbol representing the equivalence class.)</dd>
+                  <dd></br></dd>
+                  <dt>Polysemy</dt>
+                  <dd>A polyseme is a word or phrase with different, but related senses. Since the test for polysemy is the vague concept of relatedness, judgments of polysemy can be difficult to make. Because applying pre-existing words to new situations is a natural process of language change, looking at words' etymology is helpful in determining polysemy but not the only solution; as words become lost in etymology, what once was a useful distinction of meaning may no longer be so. Some apparently unrelated words share a common historical origin, however, so etymology is not an infallible test for polysemy, and dictionary writers also often defer to speakers' intuitions to judge polysemy in cases where it contradicts etymology. English has many words which are polysemous. For example the verb "to get" can mean "procure" (I'll get the drinks), "become" (she got scared), "have" (I've got three dollars), "understand" (I get it) etc.</dd>
+                  <dd></br></dd>
+                  <dt>Viseme</dt>
+                  <dd>A viseme is a representational unit used to classify speech sounds in the visual domain. The term viseme was introduced based on the interpretation of the phoneme as a basic unit of speech in the acoustic/auditory domain, (Fisher, 1968). This is, however, at variance with the accepted definition of the phoneme as the smallest structural unit that distinguishes meaning within a given language—as a cognitive abstraction that is not bound to any sensory modality.</dd>
+                  <dd></br></dd>
+                </dl>
+                </div>
           </div>
+        </div>
+      </div>
+    </div>
               <hr>
 
             </div>
             <div class="modal-footer">
               <a href="#" class="btn" id="increase_modal" modal="help">Increase Window Size</a>
               <a href="#" class="btn" data-dismiss="modal" >Close</a>
-
             </div>
           </div>
 
