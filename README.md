@@ -9,6 +9,8 @@ It's my first application written in __Python__ and powered by __Django__, so bu
 
 [Read More](http://76.20.66.208:3000/falt)
 
+[Demo](http://76.20.66.208:9000/)
+
 ### To install:
 
 	## Get the FALT project
