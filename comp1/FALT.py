@@ -12,6 +12,12 @@
 
 #THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# Reading Material (References)
+#
+#	http://cloudedbox.com/FALT/auerandbernstein.pdf
+#	http://www.isca-speech.org/archive_open/archive_papers/avsp07/av07_L3-1.pdf
+#	http://csufresno.academia.edu/LorinLachs/Papers/722891/Use_of_partial_stimulus_information_in_spoken_word_recognition_without_auditory_stimulation
+
 import os
 import io
 import re
@@ -265,7 +271,7 @@ class FALT(object):
 			symbolized[word].append(str(len(s[1][:-1])/4)+" external words")
 			symbolized[word].append(s[1])
 		return symbolized
-		
+
    	def getCustomSimilarities(self, word, dictionary, maxDistance):
    		if word == "Not Found":
    			return []
