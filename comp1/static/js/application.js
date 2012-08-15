@@ -1,3 +1,129 @@
+//Initializers
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i) ? true : false;
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i) ? true : false;
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i) ? true : false;
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
+    }
+};
+
+var deviceType = 'large';
+
+if ( isMobile.any() ) {
+  deviceType = 'small';
+  document.addEventListener("touchstart", touchHandler, true);
+  document.addEventListener("touchmove", touchHandler, true);
+  document.addEventListener("touchend", touchHandler, true);
+  document.addEventListener("touchcancel", touchHandler, true); 
+} else {
+  welcomeInto();
+}
+  $(".centered").css("text-align", "center")
+  $("h2#loading").hide();
+  $("#externalCanvas").hide();
+  $("#internalCanvas").hide();
+  $("h6#fileInputNotSupported").hide();
+  $("div#fileInputContainer").hide();
+  $("tr#hoverMore").popover({'placement': 'bottom', 'animate' : 'false', 'title' : 'Audiovisual', 'trigger' : 'manual', 'content' : ''});
+
+  $("#aboutDelimiter").tooltip();
+  $("#fileLoading").hide();
+
+  $('input[id=fileInput]').change(function() {
+  $('#fakeFile').val($(this).val().replace("C:\\fakepath\\", "")); });
+  var lecChoices = '<div class="btn-toolbar"><div id="presets" class="btn-group"><button id="preset" class="btn btn-primary" style="cursor:pointer">0</button><button id="preset" class="btn btn-primary" style="cursor:pointer">1</button><button id="preset" class="btn btn-primary" style="cursor:pointer">2</button><button id="preset" class="btn btn-primary" style="cursor:pointer">10</button><button id="preset" class="btn btn-primary" style="cursor:pointer">12</button><button id="preset" class="btn btn-primary" style="cursor:pointer">19</button><button id="preset" class="btn btn-primary" style="cursor:pointer">28</button></div></div>';
+
+var data = new Array();
+data.currentClass = 1;
+data.isVisible = false;
+data.currentSymbol = "&lt;";
+data.currentWord = 'fresno audio visual lexy con tool'; // sounds better this way
+data.myWords = new Array();
+data.popLocked = false;
+
+// Levenshtein distance when computing external words
+data.distance = 1;
+
+// Density in the HTML5 sphere cloud things
+data.density = 100;
+
+data.equivalenceClasses = new Array();
+data.equivalenceClasses[0] = 0;
+data[0] = 0;
+data[1] = 'crosshatch,&#9641;';
+data[2] = 'snowman,&#9731;';
+data[3] = 'at,&#64;';
+data[4] = 'female,&#9792;';
+data[5] = 'scissors,&#9988;';
+data[6] = 'airplane,&#9992;';
+data[7] = 'cloud,&#9729;';
+data[8] = 'fourpoint,&#10022;';
+data[9] = 'flower,&#10047;';
+data[10] = 'phonemic,&#9742;';
+data[11] = 'sun,&#10050;';
+data[12] = 'peace,&#9996;';
+data[13] = 'blackstar,&#10040;';
+data[14] = 'elevator,&#10208;';
+data[15] = 'chess,&#9818;';
+data[16] = 'smile,&#9786;';
+data[17] = 'circle,&#10687;';
+data[18] = 'wheel,&#9784;';
+data[19] = 'pencil,&#9998;';
+data[20] = 'coffee,&#9832;';
+data[21] = 'umbrella,&#9730;';
+data[22] = 'perceive,&#9717;';
+data[23] = 'mac,&#8984;';
+data[24] = 'eject,&#9167;';
+data[25] = 'medical,&#9764;';
+data[26] = 'biohazard,&#9763;';
+data[27] = 'blackdiamond,&#10070;';
+data[28] = 'castle,&#9814;';
+data[29] = 'star,&#9733;';
+data[30] = 'sagit,&#9808;';
+
+data.equivalencePresets = new Array();
+data.equivalencePresets[28] = 
+  [ ['ʊ'], ['u'], ['eɪ', 'ɝ'], ['oʊ'], ['aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ'], ['ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n'], ['k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t'], ['s', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ'], ['tʃ'], ['ʒ'], ['dʒ']];
+data.equivalencePresets[19] = 
+[ ['ʊ', 'u', 'eɪ', 'ɝ'], ['oʊ', 'aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n', 'k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 'tʃ', 'ʒ', 'dʒ']];
+data.equivalencePresets[12] = 
+[ ['ʊ', 'u', 'eɪ', 'ɝ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ'], ['ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l','n', 'k','ɡ', 'ŋ','h'], ['d','t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 'tʃ', 'ʒ', 'dʒ']];
+data.equivalencePresets[10] = 
+[ ['ʊ', 'u', 'eɪ', 'ɝ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 'tʃ', 'ʒ', 'dʒ']];
+data.equivalencePresets[2] =  
+[ ['ʊ', 'u', 'eɪ', 'ɝ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 'tʃ', 'ʒ', 'dʒ']];
+data.equivalencePresets[1] =  
+[ ['ʊ', 'u', 'eɪ', 'ɝ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j', 'p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 'tʃ', 'ʒ', 'dʒ']];
+
+data.equivalencePresetsARPA = new Array();
+data.equivalencePresetsARPA[1] = [['UH', 'UW', 'EY', 'ER', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y', 'P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[2] = [['UH', 'UW', 'EY', 'ER', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[10] = [['UH', 'UW', 'EY', 'ER'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[12] = [['UH', 'UW', 'EY', 'ER'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY'], ['AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH'], ['D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[19] = [['UH', 'UW', 'EY', 'ER'], ['OW', 'AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N', 'K'], ['G', 'NG'], ['HH'], ['D'], ['T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
+data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY', 'ER'], ['OW'], ['AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY'], ['AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N'], ['K'], ['G', 'NG'], ['HH'], ['D'], ['T'], ['S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH'], ['CH'], ['ZH'], ['JH']];
+
+Array.prototype.remove= function(){
+    var what, a= arguments, L= a.length, ax;
+    while(L && this.length){
+        what= a[--L];
+        while((ax= this.indexOf(what))!= -1){
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+}
+
 var oopts = {
   //textFont: 'Helvetica Neue,Helvetica,Arial,sans-serif',
   textFont: 'Arial, sans-serif',
@@ -76,126 +202,6 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
     var dets = "Max:" + max.toString();
     return arr[index];  
   }
-	//Initializers
-var isMobile = {
-    Android: function() {
-        return navigator.userAgent.match(/Android/i) ? true : false;
-    },
-    BlackBerry: function() {
-        return navigator.userAgent.match(/BlackBerry/i) ? true : false;
-    },
-    iOS: function() {
-        return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
-    },
-    Windows: function() {
-        return navigator.userAgent.match(/IEMobile/i) ? true : false;
-    },
-    any: function() {
-        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
-    }
-};
-
-var deviceType = 'large';
-
-if ( isMobile.any() ) {
-  deviceType = 'small';
-  document.addEventListener("touchstart", touchHandler, true);
-  document.addEventListener("touchmove", touchHandler, true);
-  document.addEventListener("touchend", touchHandler, true);
-  document.addEventListener("touchcancel", touchHandler, true); 
-} else {
-  welcomeInto();
-}
-  $(".centered").css("text-align", "center")
-  $("h2#loading").hide();
-  $("#externalCanvas").hide();
-  $("#internalCanvas").hide();
-  $("h6#fileInputNotSupported").hide();
-  $("div#fileInputContainer").hide();
-  $("tr#hoverMore").popover({'placement': 'bottom', 'animate' : 'false', 'title' : 'Audiovisual', 'trigger' : 'manual', 'content' : ''});
-
-  $("#aboutDelimiter").tooltip();
-  $("#fileLoading").hide();
-
-  $('input[id=fileInput]').change(function() {
-  $('#fakeFile').val($(this).val().replace("C:\\fakepath\\", "")); });
-  var lecChoices = '<div class="btn-toolbar"><div id="presets" class="btn-group"><button id="preset" class="btn btn-primary" style="cursor:pointer">0</button><button id="preset" class="btn btn-primary" style="cursor:pointer">1</button><button id="preset" class="btn btn-primary" style="cursor:pointer">2</button><button id="preset" class="btn btn-primary" style="cursor:pointer">10</button><button id="preset" class="btn btn-primary" style="cursor:pointer">12</button><button id="preset" class="btn btn-primary" style="cursor:pointer">19</button><button id="preset" class="btn btn-primary" style="cursor:pointer">28</button></div></div>';
-
-var data = new Array();
-data.currentClass = 1;
-data.isVisible = false;
-data.currentSymbol = "&lt;";
-data.currentWord = 'fresno audio visual lexy con tool'; // sounds better this way
-data.myWords = new Array();
-data.popLocked = false;
-data.distance = 1;
-data.equivalenceClasses = new Array();
-data.equivalenceClasses[0] = 0;
-data[0] = 0;
-data[1] = 'crosshatch,&#9641;';
-data[2] = 'snowman,&#9731;';
-data[3] = 'at,&#64;';
-data[4] = 'female,&#9792;';
-data[5] = 'scissors,&#9988;';
-data[6] = 'airplane,&#9992;';
-data[7] = 'cloud,&#9729;';
-data[8] = 'fourpoint,&#10022;';
-data[9] = 'flower,&#10047;';
-data[10] = 'phonemic,&#9742;';
-data[11] = 'sun,&#10050;';
-data[12] = 'peace,&#9996;';
-data[13] = 'blackstar,&#10040;';
-data[14] = 'elevator,&#10208;';
-data[15] = 'chess,&#9818;';
-data[16] = 'smile,&#9786;';
-data[17] = 'circle,&#10687;';
-data[18] = 'wheel,&#9784;';
-data[19] = 'pencil,&#9998;';
-data[20] = 'coffee,&#9832;';
-data[21] = 'umbrella,&#9730;';
-data[22] = 'perceive,&#9717;';
-data[23] = 'mac,&#8984;';
-data[24] = 'eject,&#9167;';
-data[25] = 'medical,&#9764;';
-data[26] = 'biohazard,&#9763;';
-data[27] = 'blackdiamond,&#10070;';
-data[28] = 'castle,&#9814;';
-data[29] = 'star,&#9733;';
-data[30] = 'sagit,&#9808;';
-
-data.equivalencePresets = new Array();
-data.equivalencePresets[28] = 
-  [ ['ʊ'], ['u'], ['eɪ', 'ɝ'], ['oʊ'], ['aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ'], ['ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n'], ['k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t'], ['s', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ'], ['tʃ'], ['ʒ'], ['dʒ']];
-data.equivalencePresets[19] = 
-[ ['ʊ', 'u', 'eɪ', 'ɝ'], ['oʊ', 'aʊ'], ['ɪ', 'i'], ['ɛ'], ['æ'], ['ɔɪ'], ['ɔ'], ['aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l'], ['n', 'k'], ['ɡ', 'ŋ'], ['h'], ['d'], ['t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 'tʃ', 'ʒ', 'dʒ']];
-data.equivalencePresets[12] = 
-[ ['ʊ', 'u', 'eɪ', 'ɝ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ'], ['ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l','n', 'k','ɡ', 'ŋ','h'], ['d','t', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 'tʃ', 'ʒ', 'dʒ']];
-data.equivalencePresets[10] = 
-[ ['ʊ', 'u', 'eɪ', 'ɝ'], ['oʊ', 'aʊ'], ['ɪ', 'i', 'ɛ','æ'], ['ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm'], ['v', 'f'], ['l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z'], ['r', 'w'], ['ð', 'θ'], ['ʃ', 'tʃ', 'ʒ', 'dʒ']];
-data.equivalencePresets[2] =  
-[ ['ʊ', 'u', 'eɪ', 'ɝ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j'], ['p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 'tʃ', 'ʒ', 'dʒ']];
-data.equivalencePresets[1] =  
-[ ['ʊ', 'u', 'eɪ', 'ɝ', 'oʊ', 'aʊ', 'ɪ', 'i', 'ɛ','æ', 'ɔɪ' ,'ɔ', 'aɪ', 'ʌ', 'ə', 'ɑ', 'j', 'p', 'b', 'm', 'v', 'f', 'l', 'n', 'k', 'ɡ', 'ŋ', 'h', 'd', 't', 's', 'z', 'r', 'w', 'ð', 'θ', 'ʃ', 'tʃ', 'ʒ', 'dʒ']];
-
-data.equivalencePresetsARPA = new Array();
-data.equivalencePresetsARPA[1] = [['UH', 'UW', 'EY', 'ER', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y', 'P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[2] = [['UH', 'UW', 'EY', 'ER', 'OW', 'AW', 'IH', 'IY', 'EH', 'AE', 'OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M', 'V', 'F', 'L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z', 'R', 'W', 'DH', 'TH', 'SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[10] = [['UH', 'UW', 'EY', 'ER'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY', 'AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH', 'D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[12] = [['UH', 'UW', 'EY', 'ER'], ['OW', 'AW'], ['IH', 'IY', 'EH', 'AE'], ['OY'], ['AO', 'AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L', 'N', 'K', 'G', 'NG', 'HH'], ['D', 'T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[19] = [['UH', 'UW', 'EY', 'ER'], ['OW', 'AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY', 'AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N', 'K'], ['G', 'NG'], ['HH'], ['D'], ['T', 'S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH', 'CH', 'ZH', 'JH']];
-data.equivalencePresetsARPA[28] = [['UH'], ['UW'], ['EY', 'ER'], ['OW'], ['AW'], ['IH', 'IY'], ['EH'], ['AE'], ['OY'], ['AO'], ['AY'], ['AH', 'AA', 'Y'], ['P', 'B', 'M'], ['V', 'F'], ['L'], ['N'], ['K'], ['G', 'NG'], ['HH'], ['D'], ['T'], ['S', 'Z'], ['R', 'W'], ['DH', 'TH'], ['SH'], ['CH'], ['ZH'], ['JH']];
-
-Array.prototype.remove= function(){
-    var what, a= arguments, L= a.length, ax;
-    while(L && this.length){
-        what= a[--L];
-        while((ax= this.indexOf(what))!= -1){
-            this.splice(ax, 1);
-        }
-    }
-    return this;
-}
-
 	//Click Functions
 
 	// Arrow Clicks
@@ -781,7 +787,7 @@ function sendOff(){
                   internalSimilars.push("</td>");
                   internalSimilars.push("</tr>");
 
-                  if (j < 100) {
+                  if (j < data.density) {
                   internalCloud.push("<li><a id=\"addSim\" href=\"#\">");
                   internalCloud.push(intSims[j]);
                   internalCloud.push("</a></li>");
@@ -796,7 +802,7 @@ function sendOff(){
                   externalSimilars.push("</td>");
                   externalSimilars.push("</tr>");
 
-                  if (j < 100) {
+                  if (j < data.density) {
                   externalCloud.push("<li><a id=\"addSim\" href=\"#\">");
                   externalCloud.push(extSims[j]);
                   externalCloud.push("</a></li>");
