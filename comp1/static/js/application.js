@@ -128,6 +128,7 @@ data.currentSymbol = "&lt;";
 data.currentWord = 'fresno audio visual lexy con tool'; // sounds better this way
 data.myWords = new Array();
 data.popLocked = false;
+data.distance = 1;
 data.equivalenceClasses = new Array();
 data.equivalenceClasses[0] = 0;
 data[0] = 0;
@@ -325,7 +326,7 @@ Array.prototype.remove= function(){
       data.currentWord = $(this).html();
       $("#mainLogo").html(data.currentWord);
       $("#mainWordSymbolized").html($("[value = "+data.currentWord+"]").attr("symbol"));
-		  $("b#wordSyllables").html($("[value = "+data.currentWord+"]").attr("syllable-count"));
+  	  $("b#wordSyllables").html($("[value = "+data.currentWord+"]").attr("syllable-count"));
       $("b#wordFam").html($("[value = "+data.currentWord+"]").attr("familiarity"));
 
       $("#mainWordVisemes").html($("[value = "+data.currentWord+"]").attr("visemes"));
@@ -747,7 +748,7 @@ function sendOff(){
     var time1 = new Date();
 
     var urlToSend = 'main/';
-    var dataToSend = 'words='+data.dataToSend+'&size='+data.currentClassSize;
+    var dataToSend = 'words='+data.dataToSend+'&size='+data.currentClassSize+'&distance='+data.distance;
     var showResultsURL = urlToSend+"?"+dataToSend;
 
     $("#showResults").attr("href", showResultsURL);
@@ -835,7 +836,7 @@ function keyCheck(e) {
 		else
 			$('#help_modal').modal('show');
 		break;
-		case 77: // M
+		case 83: // S
 		if ($("#settings_modal").is(".in"))
 			$('#settings_modal').modal('hide');
 		else
@@ -856,7 +857,7 @@ function keyCheck(e) {
     else
       $('#keyboard_modal').modal('show');
     break;
-    case 83: // S
+    case 86: // V
     if ($("#symbols_modal").is(".in"))
       $('#symbols_modal').modal('hide');
     else
