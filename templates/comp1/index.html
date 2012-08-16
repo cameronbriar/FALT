@@ -409,11 +409,31 @@
                   <img src="/static/please_choose.png"/></br></br>
                   <p>These buttons represent how many different sets of phonemes should exist.<ul><li><b>Refer to <a href="javascript:toggleTable();">TABLE 1</a> in the 'What does it do' section</b></li><li id="equiv_table"><img src="/static/phonemic_equivalence_classes.png" /><p>Using this chart, select a preset from the interface to create equivalence classes.</p></b></li><li>This menu is the same as <i class="icon-chevron-down"></i></li><li><img src="/static/preset_choose.png" /></li></ul>
                   <h4><i class="icon-chevron-right"></i> Choose a preset.</h4></br></br>
-                  <img src="/static/chose_preset.png" /></br></br>
+                  <img src="/static/chose_preset.png" /></br><p>You may cycle through these presets to view the difference in results. <b>It's highly encouraged.</b></p></br>
+                  <h4><i class="icon-chevron-right"></i> View the results!</h4></br><p>Using your mouse/finger to hover/touch each word in the Word Bank displays its corresponding results on the right.</p></br>
+                  <img src="/static/hover_result.png" /></br><p><ul>
+                  <li>Clicking the word in the bank displays all "internal" and "external" results.</li>
+                  <li>Clicking 'Show Results' displays all the presentable data in JSON format.</li></ul>
+                  </p></br>
+                  <h4><i class="icon-question-sign"></i> What's going on?</h4></br><p>
+                  Here are the results for <b>be</b> under preset <b>12</b></br>Note: Click <button class="btn">Increase Window Size</button> to make image larger.</br></br>
+                  <img src="/static/results.png" /></br>
+                  <dl class="dl-horizontal">
+                    <dt>BE</dt><dd>This is the current focus word. All data is relative to this word. Click this area to hear the word spoken.</dd></br>
+                    <dt>✈@</dt><dd>These symbols represent the word after being transcribed through the given preset. Since the word <b>be</b> is translated into <b>bi</b> in <b>IPA</b>, the phoneme <b>b</b> is in group 7 and the phoneme <b>i</b> is in group 3. The classes 7 and 3 are arbitrarily given a symbol, in this case: airplane and at.</dd></br>
+                    <dt>7 3</dt><dd>These numbers represent the location of each phoneme in the word. You can find <b>b</b> at class 7 and <b>i</b> at class 3. <b>You may also click these numbers to be taken their quickly.</b></dd></br>
+                    <dt>ARPA</dt><dd>The word <b>be</b> translated into <b>B IY1</b> using the ARPAbet.</dd></br>
+                    <dt>IPA </dt><dd>The word <b>be</b> translated into <b>bi</b> using the IPAbet</dd></br>
+                    <dt>Internal</dt><dd>The words in the <b>internal</b> set represent words that are visually the same as the word <b>be</b>. If you click 'Show Internal Words', you'll notice that the contained words all have the symbols ✈@. They are equivalent with a difference of 0.</dd></br>
+                    <dt>External</dt><dd>The words in the <b>external</b> set represent words that are visually similar as the word <b>be</b>. If you click 'Show External Words', you'll notice that the contained words all have a symbole translation that is, by default, 1 difference from ✈@. This variable can be adjusted.</dd></br>
+                    <dt>Word Clouds</dt><dd>These swirling words of awesomeness present a different way to view the internal and external data. Hover your mouse are the cloud and view the results. Click any word to add it to the Word Bank.</dd></br>
+                    <dt>Average Frequency</dt><dd>This metric is thanks to WordNet's -faml function. <b>Word</b> represents the frequency of the word <b>be</b>. <b>Internal</b> represents the average frequency of all the internal words. <b>External</b> represents the average frequency of all the external words. <b>Total</b> is the average frequency amongst the internal and external words.</dd></br>
+                  </dl>
+                  </p>
                  </p>
                  <h3>The Custom Way</h3>
                  <p></p>
-                 <h3>The Jedi Way</h3>
+                 <h3>The Developer Way</h3>
                  <p></p>
                 </div>
               </div>
