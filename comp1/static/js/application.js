@@ -530,6 +530,10 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
         return false;
       }
       break;
+      case 'StyleChange':
+      $("#StyleChange").remove();
+      return true;
+      break; // <- why? idk
       // this prevents displaying duplicates
       default:
       return $("#"+name).html() == null;
@@ -852,7 +856,7 @@ function sendOff(){
                 var time2 = new Date();
                 console.log("Time to process "+ String(wordBankCount())+" words: "+String((time2.getTime() - time1.getTime())/1000));
                 postStatus("Complete", "<h2 style='color:white'>Complete</h2>", "info", 3000);
-                postStatusAt("Hover", "<h3>Hover over your</br>WORD BANK</br>words to show new data.</h3>", "warning", 5000, 5000);
+                postStatusAt("Hover", "<h3>Hover over the</br>WORD BANK</br>words to show new data.</h3>", "warning", 5000, 5000);
             }
           });
     return false;
