@@ -142,7 +142,7 @@ class FALT(object):
    		# [symbolized version, original word, arpa, ipa, viseme classes]
    		return [symbolized, info[0], info[1], info[2], visemeSet]
 
-   	def getSimilarities(self, word, size, maxDistance=1):
+   	def getSimilarities(self, word, size, maxDistance=1, same_length = True):
    		if word == '':
    			return []
    		internal = []
@@ -151,7 +151,7 @@ class FALT(object):
    		index = self.index[size]
    		word = word.upper()
    		for eachWord in self.dictionary:
-   			if abs(len(self.dictionary[word][-1][index]) - len(self.dictionary[eachWord][-1][index])) > 0:
+   			if abs(len(self.dictionary[word][-1][index]) - len(self.dictionary[eachWord][-1][index])) > 0 and same_length:
    				continue
    			else:
    				try:

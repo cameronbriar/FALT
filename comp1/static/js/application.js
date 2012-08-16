@@ -52,12 +52,11 @@ data.currentWord = 'fresno audio visual lexy con tool'; // sounds better this wa
 data.myWords = new Array();
 data.popLocked = false;
 
-// Levenshtein distance when computing external words
 data.distance = 1;
-
-// Density in the HTML5 sphere cloud things
 data.density = 100;
-
+data.same_length = true;
+data.prettify = true;
+data.new_words = ''
 // Status Messages 
 // (# of times each message is can be shown)
 data.status_showHoverData = 3;
@@ -788,7 +787,7 @@ function sendOff(){
     var time1 = new Date();
 
     var urlToSend = 'main/';
-    var dataToSend = 'words='+data.dataToSend+'&size='+data.currentClassSize+'&distance='+data.distance;
+    var dataToSend = 'words='+data.dataToSend+'&size='+data.currentClassSize+'&distance='+data.distance+'&prettify='+data.prettify+'&same_length='+data.same_length+'&new_words='+data.new_words;
     var showResultsURL = urlToSend+"?"+dataToSend;
 
     $("#showResults").attr("href", showResultsURL);
@@ -871,14 +870,14 @@ function keyCheck(e) {
 	var keyID = (window.event) ? event.keyCode : e.keyCode;
 	if ($("#wordSubmit").is(":focus")){}else{
 	switch(keyID) {
-		case 80: // P
+		case 72: // H
 		if ($("#help_modal").is(".in"))
 			$('#help_modal').modal('hide');
 		else
 			$('#help_modal').modal('show');
 		break;
 		case 83: // S
-		if ($("#settings_modal").is(".in"))
+		if ($("#settings_modal").is(".in") && $(":focus")[0] == undefined)
 			$('#settings_modal').modal('hide');
 		else
 			$('#settings_modal').modal('show');
@@ -1036,3 +1035,12 @@ $("#changeStyle").click(function(){
   $("#changeStyle").attr("count", count);
   return;
 });
+
+// Settings Menu
+
+$("#settings_difference").change(function(){data.distance = parseInt($(this).val()); console.log("Distance changed to "+String(data.distance));});
+$("#settings_density").change(function(){data.density = parseInt($(this).val()); console.log("Density changed to "+String(data.density));});
+$("#settings_same_length").change(function(){data.same_length = !data.same_length; console.log("Same_Length changed to "+String(data.same_length));});
+$("#settings_prettify").change(function(){data.prettify = !data.prettify; console.log("Prettify changed to "+String(data.prettify));});
+$("#settings_style").change(function(){document.getElementById('stylesheet').href = "/static/css/"+$(this).val().toLowerCase()+"/bootstrap.min.css";});
+$("#settings_new_words").change(function(){console.log($(this).val());});

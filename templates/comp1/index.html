@@ -10,6 +10,7 @@
     <link href="/static/css/style.css" rel="stylesheet">
     <link id="stylesheet" href="/static/css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="static/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/css/keys.css" type="text/css" />
     <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -313,7 +314,7 @@
       </div>
       <hr>
       <footer>
-        <p><img src="/static/seal.png" style="width:150px" /> <small>Keyboard : [ k ]</small><a href="javascript:scrollTop();" style="float:right">To Top</a></p>
+        <p><img src="/static/seal.png" style="width:150px" /> <small>Keyboard : <kbd style="font-size:18px">K</kdb></small><a href="javascript:scrollTop();" style="float:right">To Top</a></p>
       </footer>
     </div>
 <!-- Modals -->
@@ -328,13 +329,13 @@
                   <th>Key</th><th>Name</th><th>Function</th>
                 </thead>
                 <tbody>
-                  <tr><td>p</td><td>P-KEY</td><td>MORE INFORMATION</td></tr>
-                  <tr><td>m</td><td>M-KEY</td><td>SETTINGS</td></tr>
-                  <tr><td>k</td><td>K-KEY</td><td>KEYBOARD MENU</td></tr>
-                  <tr><td>t</td><td>T-KEY</td><td>STYLE</td></tr>
-                  <tr><td>s</td><td>S-KEY</td><td>VISEME CLASS REFERENCE</td></tr>
-                  <tr><td><i class="icon-arrow-left"></i></td><td>LEFT ARROW</td><td>PREVIOUS CLASS</td></tr>
-                  <tr><td><i class="icon-arrow-right"></i></td><td>RIGHT ARROW</td><td>NEXT CLASS</td></tr>
+                  <tr><td><kbd style="font-size:18px">H</kdb></td><td>H-KEY</td><td>HELP</td></tr>
+                  <tr><td><kbd style="font-size:18px">S</kdb></td><td>S-KEY</td><td>SETTINGS</td></tr>
+                  <tr><td><kbd style="font-size:18px">K</kdb></td><td>K-KEY</td><td>KEYBOARD MENU</td></tr>
+                  <tr><td><kbd style="font-size:18px">T</kdb></td><td>T-KEY</td><td>STYLE</td></tr>
+                  <tr><td><kbd style="font-size:18px">V</kdb></td><td>V-KEY</td><td>VISEME CLASS REFERENCE</td></tr>
+                  <tr><td><kbd style="font-size:18px"><i class="icon-arrow-left"></i></kbd></td><td>LEFT ARROW</td><td>PREVIOUS CLASS</td></tr>
+                  <tr><td><kbd style="font-size:18px"><i class="icon-arrow-right"></i></kbd></td><td>RIGHT ARROW</td><td>NEXT CLASS</td></tr>
                 </tbody>
               </table>
               <hr>
@@ -506,60 +507,68 @@
           <div class="control-group">
             <label class="control-label" for="input01">Maximum Difference</label>
             <div class="controls">
-              <input type="text" class="input-small" id="input01" placeholder="default: 1">
+              <input type="text" class="input-small" id="settings_difference" placeholder="1">
               <p class="help-block">FALT uses <a href="http://wikipedia.com/wiki/Levenshtein_Distance" target="_blank_">Levenshtein distance</a>.</p>
             </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="input01">Cloud Density</label>
             <div class="controls">
-              <input type="text" class="input-small" id="input01" placeholder="default: 100">
+              <input type="text" class="input-small" id="settings_density" placeholder="100">
               <p class="help-block">HTML5 Cloud provided by <a href="http://www.goat1000.com/tagcanvas.php" target="_blank_">TagCanvas</a>.</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="optionsCheckbox">Same Length Only</label>
+            <div class="controls">
+              <label class="checkbox">
+                <input type="checkbox" checked="yes" id="settings_same_length" value="SAMELENGTH">
+                <p class="help-block">If checked, the external words will have the same amount of phonemes. The same amount of syllables, if you will.</p>
+              </label>
             </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="optionsCheckbox">Prettify JSON Result</label>
             <div class="controls">
               <label class="checkbox">
-                <input type="checkbox" checked="yes" id="optionsCheckbox" value="option1">
-                <a href="#">SHOW RESULTS</a> will output JSON data more legibly. Pretty print.
+                <input type="checkbox" checked="yes" id="settings_prettify" value="PRETTIFY">
+                <span style="color:#08C">SHOW RESULTS</span> will output JSON data more legibly. Pretty print.
               </label>
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="select01">Select list</label>
+            <label class="control-label" for="select01">Current Style</label>
             <div class="controls">
-              <select id="select01">
-                <option>something</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="multiSelect">Current Style</br></label>
-            <div class="controls">
-              <select multiple="multiple" id="multiSelect">
+              <select id="settings_style">
                 <option>Bootstrap</option>
                 <option>United</option>
-                <option>Space Lab</option>
+                <option>SpaceLab</option>
                 <option>Superhero</option>
-                <option></option>
+                <option>Cerulean</option>
               </select>
-              <p class="help-block"><small>Courtesy of <a href="http://bootswatch.com" target="_blank_">Bootswatch.</a></small></p>
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="textarea">Textarea</label>
+            <label class="control-label" for="textarea">Add New Words to Dictionary</label>
             <div class="controls">
-              <textarea class="input-xlarge" id="textarea" rows="3"></textarea>
+              <textarea class="input-xlarge" id="settings_new_words" rows="3" placeholder="WORD  W ER1 D  wɚd"></textarea>
+              <p class="help-block"><small>FALT currently uses around 90% of the <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict/" target="_blank_">CMU Dictionary.</a> Thanks!</small></p>
+              <p class="help-block">Words must be in exact format. ie:</br>
+                <ul>
+                  <li>2 spaces between each attribute</li>
+                  <li>every new word on its own line</li>
+                  <li>numbers in ARPA are optional</li>
+                </ul>
+                <pre>
+WOOT  W UW1 T  wut
+DOGFACE  D AO1 G F EY1 S  dɔɡfeɪs
+GITHUB  G IH1 T HH AH1 B  ɡɪthʌb
+</pre></p>
             </div>
           </div>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">Save changes</button>
-            <button class="btn">Cancel</button>
+            <button class="btn" data-dismiss="modal">Cancel</button>
           </div>
         </fieldset>
       </form>
