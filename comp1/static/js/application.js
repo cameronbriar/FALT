@@ -21,12 +21,12 @@ var deviceType = 'large';
 
 if ( isMobile.any() ) {
   deviceType = 'small';
-  document.addEventListener("touchstart", touchHandler, true);
-  document.addEventListener("touchmove", touchHandler, true);
-  document.addEventListener("touchend", touchHandler, true);
-  document.addEventListener("touchcancel", touchHandler, true); 
+  //document.addEventListener("touchstart", touchHandler, true);
+  //document.addEventListener("touchmove", touchHandler, true);
+  //document.addEventListener("touchend", touchHandler, true);
+  //document.addEventListener("touchcancel", touchHandler, true); 
 } else {
-  welcomeInto();
+  welcomeIntro();
 }
   $(".centered").css("text-align", "center")
   $("h2#loading").hide();
@@ -546,7 +546,7 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
 		//jQuery(('#'+itemname)).html("");
 		jQuery(('#'+itemname)).remove();
 	}
-  function welcomeInto() {
+  function welcomeIntro() {
 	 postStatusAt("Welcome", "<h5 style='color:white; padding-bottom:5px;'>Welcome to</br>Fresno's Audiovisual</br>Lexicon Tool</h5>", "info", 3000, 2000);
 	 postStatusAt("Welcome", "<h5 style='color:white; padding-bottom:5px;'>also known as</br><span style='font-size:32px'>FALT</span></h5>", "info", 3000, 6000);
   }
@@ -930,7 +930,7 @@ function toggleSettings() {
 // thanks to
 // http://ross.posterous.com/2008/08/19/iphone-touch-events-in-javascript/
 // however, not actually viewing slider in newer version... comment for good luck
-/*
+
 function touchHandler(event)
 {
     var touches = event.changedTouches,
@@ -952,11 +952,11 @@ function touchHandler(event)
     simulatedEvent.initMouseEvent(type, true, true, window, 1, 
                               first.screenX, first.screenY, 
                               first.clientX, first.clientY, false, 
-                              false, false, false, 0/*left, null);
+                              false, false, false, 0/*left*/, null);
 
     first.target.dispatchEvent(simulatedEvent);
     //event.preventDefault();
-}*/
+}
 
 function scrollTop() {
        $('html, body').animate({
@@ -1031,4 +1031,4 @@ $("#changeStyle").click(function(){
   }
   $("#changeStyle").attr("count", count);
   return;
-})
+});
