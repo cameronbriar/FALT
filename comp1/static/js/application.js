@@ -30,6 +30,7 @@ if ( isMobile.any() ) {
 }
   $(".centered").css("text-align", "center")
   $("h2#loading").hide();
+  $("#equiv_table").hide();
   $("#externalCanvas").hide();
   $("#internalCanvas").hide();
   $("h6#fileInputNotSupported").hide();
@@ -450,6 +451,10 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
     data.isVisible = false;
     $("b#wordMore i").attr("class", "icon-chevron-down");
     return;
+  }
+  function toggleTable() {
+    $("#equiv_table").toggle();
+    return false;
   }
   $("#increase_modal").click(function(){
     var modal = $(this).attr("modal") + "_modal";
