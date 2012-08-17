@@ -314,7 +314,11 @@
       </div>
       <hr>
       <footer>
-        <p><img src="/static/seal.png" style="width:150px" /> <small>Keyboard : <kbd style="font-size:18px">K</kdb></small><a href="javascript:scrollTop();" style="float:right">To Top</a></p>
+        <p><img src="/static/seal.png" style="width:150px" />
+          <small>About : <kbd style="font-size:18px">A</kdb></small>
+          <small>&nbsp;&nbsp;Settings : <kbd style="font-size:18px" onclick="javascript:toggleSettings();">S</kdb></small>
+          <small>&nbsp;&nbsp;Menu : <kbd style="font-size:18px" onclick="javascript:toggleKeyboard();">K</kdb></small>
+          <a href="javascript:scrollTop();" style="float:right">To Top</a></p>
       </footer>
     </div>
 <!-- Modals -->
@@ -566,10 +570,6 @@ GITHUB  G IH1 T HH AH1 B  ɡɪthʌb
 </pre></p>
             </div>
           </div>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Save changes</button>
-            <button class="btn" data-dismiss="modal">Cancel</button>
-          </div>
         </fieldset>
       </form>
               <hr>
@@ -577,6 +577,7 @@ GITHUB  G IH1 T HH AH1 B  ɡɪthʌb
             </div>
             <div class="modal-footer">
               <a href="#" class="btn" data-dismiss="modal" >Close</a>
+              <button id="settings_save" class="btn btn-primary" data-dismiss="modal">Save changes</button>
 
             </div>
           </div>

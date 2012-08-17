@@ -533,6 +533,10 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
       $("#StyleChange").remove();
       return true;
       break; // <- why? idk
+      case 'How_to':
+      if (wordBankCount() == 0 || data.preset == "0")
+        return true;
+      return false;
       // this prevents displaying duplicates
       default:
       return $("#"+name).html() == null;
@@ -552,6 +556,7 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
   function welcomeIntro() {
 	 postStatusAt("Welcome", "<h5 style='color:white; padding-bottom:5px;'>Welcome to</br>Fresno's Audiovisual</br>Lexicon Tool</h5>", "info", 3000, 2000);
 	 postStatusAt("Welcome", "<h5 style='color:white; padding-bottom:5px;'>also known as</br><span style='font-size:32px'>FALT</span></h5>", "info", 3000, 6000);
+   postStatusAt("How_to", "<h6 style='color:white;'>How to use</br></br><ol><li>Input word(s)</li><li>Select a Preset</li><li>Hover over word</li></h6>", "info", 15000, 12000);
   }
 
 	//Keyboard Shortcuts
@@ -855,7 +860,7 @@ function sendOff(){
                 var time2 = new Date();
                 console.log("Time to process "+ String(wordBankCount())+" words: "+String((time2.getTime() - time1.getTime())/1000));
                 postStatus("Complete", "<h2 style='color:white'>Complete</h2>", "info", 3000);
-                postStatusAt("Hover", "<h3>Hover over the</br>WORD BANK</br>words to show new data.</h3>", "warning", 5000, 5000);
+                postStatusAt("Hover", "<h4>Hover over the</br>WORD BANK</br>words to show new data.</br><i class=\"icon-arrow-down\"></i></h4>", "warning", 5000, 5000);
             }
           });
     return false;
@@ -866,11 +871,10 @@ function sendOff(){
 document.onkeyup = keyCheck;
 
 function keyCheck(e) {
-	
-	var keyID = (window.event) ? event.keyCode : e.keyCode;
+	var keyID = e.keyCode; //var keyID = (window.event) ? event.keyCode : e.keyCode;
 	if ($("#wordSubmit").is(":focus")){}else{
 	switch(keyID) {
-		case 72: // H
+		case 65: // A
 		if ($("#help_modal").is(".in"))
 			$('#help_modal').modal('hide');
 		else
@@ -912,23 +916,42 @@ function keyCheck(e) {
 		default:
 		break;
 	}}
-	return false;
+	return;
 }
 
 // :)
 function toggleHelp() {
 	var e = {};
-	e.keyCode = 80;
+	e.keyCode = 65;
 	keyCheck(e);
-	return false;
 }
 function toggleSettings() {
 	var e = {};
 	e.keyCode = 83;
 	keyCheck(e);
-	return false;
 }
-
+function toggleKeyboard() {
+  var e = {};
+  e.keyCode = 75;
+  keyCheck(e);
+}
+$("kbd").mousedown(function(){
+  var key = $(this).html();
+  switch (key) {
+    case "A":
+    toggleHelp();
+    break;
+    case "S":
+    toggleSettings();
+    break;
+    case "K":
+    toggleKeyboard();
+    break;
+    default:
+    break;
+  }
+  return;
+});
 // Touches (for slider)
 // thanks to
 // http://ross.posterous.com/2008/08/19/iphone-touch-events-in-javascript/
@@ -1044,3 +1067,4 @@ $("#settings_same_length").change(function(){data.same_length = !data.same_lengt
 $("#settings_prettify").change(function(){data.prettify = !data.prettify; console.log("Prettify changed to "+String(data.prettify));});
 $("#settings_style").change(function(){document.getElementById('stylesheet').href = "/static/css/"+$(this).val().toLowerCase()+"/bootstrap.min.css";});
 $("#settings_new_words").change(function(){console.log($(this).val());});
+$("#settings_save").click(function(){postStatusAt("Saved", "<h2>Settings saved.</h2>", "success", 5000, 1500);});
