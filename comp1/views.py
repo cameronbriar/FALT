@@ -9,6 +9,7 @@ import logging
 logging.basicConfig()
 
 import os
+import re
 import sys
 import subprocess
 
@@ -25,9 +26,13 @@ def index(request):
 
 def customRequest(request):
     global W
-    words = request.GET['words']
-    distance = int(request.GET['distance'])
-    classes = request.GET['classes']
+    try:
+        words = request.GET['words']
+        distance = int(request.GET['distance'])
+        classes = request.GET['classes']
+    except:
+        return HttpResponse(_404)
+
     try:
         ipa = request.GET['ipa']
     except:
@@ -36,10 +41,46 @@ def customRequest(request):
     json = simplejson.dumps(d, sort_keys=True, indent=4)
     return HttpResponse(json, mimetype="application/json")
 
+# this is the action taken from the main interface (web view)
+# input:
+#       words (comma separated strings)
+#       size  (reference to equivalence class preset)
+#               (1, 2, 10, 12, 19, 28)
+#               (http://cloudedbox.com/FALT/auerandbernstein.pdf)
 def mainRequest(request):
+    # returns dictionary with every word's details
     return_dict = {}
+
+    # variables from interface
     words = request.GET['words']
     size = int(request.GET['size'])
+    try:
+        distance = int(request.GET['distance'])
+    except:
+        distance = 1
+
+    try:
+        prettify = request.GET['prettify'] 
+        if prettify == 'true':
+            prettify = True
+        else:
+            prettify = False
+    except:
+        prettify = True
+
+    try:
+        same_length = request.GET['same_length'] 
+        if same_length == 'true':
+            same_length = True
+        else:
+            same_length = False
+    except:
+        same_length = True
+
+    try:
+        new_words = request.GET['new_words']
+    except:
+        new_words = ''
 
     global W 
 
@@ -53,9 +94,9 @@ def mainRequest(request):
 
         if symbolized[2] != '':
             if symbolized[1] != word.upper():
-                similarities = W.getSimilarities(symbolized[1], size)
+                similarities = W.getSimilarities(symbolized[1], size, distance, same_length)
             else:
-                similarities = W.getSimilarities(word, size)
+                similarities = W.getSimilarities(word, size, distance, same_length)
             #data
             intSims = []
             extSims = []
@@ -90,7 +131,9 @@ def mainRequest(request):
                     return_dict[word]['externalFrequency'] = 0
 
                 totalSims = totalInts + totalExts
+                print 'totalsims', totalSims
                 return_dict[word]['totalFrequency'] = round(float(1.0*totalFreq/totalSims), 3)
+            
             return_dict[word]['internal'] = ' '.join(intSims)
             return_dict[word]['external'] = ' '.join(extSims)
             return_dict[word]['internalCount'] = totalInts
@@ -106,6 +149,10 @@ def mainRequest(request):
         else:
             return_dict[word] = notFound(word.upper())
     json = simplejson.dumps(return_dict, sort_keys=False, indent=4)
+
+    if not prettify:
+        json = simplejson.dumps(return_dict)
+
     return HttpResponse(json, mimetype="application/json")
 
 def notFound(word):
@@ -146,7 +193,6 @@ def fileRequest(request):
     json = simplejson.dumps(return_dict)
     return HttpResponse(json, mimetype="application/json")
 
-import re
 def countSyllables(word):
     word = word.lower()
     if len(word) < 3:
@@ -161,3 +207,6 @@ def countSyllables(word):
     if count == 0:
         count = 1
     return count
+
+# Error pages
+_404 = "<html><body><div style=\"text-align:center; width:100%; position:relative;\"><h1>404</h1><p>Please refer to the <a href=\"#\">documentation</a> for useful information.</div></body></html>"

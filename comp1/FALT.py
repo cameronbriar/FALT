@@ -12,6 +12,12 @@
 
 #THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# Reading Material (References)
+#
+#	http://cloudedbox.com/FALT/auerandbernstein.pdf
+#	http://www.isca-speech.org/archive_open/archive_papers/avsp07/av07_L3-1.pdf
+#	http://csufresno.academia.edu/LorinLachs/Papers/722891/Use_of_partial_stimulus_information_in_spoken_word_recognition_without_auditory_stimulation
+
 import os
 import io
 import re
@@ -68,7 +74,7 @@ class FALT(object):
 		self.dictWords = open(defaultFilename)
 		self.phonemes = marshal.load(self.dictWords)
 		self.dictWords.close()
-		self.dictWords = open('words_freq_m')
+		self.dictWords = open(dictionaryFreqs)
 		self.familiarity = marshal.load(self.dictWords)
 		self.dictWords.close()
 		self.result = []
@@ -136,7 +142,7 @@ class FALT(object):
    		# [symbolized version, original word, arpa, ipa, viseme classes]
    		return [symbolized, info[0], info[1], info[2], visemeSet]
 
-   	def getSimilarities(self, word, size, maxDistance=1):
+   	def getSimilarities(self, word, size, maxDistance=1, same_length = True):
    		if word == '':
    			return []
    		internal = []
@@ -145,7 +151,7 @@ class FALT(object):
    		index = self.index[size]
    		word = word.upper()
    		for eachWord in self.dictionary:
-   			if abs(len(self.dictionary[word][-1][index]) - len(self.dictionary[eachWord][-1][index])) > 0:
+   			if abs(len(self.dictionary[word][-1][index]) - len(self.dictionary[eachWord][-1][index])) > 0 and same_length:
    				continue
    			else:
    				try:
@@ -173,12 +179,16 @@ class FALT(object):
 		# words = hello, world, success
 		# classes = UH,UW,EY,ER|OW,AW|IH,IY,EH,AE|OY|AO,AY,AA,Y|P,B,M|V,F|L,N,K,G,NG,HH|D,T,S,Z|R,W|DH,TH|SH,CH,ZH,JH||||||AH
 		# distance = 2
+		#
+		# url: http://0.0.0.0/custom/?words=hello,%20world,%20success&classes=UH,UW,EY,ER|OW,AW|IH,IY,EH,AE|OY|AO,AY,AA,Y|P,B,M|V,F|L,N,K,G,NG,HH|D,T,S,Z|R,W|DH,TH|SH,CH,ZH,JH||||||AH&distance=2
 
 		# example 2: 
 		# words = hello, world, success
 		# classes = ʊ,u,eɪ|oʊ,aʊ|ɪ,i,ɛ,æ|ɔɪ,ɔ,aɪ,ʌ,ə,ɑ,j|p,b,m|v,f|l,n,k,ɡ,ŋ,h,d,t,s,z|r,w|ð,θ|ʃ,ʒ
 		# distance = 1
 		# ipa = True
+		#
+		# url : http://0.0.0.0:9000/custom/?words=hello,world,success&classes=%CA%8A,u,e%C9%AA|o%CA%8A,a%CA%8A|%C9%AA,i,%C9%9B,%C3%A6|%C9%94%C9%AA,%C9%94,a%C9%AA,%CA%8C,%C9%99,%C9%91,j|p,b,m|v,f|l,n,k,%C9%A1,%C5%8B,h,d,t,s,z|r,w|%C3%B0,%CE%B8|%CA%83,%CA%92&distance=1&ipa=True
 
 		#parse words
 		words = urllib.unquote(words)
@@ -228,7 +238,6 @@ class FALT(object):
 					part3.append("?")
 					
 				if newClasses.has_key(phon):
-					#print 'Found', phon
 					part4.append(newClasses[phon])
 				else:
 					notFound[phon] = 1
@@ -262,6 +271,7 @@ class FALT(object):
 			symbolized[word].append(str(len(s[1][:-1])/4)+" external words")
 			symbolized[word].append(s[1])
 		return symbolized
+
    	def getCustomSimilarities(self, word, dictionary, maxDistance):
    		if word == "Not Found":
    			return []
@@ -306,6 +316,12 @@ class FALT(object):
    		if len(external) != 0:
    			external.append("Average External Familaritiy "+str(round(float(1.0*totalExt/(len(external)/4)), 3)))
    		return (internal, external)
+
+   	def loadResults(self, url):
+   		import simplejson as sj
+   		data = urllib.urlopen(url)
+   		jdata = sj.load(data)
+   		return jdata
 
 def main():
 	return

@@ -1,0 +1,47 @@
+/* Why are you in here?
+       		You've got plenty of style. */
+table#classes th {
+		font-size:32px;
+		padding:10px 5px 25px 5px;
+}
+button #preset {
+	padding:5px 10px 5px 10px;
+	text-align:center;
+	margin:0 auto;
+}
+.modal-backdrop, .modal-backdrop.fade.in {
+	    opacity: 0.4;
+	    filter: alpha(opacity=40);
+}
+#mainWord, #mainWordSymbolized { 
+	text-align:center;
+}
+#wordBank:hover {
+	background-color:#3a80e8;
+	color:white;
+}
+div.fileinputs {
+	position: relative;
+}
+div.fakefile {
+	position: relative;
+	z-index: 1;
+	margin:0 auto;
+}
+input.file {
+	position: relative;
+	text-align: right;
+	-moz-opacity:0 ;
+	filter:alpha(opacity: 0);
+	opacity: 0;
+	z-index: 2;
+}
+div.input-append a {
+	float:left;
+}
+div#fileInputContainer {
+	width:100%;
+	position:relative;
+	margin:0 auto;
+	text-align:center;
+}
