@@ -193,6 +193,9 @@ def fileRequest(request):
     json = simplejson.dumps(return_dict)
     return HttpResponse(json, mimetype="application/json")
 
+def visemeReferenceRequest(request):
+    return render_to_response('comp1/visemeReference.html')
+
 def countSyllables(word):
     word = word.lower()
     if len(word) < 3:

@@ -194,6 +194,8 @@ function addWord(word) {
 }
 $("#addSim").live({click : function(){addWord($(this).html());}});
 $("span#viseme").live({click : function(){toggleClass($(this).html());}});
+  $("#symbols_modal .modal-body .span2").live({click:function(){toggleClass(parseInt($(this).find('#viseme').html()));}});
+
   function maxArrayOfArray(arr) {
     var max = 0;
     var index, i = 0;
@@ -220,6 +222,7 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
 		if (!(tracker < 1) && !(tracker > 24))
 			$("[id=equivClass]").each(function() { $(this).html(parseInt($(this).html()) + 6); });
 	});
+
 
 	//Equivalence Class Group Click
 	$("button#equivClass").click(function() {
@@ -269,7 +272,7 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
     if (data.currentWord !='fresno audio visual lexy con tool') {
     var x = $("#mainWordInternalWords");
     x.html("");
-    x.append("<table class='table table-striped' style='width:100%'>"+$("[value="+data.currentWord+"]").attr("internal")+"</table>");
+    x.append("<table class='table table-striped' style='width:95%; position:relative;'>"+$("[value="+data.currentWord+"]").attr("internal")+"</table>");
   }
     return;
   });
@@ -277,7 +280,7 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
     if (data.currentWord !='fresno audio visual lexy con tool') {
     var x = $("#mainWordExternalWords");
     x.html("");
-    x.append("<table class='table table-striped' style='width:100%'>"+$("[value="+data.currentWord+"]").attr("external")+"</table>");
+    x.append("<table class='table table-striped' style='width:95%; position:relative;'>"+$("[value="+data.currentWord+"]").attr("external")+"</table>");
   }
     return;
   });
@@ -455,7 +458,8 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
     $("#equiv_table").toggle();
     return false;
   }
-  $("#increase_modal").click(function(){
+  // moar repeat fun, great!
+  $("a#increase_modal").click(function(){
     var modal = $(this).attr("modal") + "_modal";
     var currentWidth = $("#"+modal).width();
     var newWidth = currentWidth + 300;
@@ -464,10 +468,31 @@ $("span#viseme").live({click : function(){toggleClass($(this).html());}});
     $("#"+modal).width(newWidth).css("margin-left", String(newMargin)+"px");
 
     var currentHeight = $("#"+modal).height();
-    var newHeight = currentHeight + 100;
+    var newHeight = currentHeight + 120;
     currentMargin = parseInt($("#"+modal).css("margin-top"));
-    newMargin = currentMargin - 50;
+    newMargin = currentMargin - 60;
     $("#"+modal).height(newHeight).css("margin-top", String(newMargin)+"px");
+    currentHeight = $("#"+modal+" .modal-body").height();
+    newHeight = currentHeight + 120;
+    $("#"+modal+" .modal-body").css("max-height", newHeight+"px");//.css("margin-top", String(newMargin)+"px");
+    return;
+  });
+    $("a#decrease_modal").click(function(){
+    var modal = $(this).attr("modal") + "_modal";
+    var currentWidth = $("#"+modal).width();
+    var newWidth = currentWidth - 300;
+    var currentMargin = parseInt($("#"+modal).css("margin-left"));
+    var newMargin = currentMargin + 150;
+    $("#"+modal).width(newWidth).css("margin-left", String(newMargin)+"px");
+
+    var currentHeight = $("#"+modal).height();
+    var newHeight = currentHeight - 120;
+    currentMargin = parseInt($("#"+modal).css("margin-top"));
+    newMargin = currentMargin + 60;
+    $("#"+modal).height(newHeight).css("margin-top", String(newMargin)+"px");
+    currentHeight = $("#"+modal+" .modal-body").height();
+    newHeight = currentHeight - 120;
+    $("#"+modal+" .modal-body").css("max-height", newHeight+"px");//.css("margin-top", String(newMargin)+"px");
     return;
   });
 	//Input Functions
@@ -786,7 +811,7 @@ function sendOff(){
 	data.dataSplit = data.dataToSend.split(",");
   data.currentClassSize = $("span#amount").html();
   if (data.currentClassSize == '0') {
-     postStatus("Preset", "<h4 style='color:white'><a href='javascript:scrollBottom();' style='color:white;'><button class='btn'>Please choose LEC size.</button></a></h4>"+lecChoices, "important", 5000);
+     postStatus("Preset", "<h4 style='color:white'><a href='javascript:scrollBottom();' style='color:white;'><button class='btn'>Please choose LEC size.</button></a></h4>"+lecChoices, "important", 8000);
     return false;
   }
     var time1 = new Date();
@@ -904,8 +929,11 @@ function keyCheck(e) {
     case 86: // V
     if ($("#symbols_modal").is(".in"))
       $('#symbols_modal').modal('hide');
-    else
+    else {
       $('#symbols_modal').modal('show');
+      $("#visemeReferences").html("");
+      $.ajax({url: "/visemes/",}).done(function( data ) { $("#visemeReferences").append(data);});
+    }
     break;
     case 87: // W
     if ($("#welcome_modal").is(".in"))
@@ -1027,14 +1055,14 @@ function scrollBottom() {
 $("#changeStyle").click(function(){
   var count = Number($("#changeStyle").attr("count"));
   count += 1;
-  switch (count % 6) {
+  switch (count % 5) {
     case 0:
     document.getElementById('stylesheet').href = "/static/css/bootstrap.css";
     postStatus("StyleChange", "<h3 style='color:white'>Bootstrap</h3>", "info", 5000);
     break;
     case 1:
-    document.getElementById('stylesheet').href = "/static/css/superhero/bootstrap.min.css";
-    postStatus("StyleChange", "<h3 style='color:white'>Superhero</h3>", "info", 5000);
+    document.getElementById('stylesheet').href = "/static/css/bulldogs/bootstrap.min.css";
+    postStatus("StyleChange", "<h3 style='color:white'>Go Dogs!</h3>", "info", 5000);
     break;
     case 2:
     document.getElementById('stylesheet').href = "/static/css/cerulean/bootstrap.min.css";
@@ -1047,10 +1075,6 @@ $("#changeStyle").click(function(){
     case 4:
     document.getElementById('stylesheet').href = "/static/css/united/bootstrap.min.css";
     postStatus("StyleChange", "<h3 style='color:white'>United</h3>", "info", 5000);
-    break;
-    case 5:
-    document.getElementById('stylesheet').href = "/static/css/simplex/bootstrap.min.css";
-    postStatus("StyleChange", "<h3 style='color:white'>Simplex</h3>", "info", 5000);
     break;
     default:
     break;

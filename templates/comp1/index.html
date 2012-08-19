@@ -16,7 +16,7 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
-  <body style="min-width:700px">
+  <body>
     <div class="navbar navbar-top" style="top:0px;">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -32,7 +32,7 @@
               <li class="divider"></li>
               <li><a href="http://76.20.66.208:3000/falt">Blog</a></li>
               <li class="divider"></li>
-              <li><a href="#" id="changeStyle" count="3">Style</a></li>
+              <li><a href="#" id="changeStyle" count="0">Style</a></li>
             </ul>
           </div>
         </div>
@@ -53,7 +53,7 @@
               <li class="nav-header">
               <input id="fileInput" type="file" style="display:none">
                 <div id="fileInputContainer">
-              <button class="btn btn-primary" onclick="$('input[id=fileInput]').click();"><i class="icon-upload icon-white"></i></button>            
+              <button class="btn btn-primary" onclick="$('input[id=fileInput]').click();"><i class="icon-upload icon-white icon-largex"></i></button>            
             </div>
             <h6 id="fileInputNotSupported">Your browser does not support File IO</h6>
               </li>
@@ -70,11 +70,11 @@
           </div>
         </div>
         <div class="span9">
-          <div class="well" style="min-width:25%; overflow:show;">
-            <div class="row-fluid">
-              <div style="text-align:center; max-height:550px; overflow:auto;" id="unit_3">
-                <div style="width:90%; margin:0 auto; position:relative;">
-                <table class="table table-bordered" style="width:100%; position:relative;">
+          <div class="well" style="min-width:25%; min-height:396px; overflow:show;">
+            <div class="row-fluid" style="height:100%;">
+              <div style="text-align:center; height:100%; position:relative; overflow:auto;" id="unit_3">
+                <div style="width:98%; margin:0 auto; position:relative;">
+                <table class="table table-bordered" style="width:100%; height:380px; position:relative;">
                   <tr><th colspan="4" class="centered"><h2 id="mainWord" style="display:inline">Fresno Audiovisual Lexicon Tool</h2><span style="float:right; display:inline;"><i class="icon-volume-up"></i></span></th></tr>
                     <tr><th colspan="2" class="centered"><span style="font-size:24px; letter-spacing:5px;" id="mainWordSymbolized"></span></th>
                     <th colspan="2" class="centered"><span style="font-size:20px; letter-spacing:5px;" id="mainWordVisemes"></span></th></tr>
@@ -315,9 +315,9 @@
       <hr>
       <footer>
         <p><img src="/static/seal.png" style="width:150px" />
-          <small>About : <kbd style="font-size:18px">A</kdb></small>
-          <small>&nbsp;&nbsp;Settings : <kbd style="font-size:18px" onclick="javascript:toggleSettings();">S</kdb></small>
-          <small>&nbsp;&nbsp;Menu : <kbd style="font-size:18px" onclick="javascript:toggleKeyboard();">K</kdb></small>
+          <small>&nbsp;&nbsp;Menu : <kbd class="light" style="font-size:18px" onclick="javascript:toggleKeyboard();">K</kdb></small>
+          <small>&nbsp;&nbsp;Settings : <kbd class="light" style="font-size:18px" onclick="javascript:toggleSettings();">S</kdb></small>
+          <small>About : <kbd class="light" style="font-size:18px">A</kdb></small>
           <a href="javascript:scrollTop();" style="float:right">To Top</a></p>
       </footer>
     </div>
@@ -333,13 +333,13 @@
                   <th>Key</th><th>Name</th><th>Function</th>
                 </thead>
                 <tbody>
-                  <tr><td><kbd style="font-size:18px">H</kdb></td><td>H-KEY</td><td>HELP</td></tr>
-                  <tr><td><kbd style="font-size:18px">S</kdb></td><td>S-KEY</td><td>SETTINGS</td></tr>
-                  <tr><td><kbd style="font-size:18px">K</kdb></td><td>K-KEY</td><td>KEYBOARD MENU</td></tr>
-                  <tr><td><kbd style="font-size:18px">T</kdb></td><td>T-KEY</td><td>STYLE</td></tr>
-                  <tr><td><kbd style="font-size:18px">V</kdb></td><td>V-KEY</td><td>VISEME CLASS REFERENCE</td></tr>
-                  <tr><td><kbd style="font-size:18px"><i class="icon-arrow-left"></i></kbd></td><td>LEFT ARROW</td><td>PREVIOUS CLASS</td></tr>
-                  <tr><td><kbd style="font-size:18px"><i class="icon-arrow-right"></i></kbd></td><td>RIGHT ARROW</td><td>NEXT CLASS</td></tr>
+                  <tr><td><kbd class="light" style="font-size:18px">H</kdb></td><td>H-KEY</td><td>HELP</td></tr>
+                  <tr><td><kbd class="light" style="font-size:18px">S</kdb></td><td>S-KEY</td><td>SETTINGS</td></tr>
+                  <tr><td><kbd class="light" style="font-size:18px">K</kdb></td><td>K-KEY</td><td>KEYBOARD MENU</td></tr>
+                  <tr><td><kbd class="light" style="font-size:18px">T</kdb></td><td>T-KEY</td><td>STYLE</td></tr>
+                  <tr><td><kbd class="light" style="font-size:18px">V</kdb></td><td>V-KEY</td><td>VISEME CLASS REFERENCE</td></tr>
+                  <tr><td><kbd class="light" style="font-size:18px"><i class="icon-arrow-left"></i></kbd></td><td>LEFT ARROW</td><td>PREVIOUS CLASS</td></tr>
+                  <tr><td><kbd class="light" style="font-size:18px"><i class="icon-arrow-right"></i></kbd></td><td>RIGHT ARROW</td><td>NEXT CLASS</td></tr>
                 </tbody>
               </table>
               <hr>
@@ -372,6 +372,8 @@
                 </br></br>
                 Visual-only communication, on the other hand, is like covering your ears to listen to a friend. Much more difficult. The ability to lipread helps when trying to verify what your interpretting compared to what is actually being said.
                 </br></br>
+                <img src='/static/phoneme.png' /></br></br>
+                <strong>FALT</strong> uses the finite amount of  <a href="http://wikipedia.com/wiki/Phoneme" target="_blank_">phonemes</a> <b>(foʊnimz)</b> to create sets. These sets are interpretted as equivalent <a href="http://wikipedia.com/wiki/Viseme" target="_blank_">visemes</a>. In other words, every phoneme within a set is considered visually the same when spoken.
                 </div>
               </div>
             </div>
@@ -460,6 +462,9 @@
                   <dt>CMU Dictionary</dt>
                   <dd>The CMU Pronouncing Dictionary (also known as cmudict) is a public domain pronouncing dictionary created by Carnegie Mellon University (CMU). It defines a mapping from English words to their North American pronunciations, and is commonly used in speech processing applications such as the Festival Speech Synthesis System and the CMU Sphinx speech recognition system. The latest release is 0.7a, which contains 133,746 entries (from 123,442 baseforms).</dd>
                   <dd></br></dd>
+                  <dt>Density</br><small>(Settings Menu)</small></dt>
+                  <dd>This refers to the number of words allowed to be presented in the spherical-clouds. 100 is the default because it leaves room for legibility. Greater than 300 begins to diminish the ability to read the words, but it's fun.</dd>
+                  <dd></br></dd>
                   <dt>External</dt>
                   <dd>The "external" words are the words which were transcribed into a similar equivalence class. There is a difference of 1 or 2 (default: 1), meaning there is little visual difference when the words are spoken.</br>ie. 'rush' and 'one' are visually similar, but maybe slightly different.</dd>
                   <dd></br></dd>
@@ -469,8 +474,14 @@
                   <dt>IPA</dt>
                   <dd>The International Phonetic Alphabet (IPA) is an alphabetic system of phonetic notation based primarily on the Latin alphabet. It was devised by the International Phonetic Association as a standardized representation of the sounds of oral language. The IPA is designed to represent only those qualities of speech that are distinctive in oral language: phonemes, intonation, and the separation of words and syllables. To represent additional qualities of speech such as tooth gnashing, lisping, and sounds made with a cleft palate, an extended set of symbols called the Extensions to the IPA may be used.</dd>
                   <dd></br></dd>
+                  <dt>Levenshtein Distance</br>(Settings Menu)</dt>
+                  <dd>In information theory and computer science, the Levenshtein distance is a string metric for measuring the amount of difference between two sequences. The term edit distance is often used to refer specifically to Levenshtein distance. The Levenshtein distance between two strings is defined as the minimum number of edits needed to transform one string into the other, with the allowable edit operations being insertion, deletion, or substitution of a single character.</dd>
+                  <dd></br></dd>
                   <dt>Lexicon</dt>
                   <dd>In linguistics, the description of a language is split into two parts, the grammar consisting of rules describing correct sentence formation and the lexicon listing words and phrases that can be used in the sentences. The lexicon (or wordstock) of a language is its vocabulary.</dd>
+                  <dd></br></dd>
+                  <dt>Max. Difference</br>(Settings Menu)</dt>
+                  <dd>In order to return words that are similar visemically, the Levenshtein distance function is used to compare the difference between the symbolized versions of the dictionary. The default value is 1 meaning that words will only be considered similar if it the number of edits it takes to make them exactly the same is 1. For example,</br><img src="static/levenshtein.png" /></br></br>Shown above is FALT's results for <b>philosophy</b> under preset <b>12</b>. Notice the internal words (or exactly alike) only consist of itself, basically saying there are no words present in the dictionary that look exactly like philosophy (or ☁✄✦✄✿✄☁@). However, the external words (or off by 1) contain two words: <b>velocity</b> and <b>philosopher</b>. That makes sense, right? Notice how ☁✄✦✄✿✄✿@ and ☁✄✦✄✿✄☁▩ are just 1 away from ☁✄✦✄✿✄☁@. If we set the Maximum Difference (in Settings Menu) to 2, FALT returns 8 more external words, including: nagasaki, validity, dichotomy, monotony, etc..</dd>
                   <dd></br></dd>
                   <dt>Phoneme</dt>
                   <dd>A phoneme is a basic element of a spoken language or dialect, from which words in that language or dialect are analyzed as being built up. The phoneme is defined by the International Phonetic Association as "the smallest segmental unit of sound employed to form meaningful contrasts between utterances".</dd>
@@ -481,6 +492,12 @@
                   <dd></br></dd>
                   <dt>Polysemy</dt>
                   <dd>A polyseme is a word or phrase with different, but related senses. Since the test for polysemy is the vague concept of relatedness, judgments of polysemy can be difficult to make. Because applying pre-existing words to new situations is a natural process of language change, looking at words' etymology is helpful in determining polysemy but not the only solution; as words become lost in etymology, what once was a useful distinction of meaning may no longer be so. Some apparently unrelated words share a common historical origin, however, so etymology is not an infallible test for polysemy, and dictionary writers also often defer to speakers' intuitions to judge polysemy in cases where it contradicts etymology. English has many words which are polysemous. For example the verb "to get" can mean "procure" (I'll get the drinks), "become" (she got scared), "have" (I've got three dollars), "understand" (I get it) etc.</dd>
+                  <dd></br></dd>
+                  <dt>Prettify JSON</br>(Settings Menu)</dt>
+                  <dd>By default, FALT will display the results in a nice-looking JSON format. Unchecking this value will display the results in a hard-to-read fashion, but great for development.</dd>
+                  <dd></br></dd>
+                  <dt>Same Length Only</br>(Settings Menu)</dt>
+                  <dd>This is a boolean value for the FALT system. Unchecking it means that FALT will allow the Levenshtein distance function to be ran on words that are not the same length symbolically. By default, they must be the same length. For example,</br><img src="static/same_length.png" /></br></br>Shown above is the FALT result for <b>length</b> under preset <b>28</b>. The external words returned (like <b>LENK</b>) are shorter (not the same length) as LENGTH	♚☁☸⦿⏏.</dd>
                   <dd></br></dd>
                   <dt>Viseme</dt>
                   <dd>A viseme is a representational unit used to classify speech sounds in the visual domain. The term viseme was introduced based on the interpretation of the phoneme as a basic unit of speech in the acoustic/auditory domain, (Fisher, 1968). This is, however, at variance with the accepted definition of the phoneme as the smallest structural unit that distinguishes meaning within a given language—as a cognitive abstraction that is not bound to any sensory modality.</dd>
@@ -494,7 +511,8 @@
 
             </div>
             <div class="modal-footer">
-              <a href="#" class="btn" id="increase_modal" modal="help">Increase Window Size</a>
+              <a href="#" class="btn" id="increase_modal" modal="help"><i class="icon-plus icon-large"></i></a>
+              <a href="#" class="btn" id="decrease_modal" modal="help"><i class="icon-minus icon-large"></i></a>
               <a href="#" class="btn" data-dismiss="modal" >Close</a>
             </div>
           </div>
@@ -505,7 +523,7 @@
               <h3>Settings</h3>
             </div>
             <div class="modal-body">
-
+            	<p>The following settings enable you to adjust properties of the returned output. </p>
 <form class="form-horizontal">
         <fieldset>
           <div class="control-group">
@@ -547,7 +565,7 @@
                 <option>Bootstrap</option>
                 <option>United</option>
                 <option>SpaceLab</option>
-                <option>Superhero</option>
+                <option>Bulldogs</option>
                 <option>Cerulean</option>
               </select>
             </div>
@@ -557,7 +575,7 @@
             <div class="controls">
               <textarea class="input-xlarge" id="settings_new_words" rows="3" placeholder="WORD  W ER1 D  wɚd"></textarea>
               <p class="help-block"><small>FALT currently uses around 90% of the <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict/" target="_blank_">CMU Dictionary.</a> Thanks!</small></p>
-              <p class="help-block">Words must be in exact format. ie:</br>
+              <p class="help-block"><b>THIS FEATURE IS NOT YET AVAILABLE.</b></br></br>Words must be in exact format. ie:</br>
                 <ul>
                   <li>2 spaces between each attribute</li>
                   <li>every new word on its own line</li>
@@ -582,17 +600,20 @@ GITHUB  G IH1 T HH AH1 B  ɡɪthʌb
             </div>
           </div>
 
-  <div id="symbols_modal" class="modal hide">
+  <div id="symbols_modal" class="modal hide" style="min-width:850px; margin-left:-425px;">
             <div class="modal-header">
               <a class="close" data-dismiss="modal" >&times;</a>
               <h3>Viseme Reference</h3>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="visemeReferences">
+              <!-- Load these from other source -->
+
               <hr>
             </div>
             <div class="modal-footer">
+              <a href="#" class="btn" id="increase_modal" modal="symbols"><i class="icon-plus icon-large"></i></a>
+              <a href="#" class="btn" id="decrease_modal" modal="symbols"><i class="icon-minus icon-large"></i></a>
               <a href="#" class="btn" data-dismiss="modal" >Close</a>
-
             </div>
           </div>
 

@@ -16,10 +16,8 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'comp1.views.index'),
-    url(r'^read_word/$', 'comp1.views.read_word'),
-    url(r'^test_ajax/$', 'comp1.views.test_ajax'),
-    url(r'^syllables/$', 'comp1.views.syllables'),
     url(r'^main/$', 'comp1.views.mainRequest'),
     url(r'^custom/$', 'comp1.views.customRequest'),
     url(r'^file/$', 'comp1.views.fileRequest'),
+    url(r'^visemes/$', 'comp1.views.visemeReferenceRequest'),
 )
