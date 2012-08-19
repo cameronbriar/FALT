@@ -42,7 +42,7 @@ if ( isMobile.any() ) {
 
   $('input[id=fileInput]').change(function() {
   $('#fakeFile').val($(this).val().replace("C:\\fakepath\\", "")); });
-  var lecChoices = '<div class="btn-toolbar"><div id="presets" class="btn-group"><button id="preset" class="btn btn-primary" style="cursor:pointer">0</button><button id="preset" class="btn btn-primary" style="cursor:pointer">1</button><button id="preset" class="btn btn-primary" style="cursor:pointer">2</button><button id="preset" class="btn btn-primary" style="cursor:pointer">10</button><button id="preset" class="btn btn-primary" style="cursor:pointer">12</button><button id="preset" class="btn btn-primary" style="cursor:pointer">19</button><button id="preset" class="btn btn-primary" style="cursor:pointer">28</button></div></div>';
+  var lecChoices = '<div class="btn-toolbar"><div id="presets" class="btn-group"><button id="preset" class="btn btn-primary" style="cursor:pointer">1</button><button id="preset" class="btn btn-primary" style="cursor:pointer">2</button><button id="preset" class="btn btn-primary" style="cursor:pointer">10</button><button id="preset" class="btn btn-primary" style="cursor:pointer">12</button><button id="preset" class="btn btn-primary" style="cursor:pointer">19</button><button id="preset" class="btn btn-primary" style="cursor:pointer">28</button></div></div>';
 
 var data = new Array();
 data.currentClass = 1;
