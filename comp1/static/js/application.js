@@ -932,9 +932,21 @@ function keyCheck(e) {
     else {
       $('#symbols_modal').modal('show');
       $("#visemeReferences").html("");
-      $.ajax({url: "/visemes/",}).done(function( data ) { $("#visemeReferences").append(data);});
+      $.ajax({url: "/visemes/",}).done(function(data){$("#visemeReferences").append(data);});
     }
     break;
+    case 71: // G
+    if ($("#github_modal").is(".in"))
+      $('#github_modal').modal('hide');
+    else {
+      $('#github_modal').modal('show');
+      $("#githubReference").html("");
+    $(function() {
+        $('#githubReference').githubInfoWidget(
+            { user: 'cameronbriar', repo: 'falt', branch: 'master', last: 15, limitMessageTo: 30 });
+    });
+     }
+      break;
     case 87: // W
     if ($("#welcome_modal").is(".in"))
       return;
