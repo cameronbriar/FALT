@@ -150,6 +150,10 @@ def mainRequest(request):
             return_dict[word] = notFound(word.upper())
     json = simplejson.dumps(return_dict, sort_keys=False, indent=4)
 
+    if 'callback' in request.REQUEST:
+      json = '%s(%s)' % (request.REQUEST['callback'], json)
+      return HttpResponse(json, mimetype='text/javascript')
+
     if not prettify:
         json = simplejson.dumps(return_dict)
 
