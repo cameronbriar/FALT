@@ -7,9 +7,7 @@ In an effort to further investigate the similarities between audio-alone communi
 
 Note: It's my first web application written in __Python__ and powered by __Django__.
 
-[Read More](http://98.239.116.240:3000/falt)
-
-[Demo](http://98.239.116.240:9000/)
+[Demo](http://cloudedbox.com/FALT)
 
 ### To install:
 
