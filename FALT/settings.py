@@ -4,7 +4,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Cameron Briar', 'hi@cameronbriar.com'),
+    ('User Name', 'user@email.com'),
 )
 
 MANAGERS = ADMINS
@@ -70,8 +70,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/Users/cameronbriar/FALT/static',
-    '/home/FALT/static',
+    'UPDATE_ROOT_DIRECTORY/FALT/static',
 )
 
 # List of finder classes that know how to find static files in
@@ -114,8 +113,7 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 
     # YOU WILL NEED TO EDIT THIS
-    "/Users/cameronbriar/FALT/templates",
-    "/home/cameron/FALT/templates",
+    "UPDATE_ROOT_DIRECTORY/FALT/templates",
 )
 
 INSTALLED_APPS = (
